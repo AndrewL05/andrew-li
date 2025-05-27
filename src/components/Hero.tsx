@@ -30,6 +30,10 @@ const Hero = () => {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scroll = () => {
+    document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 opacity-20">
@@ -85,7 +89,7 @@ const Hero = () => {
         <ChevronDown 
           size={32} 
           className="text-gray-400 hover:text-blue-400 transition-colors duration-300 cursor-pointer cursor-button"
-          onClick={scrollToProjects}
+          onClick={scroll}
         />
       </div>
     </section>
