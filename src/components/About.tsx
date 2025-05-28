@@ -1,4 +1,3 @@
-
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const About = () => {

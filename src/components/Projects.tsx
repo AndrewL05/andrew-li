@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
@@ -63,7 +62,7 @@ const Projects = () => {
         </div>
 
         <div className={`grid md:grid-cols-2 gap-8 max-w-6xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          {projects.map((project, index) => (
+          {projects.map((project, index) => (  
             <div
               key={project.title}
               className={`relative group cursor-pointer transition-all duration-500 hover:scale-105 hover:rotate-1 transform-gpu`}

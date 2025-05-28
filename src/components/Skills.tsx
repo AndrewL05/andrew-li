@@ -1,4 +1,3 @@
-
 import { Code, Database, Server, Wrench, Globe } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
