@@ -52,7 +52,9 @@ const Hero = () => {
         </p>
         
         <p className={`text-lg text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          Hello! I'm a Computer Science student specializing in full-stack development. I'm passionate about building scalable web apps and have experience with modern frameworks like React, Next.js, and Express.js. I enjoy working on collaborative projects, solving real-world problems, and learning new technologies.
+          Hello! I'm a Computer Science student specializing in full-stack development. 
+          I'm passionate about building scalable web apps and have experience with modern frameworks like React, Next.js, and Express.js. 
+          I enjoy working on collaborative projects and learning new technologies.
         </p>
 
         <div className={`flex items-center justify-center mb-6 transition-all duration-1000 delay-400 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
