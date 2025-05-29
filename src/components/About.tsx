@@ -31,8 +31,7 @@ const About = () => {
               </p>
               
               <p>
-                When I'm not coding, you can find me exploring the latest tech trends, contributing to 
-                open-source projects, or working on personal projects that challenge me to think 
+                When I'm not coding, you can find me exploring the latest tech trends or working on personal projects that challenge me to think 
                 differently about problem-solving.
               </p>
 
@@ -44,7 +43,8 @@ const About = () => {
                     </div>
                     <div className="text-left">
                       <p className="text-blue-400 font-semibold">Brooklyn College</p>
-                      <p className="text-gray-300 text-sm">B.S. Computer Science • Class of 2027</p>
+                      <p className="text-gray-300 text-sm">B.S. Computer Science |
+                        Data Science Minor • Class of 2027</p>
                     </div>
                   </div>
                 </div>
