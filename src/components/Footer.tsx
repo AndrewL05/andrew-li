@@ -1,9 +1,10 @@
-import { Github, Linkedin } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 const Footer = () => {
   const socialLinks = [
-    { icon: Github, href: "https://github.com/AndrewL05", label: "GitHub" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/andrew-li-611a34278/", label: "LinkedIn" },
+    { icon: Mail, href: "mailto:liandrew1234@gmail.com", label: "Email", hoverColor: "hover:text-green-400" },
+    { icon: Github, href: "https://github.com/AndrewL05", label: "GitHub", hoverColor: "hover:text-gray-300" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/andrew-li-611a34278/", label: "LinkedIn", hoverColor: "hover:text-blue-400" },
   ];
 
   return (
@@ -17,14 +18,14 @@ const Footer = () => {
           </div>
           
           <div className="flex space-x-6">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
+            {socialLinks.map(({ icon: Icon, href, label, hoverColor }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
-                className="text-gray-400 hover:text-blue-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
-                target="_blank" 
-                rel="noopener noreferrer"
+                className={`text-gray-400 ${hoverColor || 'hover:text-blue-400'} transition-all duration-300 transform hover:scale-110 hover:-translate-y-1`}
+                target={href.startsWith('mailto:') ? '_self' : '_blank'} 
+                rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
               >
                 <Icon size={20} />
               </a>

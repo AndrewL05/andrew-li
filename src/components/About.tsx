@@ -1,3 +1,4 @@
+import { GraduationCap } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const About = () => {
@@ -37,6 +38,20 @@ const About = () => {
                 open-source projects, or working on personal projects that challenge me to think 
                 differently about problem-solving.
               </p>
+
+              <div className={`flex items-center justify-center mb-6 transition-all duration-1000 delay-400 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                <div className="bg-slate-800/50 backdrop-blur-lg rounded-xl p-4 border border-slate-700">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500">
+                      <GraduationCap size={20} className="text-white" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-blue-400 font-semibold">Brooklyn College</p>
+                      <p className="text-gray-300 text-sm">B.S. Computer Science • Class of 2027</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
