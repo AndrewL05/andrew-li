@@ -17,14 +17,13 @@ const Activities = () => {
           </p>
         </div>        
         <div className={`max-w-4xl mx-auto space-y-8 transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          {/* Brooklyn College CS Club Activity */}
           <div className="relative bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 transition-all duration-300">
             <GlowingEffect
               disabled={false}
               glow={true}
               proximity={150}
               spread={60}
-              borderWidth={4}
+              borderWidth={5}
               movementDuration={1.5}
               className="absolute inset-0 rounded-2xl"
             />
@@ -54,14 +53,13 @@ const Activities = () => {
             </div>
           </div>
 
-          {/* CUNY Tech Prep Activity */}
           <div className="relative bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 transition-all duration-300">
             <GlowingEffect
               disabled={false}
               glow={true}
               proximity={150}
               spread={60}
-              borderWidth={4}
+              borderWidth={5}
               movementDuration={1.5}
               className="absolute inset-0 rounded-2xl"
             />

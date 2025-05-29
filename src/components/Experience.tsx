@@ -1,6 +1,7 @@
 import { Briefcase, Calendar, MapPin } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
+import { LinkPreview } from './ui/link-preview';
 
 const Experience = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -56,7 +57,12 @@ const Experience = () => {
                     <span className="text-cyan-400 mr-3 mt-1">•</span>
                     <span>
                       Assisted in building and optimizing the club's{' '}
-                      <span className="text-blue-400 font-medium">official website</span>, which serves{' '}
+                      <LinkPreview
+                        url="https://bccs.club"
+                        className="text-purple-300 hover:text-blue-100 underline decoration-blue-300/50 hover:decoration-blue-100 underline-offset-2 font-medium cursor-pointer transition-colors duration-200"
+                      >
+                        [official website]
+                      </LinkPreview>, which serves{' '}
                       <span className="text-cyan-400 font-semibold">1000+ computer science students</span>
                     </span>
                   </li>
