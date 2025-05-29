@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { BackgroundGradient } from '@/components/ui/background-gradient';
 
 const projects = [
   {
@@ -14,7 +15,7 @@ const projects = [
   },
   {
     title: "Haunting Truths",
-    description: "An atmospheric 3D horror game developed using Godot Engine. Winner of 1st place for Best Map Design and Best Beginner Project.",
+    description: "An atmospheric 3D horror game developed using Godot Engine. Winner of 1st place for Best Map Design and Best Beginner Project in Game Jam.",
     tech: ["Godot Engine", "GDScript", "C#", "3D Modeling"],
     url: "https://github.com/AndrewL05/game-jam-project",
     stats: "Game Jam winner",
@@ -56,22 +57,23 @@ const Projects = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Featured Projects
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            A showcase of my technical expertise across web development, game design, and innovative software solutions.
-          </p>
         </div>
 
         <div className={`grid md:grid-cols-2 gap-8 max-w-6xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           {projects.map((project, index) => (  
-            <div
+            <BackgroundGradient
               key={project.title}
-              className={`relative group cursor-pointer transition-all duration-500 hover:scale-105 hover:rotate-1 transform-gpu`}
-              style={{ animationDelay: project.delay }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              onClick={() => handleCardClick(project.url)}
+              className="rounded-2xl p-[2px]"
+              containerClassName={`cursor-pointer transition-all duration-500 hover:scale-105 hover:rotate-1 transform-gpu`}
+              animate={true}
             >
-              <div className={`bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 h-full border border-slate-700 transition-all duration-300 ${hoveredIndex === index ? 'shadow-2xl border-blue-500/50' : 'hover:border-slate-600'}`}>
+              <div
+                className="h-full bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border-0 group"
+                style={{ animationDelay: project.delay }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => handleCardClick(project.url)}
+              >
                 <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl`}></div>
                 
                 <div className="relative z-10">
@@ -98,7 +100,7 @@ const Projects = () => {
                       {project.tech.map((tech) => (
                         <span
                           key={tech}
-                          className="bg-slate-700/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-600 group-hover:border-blue-500/50 transition-colors duration-300"
+                          className="bg-slate-700/50 text-sky-300 px-3 py-1 rounded-full text-sm font-medium border border-slate-600 group-hover:border-blue-500/50 transition-colors duration-300"
                         >
                           {tech}
                         </span>
@@ -110,7 +112,7 @@ const Projects = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </BackgroundGradient>
           ))}
         </div>
       </div>

@@ -11,9 +11,6 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             About Me
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Passionate about creating innovative solutions that make a difference
-          </p>
         </div>
 
         <div className={`max-w-4xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
