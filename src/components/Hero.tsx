@@ -67,7 +67,6 @@ const Hero = () => {
       <div className={`container mx-auto px-6 text-center z-10 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
         <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
           {typedText}
-          <span className="animate-pulse">|</span>
         </h1>
         
         <p className={`text-xl md:text-2xl text-gray-300 mb-4 transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
@@ -154,7 +153,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-8 transform -translate-x-1/2 animate-bounce">
         <ChevronDown 
           size={32} 
           className="text-gray-400 hover:text-blue-400 transition-colors duration-300 cursor-pointer cursor-button"
