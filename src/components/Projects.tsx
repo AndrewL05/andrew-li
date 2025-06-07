@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { BackgroundGradient } from '@/components/ui/background-gradient';
+import { Meteors } from '@/components/ui/meteors';
 
 const projects = [
   {
@@ -61,20 +61,19 @@ const Projects = () => {
 
         <div className={`grid md:grid-cols-2 gap-8 max-w-6xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           {projects.map((project, index) => (  
-            <BackgroundGradient
+            <div
               key={project.title}
-              className="rounded-2xl p-[2px]"
-              containerClassName={`cursor-pointer transition-all duration-500 hover:scale-105 hover:rotate-1 transform-gpu`}
-              animate={true}
+              className="relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:rotate-1 transform-gpu"
             >
+              <Meteors number={10} className="opacity-80" />
+              
               <div
-                className="h-full bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border-0 group"
+                className="relative h-full bg-slate-800/50 backdrop-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 group transition-all duration-300 z-10"
                 style={{ animationDelay: project.delay }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => handleCardClick(project.url)}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl`}></div>
                 
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-4">
@@ -112,7 +111,7 @@ const Projects = () => {
                   </div>
                 </div>
               </div>
-            </BackgroundGradient>
+            </div>
           ))}
         </div>
       </div>
