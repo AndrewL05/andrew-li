@@ -1,4 +1,4 @@
-import { Briefcase, Code } from 'lucide-react';
+import { BarChart3, Briefcase, Calendar, Code } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
 
@@ -63,32 +63,56 @@ const Activities = () => {
             
             <div className="relative z-10">
               <div className="flex items-center mb-6">
-                <div className="p-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 mr-4">
-                  <Code size={24} className="text-white" />
+                <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 mr-4">
+                  <BarChart3 size={24} className="text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white">CUNY Tech Prep</h3>
               </div>
               
               <div className="bg-slate-700/30 rounded-lg p-6 border border-slate-600">
-                <p className="text-purple-400 font-semibold text-lg">Upcoming Software Engineer Fellow</p>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3">
+                  <p className="text-blue-400 font-semibold text-lg">Data Science Fellow</p>
+                  <div className="flex items-center text-gray-400 bg-slate-600/30 px-3 py-1 rounded-lg mt-2 sm:mt-0">
+                    <Calendar size={14} className="mr-2" />
+                    <span className="text-sm font-medium">July 2025 – June 2026</span>
+                  </div>
+                </div>
+
                 <p className="text-gray-300 mt-2">
-                  Selected for a competitive year-long software engineering fellowship program focused on industry-relevant skills. 
-                  Gaining hands-on experience with full-stack development, database design, and professional software development practices 
-                  through mentorship and collaborative projects.
+                  Selected for a competitive year-long data science fellowship program focusing on Python-based data analysis, 
+                  machine learning, and artificial intelligence. Gaining hands-on experience with data management, visualization, 
+                  supervised learning techniques, and building AI systems including RAG applications and fine-tuning models.
                 </p>
+                
                 <div className="flex flex-wrap gap-2 mt-4">
-                  <span className="bg-slate-600/50 text-purple-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
-                    Full-Stack Development
+                  <span className="bg-slate-600/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
+                    Python
+                  </span>
+                  <span className="bg-slate-600/50 text-green-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
+                    Machine Learning
                   </span>
                   <span className="bg-slate-600/50 text-purple-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
-                    Professional Mentorship
+                    Data Visualization
                   </span>
-                  <span className="bg-slate-600/50 text-purple-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
-                    Industry Best Practices
+                  <span className="bg-slate-600/50 text-orange-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
+                    Pandas/NumPy
+                  </span>
+                  <span className="bg-slate-600/50 text-cyan-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
+                    TensorFlow
+                  </span>
+                  <span className="bg-slate-600/50 text-red-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
+                    Scikit-Learn
+                  </span>
+                  <span className="bg-slate-600/50 text-yellow-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
+                    Jupyter Notebooks
+                  </span>
+                  <span className="bg-slate-600/50 text-pink-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
+                    RAG Systems
                   </span>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

@@ -1,10 +1,83 @@
-import { Briefcase, Calendar, MapPin } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, ExternalLink, ArrowRight } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
 import { LinkPreview } from './ui/link-preview';
 
+interface Experience {
+  title: string;
+  company: string;
+  location: string;
+  date: string;
+  description: string;
+  achievements: string[];
+  technologies: string[];
+  companyUrl?: string;
+  projectUrl?: string;
+}
+
 const Experience = () => {
   const { ref, isVisible } = useScrollAnimation();
+
+  const experiences: Experience[] = [
+    {
+      title: 'Software Engineer Intern',
+      company: 'Unadat',
+      location: 'New York, NY',
+      date: 'July 2025 – Present',
+      description: '',
+      achievements: [],
+      technologies: ['Java', 'JavaScript', 'PHP', 'MySQL', 'Google Cloud Platform', 'jQuery'],
+      companyUrl: 'https://unadat.com'
+    },
+    {
+      title: 'Full Stack Developer Intern',
+      company: 'Soaper LLC',
+      location: 'New York, NY',
+      date: 'July 2025 – Present',
+      description: '',
+      achievements: [],
+      technologies: ['TypeScript', 'React.js', 'Python', 'FastAPI', 'PostgreSQL'],
+      companyUrl: 'https://note.soaper.ai/'
+    },
+    {
+      title: 'Software Developer',
+      company: 'Brooklyn College CS Club',
+      location: 'Brooklyn, NY',
+      date: 'October 2024 – Present',
+      description: '',
+      achievements: [
+        'Built and optimized the club\'s official website serving 1000+ computer science students',
+        'Developed scalable backend features and RESTful APIs using Java, Spring Boot, and PostgreSQL',
+        'Created dynamic, responsive UIs with TypeScript, Next.js, and Tailwind CSS enhancing user experience',
+        'Implemented CI/CD pipeline with Docker and GitHub Actions for seamless deployments'
+      ],
+      technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Docker', 'GitHub Actions', 'Linux'],
+      projectUrl: 'https://bccs.club'
+    }
+  ];
+
+  const getTechColor = (tech: string): string => {
+    const colors: { [key: string]: string } = {
+      'Java': 'text-orange-400 border-orange-500/50',
+      'JavaScript': 'text-yellow-400 border-yellow-500/50',
+      'TypeScript': 'text-blue-400 border-blue-500/50',
+      'React.js': 'text-cyan-400 border-cyan-500/50',
+      'Next.js': 'text-white border-slate-400/50',
+      'Python': 'text-green-400 border-green-500/50',
+      'Spring Boot': 'text-green-400 border-green-500/50',
+      'PostgreSQL': 'text-blue-300 border-blue-400/50',
+      'MySQL': 'text-orange-300 border-orange-400/50',
+      'Docker': 'text-blue-400 border-blue-500/50',
+      'Tailwind CSS': 'text-cyan-300 border-cyan-400/50',
+      'PHP': 'text-purple-400 border-purple-500/50',
+      'FastAPI': 'text-teal-400 border-teal-500/50',
+      'Google Cloud Platform': 'text-red-400 border-red-500/50',
+      'GitHub Actions': 'text-gray-300 border-gray-400/50',
+      'Linux': 'text-yellow-300 border-yellow-400/50',
+      'jQuery': 'text-blue-300 border-blue-400/50'
+    };
+    return colors[tech] || 'text-blue-400 border-blue-500/50';
+  };
 
   return (
     <section id="experience" className="py-20 px-6" ref={ref}>
@@ -13,85 +86,102 @@ const Experience = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Experience
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-          </p>
         </div>
 
-        <div className={`max-w-4xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <div className="relative bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 transition-all duration-300">
-            <GlowingEffect
-              disabled={false}
-              glow={true}
-              proximity={150}
-              spread={60}
-              borderWidth={5}
-              movementDuration={1.5}
-              className="absolute inset-0 rounded-2xl"
-            />
-            
-            <div className="relative z-10">
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
-                <div className="flex items-start space-x-4 mb-4 md:mb-0">
-                  <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500">
-                    <Briefcase size={24} className="text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">Software Developer</h3>
-                    <p className="text-blue-400 font-semibold">Brooklyn College CS Club</p>
-                    <div className="flex items-center text-gray-400 text-sm mt-1">
-                      <MapPin size={14} className="mr-1" />
-                      <span>Brooklyn, NY</span>
+        <div className={`max-w-4xl mx-auto space-y-8 transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          {experiences.map((experience, index) => (
+            <div 
+              key={index} 
+              className="relative bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 transition-all duration-300 group"
+            >
+              <GlowingEffect
+                disabled={false}
+                glow={true}
+                proximity={150}
+                spread={60}
+                borderWidth={5}
+                movementDuration={1.5}
+                className="absolute inset-0 rounded-2xl"
+              />
+              
+              <div className="relative z-10">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
+                  <div className="flex items-start space-x-4 mb-4 md:mb-0">
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 group-hover:from-blue-400 group-hover:to-cyan-400 transition-all duration-300">
+                      <Briefcase size={24} className="text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-white group-hover:text-blue-100 transition-colors duration-300">
+                        {experience.title}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        {experience.companyUrl ? (
+                          <LinkPreview
+                            url={experience.companyUrl}
+                            className="text-blue-400 hover:text-blue-300 font-semibold underline decoration-blue-300/50 hover:decoration-blue-100 underline-offset-2 cursor-pointer transition-colors duration-200"
+                          >
+                            {experience.company}
+                          </LinkPreview>
+                        ) : (
+                          <p className="text-blue-400 font-semibold">{experience.company}</p>
+                        )}
+                      </div>
+                      <div className="flex items-center text-gray-400 text-sm mt-1">
+                        <MapPin size={14} className="mr-1" />
+                        <span>{experience.location}</span>
+                      </div>
                     </div>
                   </div>
+                  
+                  <div className="flex items-center text-gray-400 bg-slate-700/30 px-3 py-2 rounded-lg shrink-0">
+                    <Calendar size={16} className="mr-2" />
+                    <span className="text-center text-sm font-medium">{experience.date}</span>
+                  </div>
                 </div>
-                
-                <div className="flex items-center text-gray-400 bg-slate-700/30 px-3 py-2 rounded-lg">
-                  <Calendar size={16} className="mr-2" />
-                  <span className="text-sm font-medium">October 2024 – Present</span>
-                </div>
-              </div>
 
-              <div className="space-y-4">
-                <ul className="space-y-3 text-gray-300">
-                  <li className="flex items-start">
-                    <span className="text-cyan-400 mr-3 mt-1">•</span>
-                    <span>
-                      Assisted in building and optimizing the club's{' '}
-                      <LinkPreview
-                        url="https://bccs.club"
-                        className="text-purple-300 hover:text-blue-100 underline decoration-blue-300/50 hover:decoration-blue-100 underline-offset-2 font-medium cursor-pointer transition-colors duration-200"
-                      >
-                        [official website]
-                      </LinkPreview>, which serves{' '}
-                      <span className="text-cyan-400 font-semibold">1000+ computer science students</span>
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-cyan-400 mr-3 mt-1">•</span>
-                    <span>
-                      Developed scalable backend features and{' '}
-                      <span className="text-blue-400 font-medium">RESTful APIs</span>, using{' '}
-                      <span className="text-green-400 font-medium">Java, Spring Boot, and PostgreSQL</span>
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-cyan-400 mr-3 mt-1">•</span>
-                    <span>
-                      Built dynamic, responsive UIs with{' '}
-                      <span className="text-blue-400 font-medium">TypeScript, Next.js, and Tailwind CSS</span>{' '}
-                      enhancing user experience.
-                    </span>
-                  </li>
-                </ul>
-              </div>
+                {experience.description && (
+                  <div className="mb-6">
+                    <p className="text-gray-300 text-base leading-relaxed">
+                      {experience.description}
+                    </p>
+                  </div>
+                )}
 
-              <div className="space-y-4">
+                {experience.achievements && experience.achievements.length > 0 && (
+                  <div className="space-y-4 mb-6">
+                    <ul className="space-y-3 text-gray-300">
+                      {experience.achievements.map((achievement, achievementIndex) => (
+                        <li key={achievementIndex} className="flex items-start">
+                          <span className="text-cyan-400 mr-3 mt-1 font-bold">•</span>
+                          <span className="leading-relaxed">
+                            {achievement.includes('official website') && experience.projectUrl ? (
+                              <>
+                                {achievement.split('official website')[0]}
+                                <LinkPreview
+                                  url={experience.projectUrl}
+                                  className="text-purple-300 hover:text-blue-100 underline decoration-blue-300/50 hover:decoration-blue-100 underline-offset-2 font-medium cursor-pointer transition-colors duration-200"
+                                >
+                                  official website
+                                </LinkPreview>
+                                {achievement.split('official website')[1]}
+                              </>
+                            ) : (
+                              achievement
+                            )}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 <div className="mt-6 pt-4 border-t border-slate-600">
+                  <h4 className="text-sm font-medium text-gray-400 mb-3">Technologies Used</h4>
                   <div className="flex flex-wrap gap-2">
-                    {['Java', 'Spring Boot', 'PostgreSQL', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Docker', 'GitHub Actions', 'Linux'].map((tech) => (
+                    {experience.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="bg-slate-700/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-600 hover:border-blue-500/50 transition-colors duration-300"
+                        className={`bg-slate-700/50 px-3 py-1 rounded-full text-sm font-medium border hover:bg-slate-600/50 transition-all duration-300 ${getTechColor(tech)}`}
                       >
                         {tech}
                       </span>
@@ -100,7 +190,7 @@ const Experience = () => {
                 </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
