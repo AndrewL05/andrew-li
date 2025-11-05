@@ -13,6 +13,17 @@ import {
 
 const projects = [
   {
+    title: "SayLess",
+    description: "SayLess is an AI-powered meeting assistant/bot that joins real-time meetings, speaks naturally in a chosen voice, and actively participates in conversations. It can listen, record, respond when needed, and automatically generate transcripts, summaries, and notes for every meeting.",
+    tech: [
+      "React", "TypeScript", "Tailwind CSS", "Express.js", "Node.js", "MongoDB", "Clerk", "ElevenLabs", "Deepgram API", "Gemini API"
+    ],
+    url: "https://github.com/AndrewL05/SayLess",
+    stats: "AI meeting assistant/bot",
+    gradient: "from-emerald-600 to-teal-600",
+    delay: "0ms",
+  },
+  {
     title: "Parallax",
     description:
       "An AI-powered life simulator that lets users explore alternate futures up to 10 years based on their personal decisions. It transforms everyday choices into interactive storylines and visualizations, helping people reflect on how different paths could shape their lives.",
@@ -23,8 +34,15 @@ const projects = [
       "Python",
       "FastAPI",
       "MongoDB",
+      "Docker",
       "Clerk",
       "Stripe",
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn",
+      "Scikit-Learn",
+      "TensorFlow"
     ],
     url: "https://github.com/AndrewL05/Parallax",
     stats: "Interactive life simulation with AI-powered decision modeling",
@@ -35,7 +53,7 @@ const projects = [
     title: "StudySphere",
     description:
       "A full-stack study platform built for collaborative learning. Features real-time chat, note sharing with upvotes/comments, and an integrated AI study assistant.",
-    tech: ["React.js", "Supabase", "PostgreSQL", "Node.js", "Express.js"],
+    tech: ["React", "Supabase", "PostgreSQL", "Node.js", "Express.js"],
     url: "https://github.com/AndrewL05/StudySphere",
     stats: "150+ user interactions simulated during testing",
     gradient: "from-purple-600 to-blue-600",
@@ -112,7 +130,7 @@ const Projects = () => {
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Featured Projects
           </h2>
         </div>

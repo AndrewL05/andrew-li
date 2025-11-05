@@ -1,6 +1,6 @@
-import { BarChart3, Briefcase, Calendar, Code } from 'lucide-react';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { GlowingEffect } from '@/components/ui/glowing-effect';
+import { BarChart3, Briefcase, Calendar, Code } from "lucide-react";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 const Activities = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -8,12 +8,20 @@ const Activities = () => {
   return (
     <section id="activities" className="py-20 px-6" ref={ref}>
       <div className="container mx-auto max-w-6xl">
-        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+        <div
+          className={`text-center mb-16 transition-all duration-1000 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Activities
           </h2>
-        </div>        
-        <div className={`max-w-4xl mx-auto space-y-8 transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        </div>
+        <div
+          className={`max-w-4xl mx-auto space-y-8 transition-all duration-1000 delay-300 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}
+        >
           <div className="relative bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 transition-all duration-300">
             <GlowingEffect
               disabled={false}
@@ -24,19 +32,24 @@ const Activities = () => {
               movementDuration={1.5}
               className="absolute inset-0 rounded-2xl"
             />
-            
+
             <div className="relative z-10">
               <div className="flex items-center mb-6">
                 <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 mr-4">
                   <Briefcase size={24} className="text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Brooklyn College CS Club</h3>
+                <h3 className="text-2xl font-bold text-white">
+                  Brooklyn College CS Club
+                </h3>
               </div>
-              
+
               <div className="bg-slate-700/30 rounded-lg p-6 border border-slate-600">
-                <p className="text-blue-400 font-semibold text-lg">Club Coordinator</p>
+                <p className="text-blue-400 font-semibold text-lg">
+                  Club Coordinator
+                </p>
                 <p className="text-gray-300 mt-2">
-                  Assisted in organizing events, including workshops, guest lectures, and hackathons for 300+ members.
+                  Assisted in organizing events, including workshops, guest
+                  lectures, and hackathons for 300+ members.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   <span className="bg-slate-600/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
@@ -60,30 +73,39 @@ const Activities = () => {
               movementDuration={1.5}
               className="absolute inset-0 rounded-2xl"
             />
-            
+
             <div className="relative z-10">
               <div className="flex items-center mb-6">
                 <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 mr-4">
                   <BarChart3 size={24} className="text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">CUNY Tech Prep</h3>
+                <h3 className="text-2xl font-bold text-white">
+                  CUNY Tech Prep
+                </h3>
               </div>
-              
+
               <div className="bg-slate-700/30 rounded-lg p-6 border border-slate-600">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3">
-                  <p className="text-blue-400 font-semibold text-lg">Data Science Fellow</p>
+                  <p className="text-blue-400 font-semibold text-lg">
+                    Data Science Fellow
+                  </p>
                   <div className="flex items-center text-gray-400 bg-slate-600/30 px-3 py-1 rounded-lg mt-2 sm:mt-0">
                     <Calendar size={14} className="mr-2" />
-                    <span className="text-sm font-medium">July 2025 – June 2026</span>
+                    <span className="text-sm font-medium">
+                      July 2025 – June 2026
+                    </span>
                   </div>
                 </div>
 
                 <p className="text-gray-300 mt-2">
-                  Selected for a competitive year-long data science fellowship program focusing on Python-based data analysis, 
-                  machine learning, and artificial intelligence. Gaining hands-on experience with data management, visualization, 
-                  supervised learning techniques, and building AI systems including RAG applications and fine-tuning models.
+                  Selected for a competitive year-long data science fellowship
+                  program focusing on Python-based data analysis, machine
+                  learning, and artificial intelligence. Gaining hands-on
+                  experience with data management, visualization, supervised
+                  learning techniques, and building AI systems including RAG
+                  applications and fine-tuning models.
                 </p>
-                
+
                 <div className="flex flex-wrap gap-2 mt-4">
                   <span className="bg-slate-600/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
                     Python
@@ -112,7 +134,6 @@ const Activities = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

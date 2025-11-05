@@ -26,12 +26,26 @@ const Experience = () => {
 
   const experiences: Experience[] = [
     {
+      title: "Software Developer Intern",
+      company: "COI Energy",
+      location: "Brooklyn, NY",
+      date: "October 2025 – December 2025",
+      description: "",
+      achievements: [],
+      technologies: [],
+      companyUrl: "https://coienergy.com",
+    },
+    {
       title: "Software Engineer Intern",
       company: "Unadat",
       location: "New York, NY",
-      date: "July 2025 – Present",
+      date: "July 2025 – August 2025",
       description: "",
-      achievements: [],
+      achievements: [
+        "Led a team of 8 interns as PM + SWE to revamp platform modules for 1,000+ daily active users in an 8-week sprint.",
+        "Engineered a GCP Cloud Storage solution to manage 2,000+ image assets, improving retrieval speed by 35%.",
+        "Built an AI summarizer processing 800+ docs/week, reducing review time by 60% and serving summaries in < 300ms.",
+      ],
       technologies: [
         "Java",
         "JavaScript",
@@ -46,9 +60,13 @@ const Experience = () => {
       title: "Full Stack Developer Intern",
       company: "Soaper LLC",
       location: "New York, NY",
-      date: "July 2025 – Present",
+      date: "July 2025 – October 2025",
       description: "",
-      achievements: [],
+      achievements: [
+        "Reduced latency by migrating the appointment scheduling and patient portal to TypeScript, React.js, and Tailwind CSS, improving page performance by 45% and enhancing UX for 500+ active users.",
+        "Built FastAPI endpoints for appointment scheduling, reducing booking errors by 30% and handling 2,000+ requests/month.",
+        "Created and optimized PostgreSQL schemas for 1,500+ patient records, decreasing query latency by 40%.",
+      ],
       technologies: [
         "TypeScript",
         "React.js",
@@ -62,9 +80,13 @@ const Experience = () => {
       title: "Software Developer",
       company: "Brooklyn College CS Club",
       location: "Brooklyn, NY",
-      date: "October 2024 – Present",
+      date: "October 2024 – May 2025",
       description: "",
-      achievements: [],
+      achievements: [
+        "Maintained club website serving 1,000+ CS students, boosting page load speed by 35% with TypeScript, Next.js, and Tailwind.",
+        "Contributed to projects, including an AI Chatbot and RESTful APIs, using Java, Spring Boot, and PostgreSQL.",
+        "Reduced deployment time by 40% through automation with Docker, GitHub Actions, and Linux.",
+      ],
       technologies: [
         "Java",
         "Spring Boot",
@@ -111,7 +133,7 @@ const Experience = () => {
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Experience
           </h2>
         </div>
