@@ -28,7 +28,7 @@ const Header = () => {
           </div>
           
           <div className="hidden md:flex space-x-8">
-            {['Home', 'Experience', 'Projects', 'Activities', 'Skills', 'About'].map((item) => (
+            {['Home', 'Experience', 'Projects', 'Activities', 'Skills'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}

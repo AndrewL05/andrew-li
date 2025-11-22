@@ -85,7 +85,6 @@ const projects = [
 ];
 
 const Projects = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [carousel, setCarousel] = useState<CarouselSlider>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -191,14 +190,12 @@ const Projects = () => {
                     key={project.title}
                     className="pl-2 md:pl-4 md:basis-1/2"
                   >
-                    <div className="relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:rotate-1 transform-gpu h-full">
+                    <div className="relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 transform-gpu h-full">
                       <Meteors number={10} className="opacity-80" />
 
                       <div
                         className="relative h-full bg-slate-800/50 backdrop-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 group transition-all duration-300 z-10"
                         style={{ animationDelay: project.delay }}
-                        onMouseEnter={() => setHoveredIndex(index)}
-                        onMouseLeave={() => setHoveredIndex(null)}
                         onClick={() => handleCardClick(project.url)}
                       >
                         <div className="relative z-10">

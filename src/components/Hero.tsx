@@ -191,7 +191,7 @@ const Hero = () => {
                   >
                     {linkContent}
                   </LinkPreview>
-                </div>
+                </div> 
               );
             }
           )}
@@ -220,14 +220,7 @@ const Hero = () => {
           </button>
         </div>
       </div>
-
-      <div className="absolute bottom-8 transform -translate-x-1/2 animate-bounce">
-        <ChevronDown
-          size={32}
-          className="text-gray-400 hover:text-blue-400 transition-colors duration-300 cursor-pointer cursor-button"
-          onClick={scroll}
-        />
-      </div>
+      
     </section>
   );
 };
