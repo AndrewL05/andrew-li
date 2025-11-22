@@ -1,11 +1,11 @@
-import { Code, Settings, Server, Wrench, Globe } from "lucide-react";
+import { Code, Settings, Server, Wrench, Globe, BarChart3 } from "lucide-react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 const skillCategories = [
   {
     title: "Frontend",
     icon: Code,
-    skills: ["React", "TypeScript", "JavaScript", "Next.js", "Tailwind"],
+    skills: ["React", "TypeScript", "JavaScript", "Next.js", "Tailwind CSS"],
     color: "from-blue-500 to-purple-500",
   },
   {
@@ -14,9 +14,11 @@ const skillCategories = [
     skills: [
       "Java",
       "Python",
+      "C/C++",
       "PostgreSQL",
       "MySQL",
       "Express.js",
+      "Flask",
       "FastAPI",
       "Spring",
       "PHP",
@@ -34,6 +36,19 @@ const skillCategories = [
     title: "Tools",
     icon: Wrench,
     skills: ["Git", "Clerk", "Stripe", "Jira", "Linear", "Godot"],
+    color: "from-green-500 to-emerald-500",
+  },
+  {
+    title: "Data Science",
+    icon: BarChart3,
+    skills: [
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn",
+      "Scikit-Learn",
+      "TensorFlow",
+    ],
     color: "from-green-500 to-emerald-500",
   },
 ];

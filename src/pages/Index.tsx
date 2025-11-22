@@ -18,7 +18,6 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen bg-slate-900 text-white transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Particles background */}
       <div className="fixed inset-0 z-0">
         <Particles
           particleCount={1000}
@@ -35,7 +34,6 @@ const Index = () => {
         />
       </div>
       
-      {/* Main content */}
       <div className="relative z-10">
         <Header />
         <main>
@@ -44,7 +42,7 @@ const Index = () => {
           <Projects />
           <Activities />
           <Skills />
-          <About />
+          {/* <About /> */}
         </main>
         <Footer />
       </div>

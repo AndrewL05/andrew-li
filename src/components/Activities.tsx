@@ -36,47 +36,6 @@ const Activities = () => {
             <div className="relative z-10">
               <div className="flex items-center mb-6">
                 <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 mr-4">
-                  <Briefcase size={24} className="text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white">
-                  Brooklyn College CS Club
-                </h3>
-              </div>
-
-              <div className="bg-slate-700/30 rounded-lg p-6 border border-slate-600">
-                <p className="text-blue-400 font-semibold text-lg">
-                  Club Coordinator
-                </p>
-                <p className="text-gray-300 mt-2">
-                  Assisted in organizing events, including workshops, guest
-                  lectures, and hackathons for 300+ members.
-                </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  <span className="bg-slate-600/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
-                    Event Organization
-                  </span>
-                  <span className="bg-slate-600/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium border border-slate-500">
-                    Community Building
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 transition-all duration-300">
-            <GlowingEffect
-              disabled={false}
-              glow={true}
-              proximity={150}
-              spread={60}
-              borderWidth={5}
-              movementDuration={1.5}
-              className="absolute inset-0 rounded-2xl"
-            />
-
-            <div className="relative z-10">
-              <div className="flex items-center mb-6">
-                <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 mr-4">
                   <BarChart3 size={24} className="text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white">

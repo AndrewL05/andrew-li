@@ -51,7 +51,7 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-700 animate-fade-in">
             <div className="container mx-auto px-6 py-4 space-y-4">
-              {['Home', 'Experience', 'Projects', 'Activities', 'Skills', 'About'].map((item) => (
+              {['Home', 'Experience', 'Projects', 'Activities', 'Skills'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}

@@ -14,11 +14,12 @@ import {
 const projects = [
   {
     title: "SayLess",
-    description: "SayLess is an AI-powered meeting assistant/bot that joins real-time meetings, speaks naturally in a chosen voice, and actively participates in conversations. It can listen, record, respond when needed, and automatically generate transcripts, summaries, and notes for every meeting.",
+    description: "An AI-powered meeting assistant/bot that joins real-time meetings, speaks naturally in a chosen voice, and actively participates in conversations. It can listen, record, respond when needed, and automatically generate transcripts, summaries, and notes for every meeting.",
     tech: [
-      "React", "TypeScript", "Tailwind CSS", "Express.js", "Node.js", "MongoDB", "Clerk", "ElevenLabs", "Deepgram API", "Gemini API"
+      "TypeScript", "React", "Tailwind CSS", "Express.js", "Node.js", "MongoDB", "Clerk", "ElevenLabs", "Deepgram API", "Gemini API"
     ],
-    url: "https://github.com/AndrewL05/SayLess",
+    url: "https://sayless.nyc",
+    github: "https://github.com/AndrewL05/SayLess",
     stats: "AI meeting assistant/bot",
     gradient: "from-emerald-600 to-teal-600",
     delay: "0ms",
@@ -28,6 +29,7 @@ const projects = [
     description:
       "An AI-powered life simulator that lets users explore alternate futures up to 10 years based on their personal decisions. It transforms everyday choices into interactive storylines and visualizations, helping people reflect on how different paths could shape their lives.",
     tech: [
+      "TypeScript",
       "React",
       "Tailwind CSS",
       "D3.js",
@@ -44,8 +46,8 @@ const projects = [
       "Scikit-Learn",
       "TensorFlow"
     ],
-    url: "https://github.com/AndrewL05/Parallax",
-    stats: "Interactive life simulation with AI-powered decision modeling",
+    github: "https://github.com/AndrewL05/Parallax",
+    stats: "Interactive life simulation with AI/ML decision modeling",
     gradient: "from-emerald-600 to-teal-600",
     delay: "0ms",
   },
@@ -54,8 +56,9 @@ const projects = [
     description:
       "A full-stack study platform built for collaborative learning. Features real-time chat, note sharing with upvotes/comments, and an integrated AI study assistant.",
     tech: ["React", "Supabase", "PostgreSQL", "Node.js", "Express.js"],
-    url: "https://github.com/AndrewL05/StudySphere",
-    stats: "150+ user interactions simulated during testing",
+    url: "https://mystudysphere.netlify.app",
+    github: "https://github.com/AndrewL05/StudySphere",
+    stats: "Study platform",
     gradient: "from-purple-600 to-blue-600",
     delay: "200ms",
   },
@@ -64,7 +67,7 @@ const projects = [
     description:
       "An atmospheric 3D horror game developed using Godot Engine. Winner of 1st place for Best Map Design and Best Beginner Project in Game Jam.",
     tech: ["Godot Engine", "GDScript", "C#", "3D Modeling"],
-    url: "https://github.com/AndrewL05/game-jam-project",
+    github: "https://github.com/AndrewL05/game-jam-project",
     stats: "Game Jam winner",
     gradient: "from-red-600 to-orange-600",
     delay: "400ms",
@@ -74,22 +77,11 @@ const projects = [
     description:
       "A Chrome extension designed to support dementia patients and caregivers. Implements facial recognition technology with real-time WebSocket alerts.",
     tech: ["Python", "Flask", "JavaScript", "Node.js", "WebSockets"],
-    url: "https://github.com/AndrewL05/hackru-project",
-    stats: "Healthcare innovation",
+    github: "https://github.com/AndrewL05/hackru-project",
+    stats: "Chrome extension",
     gradient: "from-green-600 to-teal-600",
     delay: "600ms",
-  },
-  {
-    title: "Bank Management System",
-    description:
-      "A robust desktop application for comprehensive bank account and transaction management, showcasing object-oriented programming principles.",
-    tech: ["Java", "OOP"],
-    url: "https://github.com/AndrewL05/Bank-Management-System",
-    stats:
-      "Simulates 100+ accounts with transaction tracking using OOP principles",
-    gradient: "from-indigo-600 to-purple-600",
-    delay: "800ms",
-  },
+  }
 ];
 
 const Projects = () => {
@@ -101,8 +93,10 @@ const Projects = () => {
   const [canScrollNext, setCanScrollNext] = useState(false);
   const { ref, isVisible } = useScrollAnimation();
 
-  const handleCardClick = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
+  const handleCardClick = (url?: string) => {
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
   };
 
   useEffect(() => {
@@ -213,13 +207,25 @@ const Projects = () => {
                               {project.title}
                             </h3>
                             <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <div>
-                                <ExternalLink
-                                  size={20}
-                                  className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
-                                />
-                              </div>
-                              <div>
+                              {project.url && (
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleCardClick(project.url);
+                                  }}
+                                >
+                                  <ExternalLink
+                                    size={20}
+                                    className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+                                  />
+                                </div>
+                              )}
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleCardClick(project.github);
+                                }}
+                              >
                                 <Github
                                   size={20}
                                   className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
