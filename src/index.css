@@ -104,7 +104,6 @@
     overflow-x: hidden;
   }
 
-  /* Custom Scrollbar (Chrome, Safari, Edge) */
   ::-webkit-scrollbar {
     width: 12px;
   }
@@ -125,9 +124,54 @@
     background: linear-gradient(to bottom, #60a5fa, #22d3ee);
   }
 
-  /* For Firefox */
   * {
     scrollbar-width: thin;
     scrollbar-color: #3b82f6 #1e293b;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out;
+  }
+
+  button, a {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }

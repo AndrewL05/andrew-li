@@ -44,7 +44,7 @@ const Experience = () => {
       achievements: [
         "Led a team of 8 interns as PM + SWE to revamp platform modules for 1,000+ daily active users in an 8-week sprint.",
         "Engineered a GCP Cloud Storage solution to manage 2,000+ image assets, improving retrieval speed by 35%.",
-        "Built an AI summarizer processing 800+ docs/week, reducing review time by 60% and serving summaries in < 300ms.",
+        "Built an AI summarizer processing 800+ docs/week, reducing review time by 60% and serving summaries in <300ms.",
       ],
       technologies: [
         "Java",

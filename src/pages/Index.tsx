@@ -8,6 +8,7 @@ import About from '../components/About';
 import Footer from '../components/Footer';
 import Activities from '../components/Activities';
 import Particles from '../components/ui/Particles';
+import BackToTop from '../components/BackToTop';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -45,6 +46,7 @@ const Index = () => {
           {/* <About /> */}
         </main>
         <Footer />
+        <BackToTop />
       </div>
     </div>
   );
