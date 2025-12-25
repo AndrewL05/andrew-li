@@ -26,12 +26,15 @@ const Experience = () => {
 
   const experiences: Experience[] = [
     {
-      title: "Software Developer Intern",
+      title: "Data Engineer Intern",
       company: "COI Energy",
       location: "Brooklyn, NY",
       date: "October 2025 – December 2025",
       description: "",
-      achievements: [],
+      achievements: [
+        "Created a Python data pipeline to process and analyze 4.3M+ energy consumption records, deriving kW demand, correcting ~0.3% anomalous readings, and interpolating missing data to achieve 98%+ clean data for models.",
+        "Designed and deployed a local BigQuery Emulator environment with Docker, enabling 100% offline testing of ETL pipelines and reducing development cycle time by 40% by eliminating reliance on cloud infrastructure."
+      ],
       technologies: [],
       companyUrl: "https://coienergy.com",
     },
