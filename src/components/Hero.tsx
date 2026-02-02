@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  ChevronDown,
   Github,
   Linkedin,
   Mail,
@@ -8,6 +7,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { LinkPreview } from "@/components/ui/link-preview";
+import { smoothScrollTo } from "../utils/smoothScroll";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -34,13 +34,7 @@ const Hero = () => {
   }, []);
 
   const scrollToProjects = () => {
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const scroll = () => {
-    document
-      .getElementById("experience")
-      ?.scrollIntoView({ behavior: "smooth" });
+    smoothScrollTo("projects");
   };
 
   const socialLinks = [

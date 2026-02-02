@@ -19,6 +19,7 @@ interface Experience {
   technologies: string[];
   companyUrl?: string;
   projectUrl?: string;
+  imageSrc?: string;
 }
 
 const Experience = () => {
@@ -37,6 +38,7 @@ const Experience = () => {
       ],
       technologies: [],
       companyUrl: "https://coienergy.com",
+      imageSrc: "/img/coi.png",
     },
     {
       title: "Software Engineer Intern",
@@ -169,12 +171,25 @@ const Experience = () => {
                       </h3>
                       <div className="flex items-center gap-2">
                         {experience.companyUrl ? (
-                          <LinkPreview
-                            url={experience.companyUrl}
-                            className="text-blue-400 hover:text-blue-300 font-semibold underline decoration-blue-300/50 hover:decoration-blue-100 underline-offset-2 cursor-pointer transition-colors duration-200"
-                          >
-                            {experience.company}
-                          </LinkPreview>
+                          experience.imageSrc ? (
+                            <LinkPreview
+                              url={experience.companyUrl}
+                              isStatic={true}
+                              imageSrc={experience.imageSrc}
+                              width={300}
+                              height={200}
+                              className="text-blue-400 hover:text-blue-300 font-semibold underline decoration-blue-300/50 hover:decoration-blue-100 underline-offset-2 cursor-pointer transition-colors duration-200"
+                            >
+                              {experience.company}
+                            </LinkPreview>
+                          ) : (
+                            <LinkPreview
+                              url={experience.companyUrl}
+                              className="text-blue-400 hover:text-blue-300 font-semibold underline decoration-blue-300/50 hover:decoration-blue-100 underline-offset-2 cursor-pointer transition-colors duration-200"
+                            >
+                              {experience.company}
+                            </LinkPreview>
+                          )
                         ) : (
                           <p className="text-blue-400 font-semibold">
                             {experience.company}
