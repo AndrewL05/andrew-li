@@ -84,26 +84,23 @@ const Hero = () => {
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
     >
       <div
-        className={`container mx-auto px-6 text-center z-10 transition-all duration-1000 ${
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-        }`}
+        className={`container mx-auto px-6 text-center z-10 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}
       >
         <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
           {typedText}
         </h1>
 
         <p
-          className={`text-xl md:text-2xl text-gray-300 mb-4 transition-all duration-1000 delay-300 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`text-xl md:text-2xl text-gray-300 mb-4 transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           Full-Stack Developer
         </p>
 
         <div
-          className={`flex items-center justify-center mb-6 transition-all duration-1000 delay-400 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`flex items-center justify-center mb-6 transition-all duration-1000 delay-400 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           <div className="bg-slate-800/50 backdrop-blur-lg rounded-xl p-4 border border-slate-700">
             <div className="flex items-center space-x-3">
@@ -140,11 +137,10 @@ const Hero = () => {
                 return (
                   <div
                     key={label}
-                    className={`transition-all duration-800 ${
-                      isVisible
+                    className={`transition-all duration-800 ${isVisible
                         ? "translate-y-0 opacity-100 scale-100"
                         : "translate-y-16 opacity-0 scale-50"
-                    }`}
+                      }`}
                     style={{
                       transitionDelay: `${600 + index * 200}ms`,
                       transitionTimingFunction:
@@ -170,11 +166,10 @@ const Hero = () => {
               return (
                 <div
                   key={label}
-                  className={`transition-all duration-800 ${
-                    isVisible
+                  className={`transition-all duration-800 ${isVisible
                       ? "translate-y-0 opacity-100 scale-100"
                       : "translate-y-16 opacity-0 scale-50"
-                  }`}
+                    }`}
                   style={{
                     transitionDelay: `${600 + index * 200}ms`,
                     transitionTimingFunction:
@@ -191,16 +186,15 @@ const Hero = () => {
                   >
                     {linkContent}
                   </LinkPreview>
-                </div> 
+                </div>
               );
             }
           )}
         </div>
 
         <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1000 delay-1000 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1000 delay-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           <button
             onClick={scrollToProjects}
@@ -208,19 +202,9 @@ const Hero = () => {
           >
             View My Work
           </button>
-          <button
-            onClick={() =>
-              document
-                .getElementById("about")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 cursor-button"
-          >
-            More About Me
-          </button>
         </div>
       </div>
-      
+
     </section>
   );
 };

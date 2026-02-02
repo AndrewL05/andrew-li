@@ -63,6 +63,17 @@ const projects = [
     delay: "200ms",
   },
   {
+    title: "Investorly",
+    description:
+      "An investment portfolio dashboard for beginners to learn investing.",
+    tech: ["Streamlit", "Python", "Flask", "Groq", "Docker", "Linux", "Nginx", "yFinance"],
+    url: "https://investorly.qingquanli.com/",
+    github: "https://github.com/AndrewL05/investorly",
+    stats: "Investment portfolio dashboard",
+    gradient: "from-green-600 to-teal-600",
+    delay: "200ms",
+  },
+  {
     title: "Haunting Truths",
     description:
       "An atmospheric 3D horror game developed using Godot Engine. Winner of 1st place for Best Map Design and Best Beginner Project in Game Jam.",
@@ -80,7 +91,7 @@ const projects = [
     github: "https://github.com/AndrewL05/hackru-project",
     stats: "Chrome extension",
     gradient: "from-green-600 to-teal-600",
-    delay: "600ms",
+    delay: "400ms",
   }
 ];
 
@@ -119,9 +130,8 @@ const Projects = () => {
     <section id="projects" className="py-20 px-6" ref={ref}>
       <div className="container mx-auto">
         <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Featured Projects
@@ -129,9 +139,8 @@ const Projects = () => {
         </div>
 
         <div
-          className={`max-w-6xl mx-auto transition-all duration-1000 delay-300 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`max-w-6xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           <div className="relative">
             <button
@@ -263,11 +272,10 @@ const Projects = () => {
             {Array.from({ length: count }, (_, index) => (
               <button
                 key={index}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index + 1 === current
-                    ? "bg-blue-400 scale-110"
-                    : "bg-slate-600 hover:bg-slate-500"
-                }`}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${index + 1 === current
+                  ? "bg-blue-400 scale-110"
+                  : "bg-slate-600 hover:bg-slate-500"
+                  }`}
                 onClick={() => carousel?.scrollTo(index)}
                 aria-label={`Go to slide ${index + 1}`}
               />

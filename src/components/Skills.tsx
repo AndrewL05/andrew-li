@@ -29,7 +29,7 @@ const skillCategories = [
   {
     title: "DevOps",
     icon: Settings,
-    skills: ["Docker", "CI/CD", "Linux"],
+    skills: ["Docker", "CI/CD", "Linux", "AWS", "GCP"],
     color: "from-blue-400 to-cyan-400",
   },
   {
@@ -60,9 +60,8 @@ const Skills = () => {
     <section id="skills" className="py-20 px-6" ref={ref}>
       <div className="container mx-auto max-w-6xl">
         <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Skills & Technologies
@@ -70,9 +69,8 @@ const Skills = () => {
         </div>
 
         <div
-          className={`grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto transition-all duration-1000 delay-300 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           {skillCategories.map((category, categoryIndex) => (
             <div
@@ -105,9 +103,8 @@ const Skills = () => {
                       key={skill}
                       className="px-4 py-2 bg-slate-700/60 hover:bg-slate-600/80 border border-slate-600/50 hover:border-slate-500 rounded-xl text-gray-300 hover:text-white font-medium text-sm transition-all duration-300 cursor-default"
                       style={{
-                        animationDelay: `${
-                          categoryIndex * 200 + skillIndex * 100
-                        }ms`,
+                        animationDelay: `${categoryIndex * 200 + skillIndex * 100
+                          }ms`,
                       }}
                     >
                       {skill}
