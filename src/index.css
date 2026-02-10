@@ -18,13 +18,17 @@
     @apply border-border;
   }
 
-  html {
-    scroll-behavior: smooth;
+  html, body {
+    @apply h-full overflow-hidden;
   }
 
   body {
     @apply bg-[#0f0f0f] text-white antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+  }
+
+  #root {
+    @apply h-full;
   }
 
   ::selection {
