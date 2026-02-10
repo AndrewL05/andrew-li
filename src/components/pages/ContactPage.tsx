@@ -1,4 +1,5 @@
 import { Github, Linkedin, Mail, FileText } from "lucide-react";
+import { LinkPreview } from "@/components/ui/link-preview";
 
 const ContactPage = () => {
   return (
@@ -16,15 +17,14 @@ const ContactPage = () => {
             />
           </div>
           <div>
-            <p className="text-sm text-[#888]">Email</p>
-            <p className="text-white">liandrew1234@gmail.com</p>
+            <p className="text-sm text-white">Email</p>
           </div>
         </a>
 
-        <a
-          href="https://github.com/AndrewL05"
-          target="_blank"
-          rel="noopener noreferrer"
+        <LinkPreview
+          url="https://github.com/AndrewL05"
+          isStatic={true}
+          imageSrc="/img/github-preview.png"
           className="flex items-center gap-4 p-4 bg-[#222] rounded-lg border border-[#333] hover:border-[#444] transition-colors group"
         >
           <div className="p-2 bg-[#1a1a1a] rounded-lg">
@@ -34,15 +34,14 @@ const ContactPage = () => {
             />
           </div>
           <div>
-            <p className="text-sm text-[#888]">GitHub</p>
-            <p className="text-white">@AndrewL05</p>
+            <p className="text-sm text-white">GitHub</p>
           </div>
-        </a>
+        </LinkPreview>
 
-        <a
-          href="https://linkedin.com/in/andrew-li05"
-          target="_blank"
-          rel="noopener noreferrer"
+        <LinkPreview
+          url="https://linkedin.com/in/andrew-li05"
+          isStatic={true}
+          imageSrc="/img/linkedin-preview.png"
           className="flex items-center gap-4 p-4 bg-[#222] rounded-lg border border-[#333] hover:border-[#444] transition-colors group"
         >
           <div className="p-2 bg-[#1a1a1a] rounded-lg">
@@ -52,10 +51,9 @@ const ContactPage = () => {
             />
           </div>
           <div>
-            <p className="text-sm text-[#888]">LinkedIn</p>
-            <p className="text-white">andrew-li05</p>
+            <p className="text-sm text-white">LinkedIn</p>
           </div>
-        </a>
+        </LinkPreview>
 
         <a
           href="/Andrew Li - Resume.pdf"
@@ -70,8 +68,7 @@ const ContactPage = () => {
             />
           </div>
           <div>
-            <p className="text-sm text-[#888]">Resume</p>
-            <p className="text-white">Download PDF</p>
+            <p className="text-sm text-white">Resume</p>
           </div>
         </a>
       </div>

@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { LinkPreview } from "@/components/ui/link-preview";
 
 const experiences = [
   {
@@ -6,10 +7,11 @@ const experiences = [
     company: "COI Energy",
     period: "Oct – Dec 2025",
     points: [
-      "Built Python ETL pipeline processing 4.3M+ energy records with 98% data quality",
+      "Engineered a Python ETL pipeline processing 4.3M+ energy consumption records, implementing anomaly detection and data interpolation to achieve 98% data quality for predictive modeling.",
       "Designed Docker-based BigQuery emulator reducing dev cycle time by 40%",
     ],
-    url: "coienergy.com",
+    url: "https://coienergy.com",
+    staticPreview: "/img/coi.png",
   },
   {
     role: "Software Engineer Intern",
@@ -20,7 +22,7 @@ const experiences = [
       "Built AI document summarizer reducing review time by 60%",
       "Implemented GCP Cloud Storage improving retrieval speed by 35%",
     ],
-    url: "unadat.com",
+    url: "https://unadat.com",
   },
   {
     role: "Full Stack Developer Intern",
@@ -30,7 +32,7 @@ const experiences = [
       "Rebuilt scheduling system improving load performance by 45%",
       "Optimized PostgreSQL reducing query latency by 40%",
     ],
-    url: "note.soaper.ai",
+    url: "https://note.soaper.ai",
   },
   {
     role: "Software Developer",
@@ -38,9 +40,9 @@ const experiences = [
     period: "Oct 2024 – May 2025",
     points: [
       "Optimized club website improving load speed by 35%",
-      "Streamlined CI/CD with Docker and GitHub Actions",
+      "Streamlined CI/CD with Docker and GitHub Actions, reducing deployment time by 40%",
     ],
-    url: "bccs.club",
+    url: "https://bccs.club",
   },
 ];
 
@@ -57,15 +59,25 @@ const ExperiencePage = () => {
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
               <div>
                 <h3 className="text-white font-medium">{exp.role}</h3>
-                <a
-                  href={`https://${exp.url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-[#888] hover:text-white transition-colors inline-flex items-center gap-1"
-                >
-                  {exp.company}
-                  <ArrowUpRight size={12} />
-                </a>
+                {exp.staticPreview ? (
+                  <LinkPreview
+                    url={exp.url}
+                    isStatic={true}
+                    imageSrc={exp.staticPreview}
+                    className="text-sm text-[#888] hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    {exp.company}
+                    <ArrowUpRight size={12} />
+                  </LinkPreview>
+                ) : (
+                  <LinkPreview
+                    url={exp.url}
+                    className="text-sm text-[#888] hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    {exp.company}
+                    <ArrowUpRight size={12} />
+                  </LinkPreview>
+                )}
               </div>
               <span className="text-xs text-[#555] font-mono bg-[#1a1a1a] px-2 py-1 rounded">
                 {exp.period}

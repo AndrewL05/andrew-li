@@ -1,4 +1,5 @@
 import { Github, ArrowUpRight } from "lucide-react";
+import { LinkPreview } from "@/components/ui/link-preview";
 
 const projects = [
   {
@@ -23,6 +24,7 @@ const projects = [
     tech: ["React", "Supabase", "PostgreSQL", "Node.js"],
     url: "mystudysphere.netlify.app",
     github: "github.com/AndrewL05/StudySphere",
+    staticPreview: "/img/studysphere.png",
   },
   {
     name: "Investorly",
@@ -30,6 +32,7 @@ const projects = [
     tech: ["Python", "Streamlit", "Flask", "Docker"],
     url: "investorly.qingquanli.com",
     github: "github.com/AndrewL05/investorly",
+    staticPreview: "/img/investorly.png",
   },
   {
     name: "Haunting Truths",
@@ -60,24 +63,31 @@ const ProjectsPage = () => {
             <div className="flex items-start justify-between mb-2">
               <h3 className="text-white font-medium">{project.name}</h3>
               <div className="flex gap-2">
-                {project.url && (
-                  <a
-                    href={`https://${project.url}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                {project.url && project.staticPreview ? (
+                  <LinkPreview
+                    url={`https://${project.url}`}
+                    isStatic={true}
+                    imageSrc={project.staticPreview}
                     className="text-[#555] hover:text-white transition-colors"
                   >
                     <ArrowUpRight size={14} />
-                  </a>
-                )}
-                <a
-                  href={`https://${project.github}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  </LinkPreview>
+                ) : project.url ? (
+                  <LinkPreview
+                    url={`https://${project.url}`}
+                    className="text-[#555] hover:text-white transition-colors"
+                  >
+                    <ArrowUpRight size={14} />
+                  </LinkPreview>
+                ) : null}
+                <LinkPreview
+                  url={`https://${project.github}`}
+                  isStatic={true}
+                  imageSrc="/img/github-preview.png"
                   className="text-[#555] hover:text-white transition-colors"
                 >
                   <Github size={14} />
-                </a>
+                </LinkPreview>
               </div>
             </div>
             <p className="text-sm text-[#777] mb-4">{project.description}</p>
