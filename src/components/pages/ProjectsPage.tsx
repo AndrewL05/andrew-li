@@ -82,8 +82,6 @@ const ProjectsPage = () => {
                 ) : null}
                 <LinkPreview
                   url={`https://${project.github}`}
-                  isStatic={true}
-                  imageSrc="/img/github-preview.png"
                   className="text-[#555] hover:text-white transition-colors"
                 >
                   <Github size={14} />
