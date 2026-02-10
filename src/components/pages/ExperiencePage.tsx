@@ -46,25 +46,32 @@ const experiences = [
   },
 ];
 
-const ExperiencePage = () => {
+interface ExperiencePageProps {
+  light: boolean;
+}
+
+const ExperiencePage = ({ light }: ExperiencePageProps) => {
   return (
     <div className="p-8 md:p-12">
-      <h2 className="text-2xl font-light text-white mb-8">Experience</h2>
+      <h2 className={`text-2xl font-light mb-8 ${light ? "text-[#3c3226]" : "text-white"}`}>Experience</h2>
       <div className="space-y-8">
         {experiences.map((exp, i) => (
           <div
             key={i}
-            className="p-5 bg-[#222] rounded-lg border border-[#333] hover:border-[#444] transition-colors"
+            className={`p-5 rounded-lg border transition-colors ${light
+              ? "bg-[#f5f0e8] border-[#d9d0c3] hover:border-[#c4b8a8]"
+              : "bg-[#222] border-[#333] hover:border-[#444]"
+            }`}
           >
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
               <div>
-                <h3 className="text-white font-medium">{exp.role}</h3>
+                <h3 className={`font-medium ${light ? "text-[#3c3226]" : "text-white"}`}>{exp.role}</h3>
                 {exp.staticPreview ? (
                   <LinkPreview
                     url={exp.url}
                     isStatic={true}
                     imageSrc={exp.staticPreview}
-                    className="text-sm text-[#888] hover:text-white transition-colors inline-flex items-center gap-1"
+                    className={`text-sm transition-colors inline-flex items-center gap-1 ${light ? "text-[#6b5e4e] hover:text-[#3c3226]" : "text-[#888] hover:text-white"}`}
                   >
                     {exp.company}
                     <ArrowUpRight size={12} />
@@ -72,21 +79,21 @@ const ExperiencePage = () => {
                 ) : (
                   <LinkPreview
                     url={exp.url}
-                    className="text-sm text-[#888] hover:text-white transition-colors inline-flex items-center gap-1"
+                    className={`text-sm transition-colors inline-flex items-center gap-1 ${light ? "text-[#6b5e4e] hover:text-[#3c3226]" : "text-[#888] hover:text-white"}`}
                   >
                     {exp.company}
                     <ArrowUpRight size={12} />
                   </LinkPreview>
                 )}
               </div>
-              <span className="text-xs text-[#555] font-mono bg-[#1a1a1a] px-2 py-1 rounded">
+              <span className={`text-xs font-mono px-2 py-1 rounded ${light ? "text-[#8a7e6e] bg-[#efe9df]" : "text-[#555] bg-[#1a1a1a]"}`}>
                 {exp.period}
               </span>
             </div>
             <ul className="space-y-1.5">
               {exp.points.map((point, j) => (
-                <li key={j} className="text-sm text-[#777] flex gap-2">
-                  <span className="text-[#444]">→</span>
+                <li key={j} className={`text-sm flex gap-2 ${light ? "text-[#6b5e4e]" : "text-[#777]"}`}>
+                  <span className={light ? "text-[#c4b8a8]" : "text-[#444]"}>→</span>
                   {point}
                 </li>
               ))}
