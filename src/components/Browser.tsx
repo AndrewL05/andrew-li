@@ -1,4 +1,4 @@
-import { useReducer, useRef, useEffect } from "react";
+import { useReducer, useRef, useEffect, useCallback } from "react";
 import {
   Github,
   Linkedin,
@@ -13,6 +13,7 @@ import HomePage from "./pages/HomePage";
 import ExperiencePage from "./pages/ExperiencePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
+import SearchPage from "./pages/SearchPage";
 
 export type Tab = "home" | "experience" | "projects" | "contact";
 
@@ -32,6 +33,7 @@ const tabs: { id: Tab; label: string }[] = [
 
 interface BrowserState {
   activeTab: Tab;
+  showSearch: boolean;
   isStarred: boolean;
   position: { x: number; y: number };
   isDragging: boolean;
@@ -47,10 +49,13 @@ type BrowserAction =
   | { type: "TOGGLE_STAR" }
   | { type: "SET_POSITION"; position: { x: number; y: number } }
   | { type: "SET_DRAGGING"; isDragging: boolean }
-  | { type: "SET_RELOADING"; isReloading: boolean };
+  | { type: "SET_RELOADING"; isReloading: boolean }
+  | { type: "OPEN_SEARCH" }
+  | { type: "CLOSE_SEARCH" };
 
 const initialState: BrowserState = {
   activeTab: "home",
+  showSearch: false,
   isStarred: false,
   position: { x: 0, y: 0 },
   isDragging: false,
@@ -67,11 +72,15 @@ function browserReducer(state: BrowserState, action: BrowserAction): BrowserStat
       return {
         ...state,
         activeTab: action.tab,
+        showSearch: false,
         history: newHistory,
         historyIndex: newHistory.length - 1,
       };
     }
     case "GO_BACK": {
+      if (state.showSearch) {
+        return { ...state, showSearch: false };
+      }
       if (state.historyIndex > 0) {
         const newIndex = state.historyIndex - 1;
         return { ...state, activeTab: state.history[newIndex], historyIndex: newIndex };
@@ -105,6 +114,10 @@ function browserReducer(state: BrowserState, action: BrowserAction): BrowserStat
       return { ...state, isDragging: action.isDragging };
     case "SET_RELOADING":
       return { ...state, isReloading: action.isReloading };
+    case "OPEN_SEARCH":
+      return { ...state, showSearch: true };
+    case "CLOSE_SEARCH":
+      return { ...state, showSearch: false };
     default:
       return state;
   }
@@ -112,7 +125,7 @@ function browserReducer(state: BrowserState, action: BrowserAction): BrowserStat
 
 const Browser = () => {
   const [state, dispatch] = useReducer(browserReducer, initialState);
-  const { activeTab, isStarred, position, isDragging, isReloading } = state;
+  const { activeTab, showSearch, isStarred, position, isDragging, isReloading } = state;
 
   const dragRef = useRef<{ startX: number; startY: number; initialX: number; initialY: number } | null>(null);
   const browserRef = useRef<HTMLDivElement>(null);
@@ -123,6 +136,16 @@ const Browser = () => {
       contentRef.current.scrollTop = 0;
     }
   }, [activeTab]);
+
+  const closeSearch = useCallback(() => dispatch({ type: "CLOSE_SEARCH" }), []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showSearch) closeSearch();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showSearch, closeSearch]);
 
   const navigateToTab = (tab: Tab) => dispatch({ type: "NAVIGATE", tab });
   const goBack = () => dispatch({ type: "GO_BACK" });
@@ -194,6 +217,7 @@ const Browser = () => {
   };
 
   const getStatusText = () => {
+    if (showSearch) return "New Tab";
     switch (activeTab) {
       case "home":
         return "Ready";
@@ -230,7 +254,7 @@ const Browser = () => {
             <button
               key={tab.id}
               onClick={() => navigateToTab(tab.id)}
-              className={`px-4 py-1.5 text-xs rounded-md transition-all ${activeTab === tab.id
+              className={`px-2 md:px-4 py-1.5 text-[10px] md:text-xs rounded-md transition-all ${!showSearch && activeTab === tab.id
                 ? "bg-[#3a3a3a] text-white"
                 : "text-[#888] hover:text-white hover:bg-[#333]"
                 }`}
@@ -238,7 +262,10 @@ const Browser = () => {
               {tab.label}
             </button>
           ))}
-          <button className="ml-1 p-1 text-[#666] hover:text-white hover:bg-[#333] rounded transition-colors">
+          <button
+            onClick={() => dispatch({ type: "OPEN_SEARCH" })}
+            className="ml-1 p-1 text-[#666] hover:text-white hover:bg-[#333] rounded transition-colors"
+          >
             <Plus size={14} />
           </button>
         </div>
@@ -262,16 +289,16 @@ const Browser = () => {
           </button>
           <button
             onClick={reload}
-            className={`p-1.5 text-[#666] hover:text-white hover:bg-[#3a3a3a] rounded transition-colors ${isReloading ? "animate-spin" : ""}`}
+            className="p-1.5 text-[#666] hover:text-white hover:bg-[#3a3a3a] rounded transition-colors"
           >
-            <RotateCw size={14} />
+            <RotateCw size={14} className={isReloading ? "animate-spin" : ""} />
           </button>
         </div>
 
         <div className="flex-1 flex items-center gap-2 bg-[#1a1a1a] rounded-md px-3 py-1.5 mx-2">
           <Lock size={12} className="text-[#28c840]" />
           <span className="text-xs text-[#888] flex-1 font-mono">
-            {tabUrls[activeTab]}
+            {showSearch ? "andrewli.dev/search" : tabUrls[activeTab]}
           </span>
           <button
             onClick={() => dispatch({ type: "TOGGLE_STAR" })}
@@ -306,10 +333,16 @@ const Browser = () => {
       </div>
 
       <div ref={contentRef} className={`bg-[#1a1a1a] flex-1 overflow-y-auto transition-opacity duration-300 ${isReloading ? "opacity-0" : "opacity-100"}`}>
-        {activeTab === "home" && <HomePage onNavigate={navigateToTab} />}
-        {activeTab === "experience" && <ExperiencePage />}
-        {activeTab === "projects" && <ProjectsPage />}
-        {activeTab === "contact" && <ContactPage />}
+        {showSearch ? (
+          <SearchPage onNavigate={navigateToTab} />
+        ) : (
+          <>
+            {activeTab === "home" && <HomePage onNavigate={navigateToTab} />}
+            {activeTab === "experience" && <ExperiencePage />}
+            {activeTab === "projects" && <ProjectsPage />}
+            {activeTab === "contact" && <ContactPage />}
+          </>
+        )}
       </div>
 
       <div className="h-6 bg-[#202020] flex items-center justify-between px-3 border-t border-[#3a3a3a] shrink-0">
