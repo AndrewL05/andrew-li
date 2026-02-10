@@ -116,6 +116,13 @@ const Browser = () => {
 
   const dragRef = useRef<{ startX: number; startY: number; initialX: number; initialY: number } | null>(null);
   const browserRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+  }, [activeTab]);
 
   const navigateToTab = (tab: Tab) => dispatch({ type: "NAVIGATE", tab });
   const goBack = () => dispatch({ type: "GO_BACK" });
@@ -298,7 +305,7 @@ const Browser = () => {
         </div>
       </div>
 
-      <div className={`bg-[#1a1a1a] flex-1 overflow-y-auto transition-opacity duration-300 ${isReloading ? "opacity-0" : "opacity-100"}`}>
+      <div ref={contentRef} className={`bg-[#1a1a1a] flex-1 overflow-y-auto transition-opacity duration-300 ${isReloading ? "opacity-0" : "opacity-100"}`}>
         {activeTab === "home" && <HomePage onNavigate={navigateToTab} />}
         {activeTab === "experience" && <ExperiencePage />}
         {activeTab === "projects" && <ProjectsPage />}
