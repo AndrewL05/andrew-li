@@ -9,18 +9,16 @@ const Activities = () => {
     <section id="activities" className="py-20 px-6" ref={ref}>
       <div className="container mx-auto max-w-6xl">
         <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 py-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Activities
           </h2>
         </div>
         <div
-          className={`max-w-4xl mx-auto space-y-8 transition-all duration-1000 delay-300 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+          className={`max-w-4xl mx-auto space-y-8 transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
         >
           <div className="relative bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700 hover:border-slate-600 transition-all duration-300">
             <GlowingEffect
