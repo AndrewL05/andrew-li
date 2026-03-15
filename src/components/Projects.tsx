@@ -13,18 +13,6 @@ import {
 
 const projects = [
   {
-    title: "SayLess",
-    description: "An AI-powered meeting assistant/bot that joins real-time meetings, speaks naturally in a chosen voice, and actively participates in conversations. It can listen, record, respond when needed, and automatically generate transcripts, summaries, and notes for every meeting.",
-    tech: [
-      "TypeScript", "React", "Tailwind CSS", "Express.js", "Node.js", "MongoDB", "Clerk", "ElevenLabs", "Deepgram API", "Gemini API"
-    ],
-    url: "https://sayless.nyc",
-    github: "https://github.com/AndrewL05/SayLess",
-    stats: "AI meeting assistant/bot",
-    gradient: "from-emerald-600 to-teal-600",
-    delay: "0ms",
-  },
-  {
     title: "Parallax",
     description:
       "An AI-powered life simulator that lets users explore alternate futures up to 10 years based on their personal decisions. It transforms everyday choices into interactive storylines and visualizations, helping people reflect on how different paths could shape their lives.",
@@ -46,8 +34,21 @@ const projects = [
       "Scikit-Learn",
       "TensorFlow"
     ],
+    url: "https://myparallax.vercel.app",
     github: "https://github.com/AndrewL05/Parallax",
     stats: "Interactive life simulation with AI/ML decision modeling",
+    gradient: "from-emerald-600 to-teal-600",
+    delay: "0ms",
+  },
+  {
+    title: "SayLess",
+    description: "An AI-powered meeting assistant/bot that joins real-time meetings, speaks naturally in a chosen voice, and actively participates in conversations. It can listen, record, respond when needed, and automatically generate transcripts, summaries, and notes for every meeting.",
+    tech: [
+      "TypeScript", "React", "Tailwind CSS", "Express.js", "Node.js", "MongoDB", "Clerk", "ElevenLabs", "Deepgram API", "Gemini API"
+    ],
+    url: "https://sayless.nyc",
+    github: "https://github.com/AndrewL05/SayLess",
+    stats: "AI meeting assistant/bot",
     gradient: "from-emerald-600 to-teal-600",
     delay: "0ms",
   },

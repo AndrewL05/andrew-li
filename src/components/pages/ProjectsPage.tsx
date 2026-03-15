@@ -3,6 +3,14 @@ import { LinkPreview } from "@/components/ui/link-preview";
 
 const projects = [
   {
+    name: "Parallax",
+    description:
+      "AI life simulator exploring alternate futures with interactive visualizations",
+    tech: ["TypeScript", "React", "Tailwind CSS", "D3.js", "Python", "FastAPI", "MongoDB", "Docker", "Nginx", "Stripe", "Pandas", "Scikit-Learn"],
+    url: "myparallax.vercel.app",
+    github: "github.com/AndrewL05/Parallax",
+  },
+  {
     name: "SayLess",
     description:
       "AI meeting assistant that joins calls, speaks naturally, and generates transcripts",
@@ -11,20 +19,12 @@ const projects = [
     github: "github.com/AndrewL05/SayLess",
   },
   {
-    name: "Parallax",
-    description:
-      "AI life simulator exploring alternate futures with interactive visualizations",
-    tech: ["TypeScript", "React", "Tailwind CSS", "D3.js", "Python", "FastAPI", "MongoDB", "Docker", "Nginx", "Stripe", "Pandas", "Scikit-Learn"],
-    github: "github.com/AndrewL05/Parallax",
-  },
-  {
     name: "StudySphere",
     description:
       "Collaborative study platform with real-time chat and AI assistant",
     tech: ["React", "PostgreSQL", "Express.js", "Node.js"],
     url: "mystudysphere.netlify.app",
     github: "github.com/AndrewL05/StudySphere",
-    staticPreview: "/img/studysphere.png",
   },
   {
     name: "Investorly",

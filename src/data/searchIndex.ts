@@ -67,15 +67,6 @@ export const searchIndex: SearchEntry[] = [
   },
 
   {
-    id: "proj-sayless",
-    title: "SayLess",
-    section: "projects",
-    sectionLabel: "Projects",
-    subtitle: "AI meeting assistant",
-    keywords:
-      "sayless ai meeting assistant calls transcripts typescript react node.js mongodb elevenlabs",
-  },
-  {
     id: "proj-parallax",
     title: "Parallax",
     section: "projects",
@@ -83,6 +74,15 @@ export const searchIndex: SearchEntry[] = [
     subtitle: "AI life simulator",
     keywords:
       "parallax ai life simulator alternate futures visualizations typescript react python fastapi tensorflow",
+  },
+  {
+    id: "proj-sayless",
+    title: "SayLess",
+    section: "projects",
+    sectionLabel: "Projects",
+    subtitle: "AI meeting assistant",
+    keywords:
+      "sayless ai meeting assistant calls transcripts typescript react node.js mongodb elevenlabs",
   },
   {
     id: "proj-studysphere",
