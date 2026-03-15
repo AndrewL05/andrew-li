@@ -264,7 +264,7 @@ const Browser = () => {
   return (
     <div
       ref={browserRef}
-      className={`w-full max-w-5xl h-[65vh] rounded-xl shadow-2xl overflow-hidden border flex flex-col transition-colors duration-300 ${c.shell}`}
+      className={`w-full max-w-5xl h-[72vh] md:h-[65vh] rounded-xl shadow-2xl overflow-hidden border flex flex-col transition-colors duration-300 ${c.shell}`}
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
         cursor: isDragging ? "grabbing" : undefined,
