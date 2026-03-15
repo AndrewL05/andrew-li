@@ -13,7 +13,10 @@ const SearchPage = ({ onNavigate, light }: SearchPageProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (!isTouchDevice) {
+      inputRef.current?.focus();
+    }
   }, []);
 
   const results = useMemo(() => {
