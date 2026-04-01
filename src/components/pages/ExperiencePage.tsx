@@ -3,12 +3,22 @@ import { LinkPreview } from "@/components/ui/link-preview";
 
 const experiences = [
   {
+    role: "Software Engineer Intern",
+    company: "Mira Intel",
+    period: "Feb – April 2026",
+    points: [
+      "Built a customer-facing inspection analytics dashboard using React, Recharts, and Tailwind to visualize drone CV model results including defect / damage type findings, structural risk insights, and statistics.",
+      "Developed a FastAPI and ReportLab report generator exporting structured multi-page PDF inspection reports in under 1 second, replacing manual reporting workflows.",
+    ],
+    url: "https://miraintel.com"
+  },
+  {
     role: "Data Engineer Intern",
     company: "COI Energy",
     period: "Oct – Dec 2025",
     points: [
       "Engineered a Python ETL pipeline processing 4.3M+ energy consumption records, implementing anomaly detection and data interpolation to achieve 98% data quality for predictive modeling.",
-      "Designed Docker-based BigQuery emulator reducing dev cycle time by 40%",
+      "Designed a Docker-based BigQuery emulator for local ETL testing, reducing development cycle time by 40%.",
     ],
     url: "https://coienergy.com",
     staticPreview: "/img/coi.png",
@@ -18,19 +28,19 @@ const experiences = [
     company: "Unadat",
     period: "Jul – Aug 2025",
     points: [
-      "Led team of 8 interns to revamp platform for 1,000+ users",
-      "Built AI document summarizer reducing review time by 60%",
-      "Implemented GCP Cloud Storage improving retrieval speed by 35%",
+      "Led a team of 8 interns to revamp platform modules for 1,000+ users in an 8-week sprint.",
+      "Built an AI document summarizer processing 800+ documents, reducing manual review time by 60%.",
+      "Implemented GCP Cloud Storage solution, improving image asset retrieval speed by 35%.",
     ],
     url: "https://unadat.com",
   },
   {
-    role: "Full Stack Developer Intern",
+    role: "Software Engineer Intern",
     company: "Soaper LLC",
     period: "Jul – Oct 2025",
     points: [
-      "Rebuilt scheduling system improving load performance by 45%",
-      "Optimized PostgreSQL reducing query latency by 40%",
+      "Rebuilt appointment scheduling system using TypeScript, React, and Tailwind CSS, improving page load performance by 45%.",
+      "Built FastAPI endpoints with phone/email verification and optimized PostgreSQL schemas, reducing query latency by 30% across patient and physician portals.",
     ],
     url: "https://note.soaper.ai",
   },
@@ -39,8 +49,8 @@ const experiences = [
     company: "Brooklyn College CS Club",
     period: "Oct 2024 – May 2025",
     points: [
-      "Optimized club website improving load speed by 35%",
-      "Streamlined CI/CD with Docker and GitHub Actions, reducing deployment time by 40%",
+      "Optimized club website performance using TypeScript, Next.js, and Tailwind, improving page load speed by 35%.",
+      "Streamlined deployment pipeline with Docker and GitHub Actions, reducing deployment time by 40%.",
     ],
     url: "https://bccs.club",
   },
@@ -61,7 +71,7 @@ const ExperiencePage = ({ light }: ExperiencePageProps) => {
             className={`p-5 rounded-lg border transition-colors ${light
               ? "bg-[#f5f0e8] border-[#d9d0c3] hover:border-[#c4b8a8]"
               : "bg-[#222] border-[#333] hover:border-[#444]"
-            }`}
+              }`}
           >
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
               <div>
