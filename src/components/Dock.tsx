@@ -21,9 +21,9 @@ const Dock = ({ light, windowHidden = false, onRestore }: DockProps) => {
   const [hovered, setHovered] = useState<string | null>(null);
 
   const staticItems: DockItem[] = [
-    { id: "github",   icon: <Github size={18} />,   label: "GitHub",   href: "https://github.com/AndrewL05" },
+    { id: "github", icon: <Github size={18} />, label: "GitHub", href: "https://github.com/AndrewL05" },
     { id: "linkedin", icon: <Linkedin size={18} />, label: "LinkedIn", href: "https://linkedin.com/in/andrew-li05" },
-    { id: "resume",   icon: <FileText size={18} />, label: "Resume",   href: "/Andrew Li - Resume.pdf" },
+    { id: "resume", icon: <FileText size={18} />, label: "Resume", href: "/Andrew Li - Resume.pdf" },
   ];
 
   const dock = light ? "bg-black/10 border-black/10" : "bg-white/[0.07] border-white/10";
@@ -49,9 +49,9 @@ const Dock = ({ light, windowHidden = false, onRestore }: DockProps) => {
           {item.label}
         </div>
 
-        {showSeparator && (
+        {/*{showSeparator && (
           <div className={`absolute -left-3 top-1/2 -translate-y-1/2 w-px h-5 ${separatorColor}`} />
-        )}
+        )}*/}
 
         {item.onClick ? (
           <button
@@ -101,7 +101,6 @@ const Dock = ({ light, windowHidden = false, onRestore }: DockProps) => {
                 -1,
                 false
               )}
-              <div className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-px h-5 ${separatorColor}`} />
             </motion.div>
           )}
         </AnimatePresence>
