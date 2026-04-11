@@ -15,7 +15,7 @@ const projects = [
   {
     title: "Parallax",
     description:
-      "An AI-powered life simulator that lets users explore alternate futures up to 10 years based on their personal decisions. It transforms everyday choices into interactive storylines and visualizations, helping people reflect on how different paths could shape their lives.",
+      "AI-driven decision platform that simulates long-term outcomes (up to 10 years) based on user inputs, combining ML predictions and LLM-generated narratives to deliver interactive, data-backed future scenarios.",
     tech: [
       "TypeScript",
       "React",

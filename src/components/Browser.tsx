@@ -128,6 +128,17 @@ const Browser = ({
   const [greenHover, setGreenHover] = useState(false);
   const [greenRect, setGreenRect] = useState<DOMRect | null>(null);
   const greenBtnRef = useRef<HTMLButtonElement>(null);
+  const greenCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openGreen = () => {
+    if (greenCloseTimer.current) clearTimeout(greenCloseTimer.current);
+    if (greenBtnRef.current) setGreenRect(greenBtnRef.current.getBoundingClientRect());
+    setGreenHover(true);
+  };
+
+  const scheduleCloseGreen = () => {
+    greenCloseTimer.current = setTimeout(() => setGreenHover(false), 120);
+  };
 
   const [hasResized, setHasResized] = useState(false);
 
@@ -362,11 +373,8 @@ const Browser = ({
               <button
                 ref={greenBtnRef}
                 onClick={isMaximized ? onToggleMaximize : undefined}
-                onMouseEnter={() => {
-                  if (greenBtnRef.current) setGreenRect(greenBtnRef.current.getBoundingClientRect());
-                  setGreenHover(true);
-                }}
-                onMouseLeave={() => setGreenHover(false)}
+                onMouseEnter={openGreen}
+                onMouseLeave={scheduleCloseGreen}
                 className="w-3 h-3 rounded-full bg-[#28c840] flex items-center justify-center transition-opacity hover:opacity-90"
                 title={isMaximized ? "Exit Full Screen" : "Full Screen / Tile"}
               >
@@ -379,8 +387,8 @@ const Browser = ({
             <div
               style={{ position: "fixed", top: greenRect.bottom + 10, left: greenRect.left - 28, zIndex: 300 }}
               className="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-[#1c1c1e]/95 border border-white/10 shadow-2xl"
-              onMouseEnter={() => setGreenHover(true)}
-              onMouseLeave={() => setGreenHover(false)}
+              onMouseEnter={openGreen}
+              onMouseLeave={scheduleCloseGreen}
             >
               <div className="flex gap-1">
                 <button

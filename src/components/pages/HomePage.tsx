@@ -71,7 +71,7 @@ const HomePage = ({ onNavigate, light }: HomePageProps) => {
           className={`leading-relaxed mb-8 text-[15px] ${muted}`}
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          Computer Science student at Brooklyn College building software. Currently a Data Science Fellow at CUNY Tech Prep, with experience in full-stack development, data engineering, and AI applications.
+          Computer Science student at Brooklyn College building software. Currently a Data Science Fellow at CUNY Tech Prep, with experience in full-stack development, data engineering, and AI/ML applications.
         </motion.p>
 
         <motion.div variants={item} className="flex gap-3 mb-12">

@@ -6,7 +6,7 @@ const experiences = [
   {
     role: "Software Engineer Intern",
     company: "Mira Intel",
-    period: "Feb – Apr 2026",
+    period: "Feb – Present",
     points: [
       "Built a customer-facing inspection analytics dashboard using React, Recharts, and Tailwind to visualize drone CV model results including defect / damage type findings, structural risk insights, and statistics.",
       "Developed a FastAPI and ReportLab report generator exporting structured multi-page PDF inspection reports in under 1 second, replacing manual reporting workflows.",
@@ -19,7 +19,7 @@ const experiences = [
     period: "Oct – Dec 2025",
     points: [
       "Engineered a Python ETL pipeline processing 4.3M+ energy consumption records, implementing anomaly detection and data interpolation to achieve 98% data quality for predictive modeling.",
-      "Designed a Docker-based BigQuery emulator for local ETL testing, reducing development cycle time by 40%.",
+      "Designed a Docker-based BigQuery emulator environment for ETL testing, reducing development cycle time by 40%.",
     ],
     url: "https://coienergy.com",
     staticPreview: "/img/coi.png",
