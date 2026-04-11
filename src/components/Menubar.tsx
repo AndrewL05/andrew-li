@@ -128,15 +128,16 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       style={{ fontFamily: "var(--font-sans)" }}
     >
       <div className="flex items-center gap-1">
-        <span className="font-semibold text-sm md:text-xs tracking-wide px-1 md:px-2">Andrew Li</span>
+        <span className="font-semibold text-sm md:text-xs tracking-wide px-1 md:px-2">AL</span>
 
         <div
-          className="relative hidden md:block"
+          className="relative"
           onMouseEnter={() => openDropdown("view")}
           onMouseLeave={scheduleClose}
         >
           <button
             className={`text-[12px] transition-colors ${openMenu === "view" ? c.menuBtnActive : c.menuBtn} ${c.muted} hover:text-current`}
+            onClick={() => openDropdown(openMenu === "view" ? null : "view")}
           >
             View
           </button>
@@ -180,19 +181,6 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
             </div>
           )}
         </div>
-
-        <div className="flex items-center gap-0.5 ml-2 md:hidden">
-          {NAV_ITEMS.map(({ id, label }) => (
-            <button
-              key={id}
-              onClick={() => onNavigate(id)}
-              className={`text-[12px] px-2 py-1 rounded-md transition-colors capitalize ${activeTab === id ? c.menuBtnActive : `${c.menuBtn} ${c.muted}`
-                }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
       </div>
 
       <div className="flex items-center gap-3">
@@ -201,7 +189,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
           className={`flex items-center gap-1.5 text-[10px] font-mono border rounded px-1.5 py-0.5 transition-colors ${c.badge}`}
           title="Open command palette"
         >
-          <Search size={10} />
+          <Search size={15} className="md:w-[10px] md:h-[10px]" />
           <span className="hidden md:inline">CTRL/⌘K</span>
         </button>
         <button

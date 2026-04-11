@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { X } from "lucide-react";
 
 interface SnakeGameProps {
   light: boolean;
@@ -156,6 +157,36 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     return () => window.removeEventListener("keydown", handler);
   }, [started, dead, reset, onClose]);
 
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStartRef.current = { x: t.clientX, y: t.clientY };
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStartRef.current.x;
+    const dy = t.clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    // Tap (no significant swipe) → start or restart
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+      if (!started || dead) { reset(); return; }
+      return;
+    }
+
+    // Swipe → steer
+    let next: Dir;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      next = dx > 0 ? "RIGHT" : "LEFT";
+    } else {
+      next = dy > 0 ? "DOWN" : "UP";
+    }
+    if (next !== OPPOSITES[dirRef.current]) nextDirRef.current = next;
+  }, [started, dead, reset]);
+
   const handleDragStart = useCallback((e: React.MouseEvent) => {
     const el = containerRef.current;
     if (!el) return;
@@ -211,21 +242,29 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
             <button
               onMouseDown={(e) => e.stopPropagation()}
               onClick={onClose}
-              className={`text-[10px] font-mono ${mutedCls} hover:text-current transition-colors`}
+              className={`flex items-center ${mutedCls} hover:text-current transition-colors`}
             >
-              esc to exit
+              <span className="hidden md:inline text-[10px] font-mono">esc to exit</span>
+              <X size={14} className="md:hidden" />
             </button>
           </div>
         </div>
 
-        <div className="relative" style={{ width: W, height: H }}>
+        <div
+          className="relative"
+          style={{ width: W, height: H }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <canvas ref={canvasRef} width={W} height={H} />
 
           {!started && !dead && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2" style={{ background: overlayBg }}>
               <span className={`text-[12px] font-mono font-semibold ${textCls}`}>SNAKE</span>
-              <span className={`text-[10px] font-mono ${mutedCls}`}>↑ ↓ ← → or WASD</span>
-              <span className={`text-[10px] font-mono ${mutedCls}`}>space / enter to start</span>
+              <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>↑ ↓ ← → or WASD</span>
+              <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>space / enter to start</span>
+              <span className={`text-[10px] font-mono ${mutedCls} md:hidden`}>swipe to steer</span>
+              <span className={`text-[10px] font-mono ${mutedCls} md:hidden`}>tap to start</span>
             </div>
           )}
 
@@ -233,7 +272,8 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2" style={{ background: overlayBg }}>
               <span className={`text-[12px] font-mono font-semibold ${textCls}`}>GAME OVER</span>
               <span className={`text-[10px] font-mono ${mutedCls}`}>final score: {score}</span>
-              <span className={`text-[10px] font-mono ${mutedCls}`}>space / enter to restart</span>
+              <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>space / enter to restart</span>
+              <span className={`text-[10px] font-mono ${mutedCls} md:hidden`}>tap to restart</span>
             </div>
           )}
         </div>
