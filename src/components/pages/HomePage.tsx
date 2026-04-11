@@ -49,10 +49,10 @@ const HomePage = ({ onNavigate, light }: HomePageProps) => {
           variants={item}
           className={`mb-2 leading-none ${text}`}
           style={{
-            fontFamily: "var(--font-display)",
+            fontFamily: "var(--font-sans)",
             fontSize: "clamp(2.4rem, 5vw, 3.6rem)",
-            fontWeight: 400,
-            letterSpacing: "-0.02em",
+            fontWeight: 600,
+            letterSpacing: "-0.03em",
           }}
         >
           Andrew Li

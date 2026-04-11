@@ -91,7 +91,7 @@ const ExperiencePage = ({ light }: ExperiencePageProps) => {
         <motion.div variants={cardItem} className="flex items-baseline gap-3 mb-8">
           <h2
             className={`text-2xl ${heading}`}
-            style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
+            style={{ fontFamily: "var(--font-sans)", fontWeight: 600, letterSpacing: "-0.02em" }}
           >
             Experience
           </h2>

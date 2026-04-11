@@ -37,7 +37,7 @@ const ContactPage = ({ light }: ContactPageProps) => {
         <motion.h2
           variants={item}
           className={`text-2xl mb-8 ${heading}`}
-          style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
+          style={{ fontFamily: "var(--font-sans)", fontWeight: 600, letterSpacing: "-0.02em" }}
         >
           Contact
         </motion.h2>
