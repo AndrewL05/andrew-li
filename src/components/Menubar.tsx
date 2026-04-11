@@ -56,7 +56,6 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
         if (tabByKey[e.key]) {
           e.preventDefault();
           onNavigate(tabByKey[e.key]);
-          setOpenMenu(null);
         }
       }
     };
