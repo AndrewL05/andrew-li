@@ -1,56 +1,119 @@
-import { Tab } from "../Browser";
+import { motion } from "framer-motion";
+import type { Tab } from "../Browser";
 
 interface HomePageProps {
   onNavigate: (tab: Tab) => void;
   light: boolean;
 }
 
-const HomePage = ({ onNavigate, light }: HomePageProps) => {
-  return (
-    <div className="p-8 md:p-12">
-      <div className="max-w-2xl">
-        <h1 className={`text-4xl md:text-5xl font-light mb-4 ${light ? "text-[#3c3226]" : "text-white"}`}>
-          Andrew Li
-        </h1>
-        <p className={`text-xl mb-6 ${light ? "text-[#6b5e4e]" : "text-[#888]"}`}>Full-Stack Developer</p>
-        <p className={`leading-relaxed mb-8 ${light ? "text-[#8a7e6e]" : "text-[#666]"}`}>
-          Computer Science student at Brooklyn College building software. Currently a Data Science Fellow at CUNY Tech
-          Prep, with experience in full-stack development, data engineering, and
-          AI applications.
-        </p>
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+};
 
-        <div className="flex gap-3 mb-12">
+const item = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+};
+
+const techs = [
+  "React", "TypeScript", "Python", "Java",
+  "Node.js", "FastAPI", "Flask", "SQL",
+  "PostgreSQL", "MongoDB", "Docker", "AWS", "GCP",
+];
+
+const HomePage = ({ onNavigate, light }: HomePageProps) => {
+  const text = light ? "text-[#1a1610]" : "text-white";
+  const muted = light ? "text-[#6b5e4e]" : "text-white/45";
+  const faint = light ? "text-[#a89e8e]" : "text-white/25";
+  const divider = light ? "border-[#e2dbd0]" : "border-white/[0.07]";
+  const chipBg = light
+    ? "bg-[#efe9df] border-[#ddd5c8] text-[#6b5e4e]"
+    : "bg-white/[0.04] border-white/[0.07] text-white/40";
+  const btnPrimary = light
+    ? "bg-[#1a1610] text-[#f5f0e8] hover:bg-[#3c3226]"
+    : "bg-white text-[#0d0d16] hover:bg-white/90";
+  const btnOutline = light
+    ? "border-[#d9d0c3] text-[#3c3226] hover:bg-[#efe9df]"
+    : "border-white/[0.12] text-white/70 hover:bg-white/[0.05]";
+
+  return (
+    <div className="p-8 md:p-12 min-h-full">
+      <motion.div
+        className="max-w-2xl"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.h1
+          variants={item}
+          className={`mb-2 leading-none ${text}`}
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2.4rem, 5vw, 3.6rem)",
+            fontWeight: 400,
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Andrew Li
+        </motion.h1>
+
+        <motion.p
+          variants={item}
+          className={`text-base mb-5 tracking-wide ${muted}`}
+          style={{ fontFamily: "var(--font-sans)", fontWeight: 300 }}
+        >
+          Full-Stack Developer
+        </motion.p>
+
+        <motion.p
+          variants={item}
+          className={`leading-relaxed mb-8 text-[15px] ${muted}`}
+          style={{ fontFamily: "var(--font-sans)" }}
+        >
+          CS student at Brooklyn College building full-stack products, AI tools, and data pipelines.
+          Currently a Data Science Fellow at CUNY Tech Prep, with 4 internships across startups and scale-ups.
+        </motion.p>
+
+        <motion.div variants={item} className="flex gap-3 mb-12">
           <button
             onClick={() => onNavigate("projects")}
-            className={`px-5 py-2 text-sm font-medium rounded-md transition-colors ${light
-              ? "bg-[#3c3226] text-[#ede8de] hover:bg-[#5a4d3e]"
-              : "bg-white text-[#1a1a1a] hover:bg-[#e5e5e5]"
-            }`}
+            className={`px-5 py-2 text-[13px] font-medium rounded-lg transition-colors ${btnPrimary}`}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             View Projects
           </button>
           <a
             href="/Andrew Li - Resume.pdf"
             target="_blank"
-            className={`px-5 py-2 border text-sm font-medium rounded-md transition-colors ${light
-              ? "border-[#d9d0c3] text-[#3c3226] hover:bg-[#efe9df]"
-              : "border-[#3a3a3a] text-white hover:bg-[#292929]"
-            }`}
+            rel="noopener noreferrer"
+            className={`px-5 py-2 border text-[13px] font-medium rounded-lg transition-colors ${btnOutline}`}
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Resume
           </a>
-        </div>
+        </motion.div>
 
-        <div className={`border-t pt-8 ${light ? "border-[#e2dbd0]" : "border-[#292929]"}`}>
-          <p className={`text-xs uppercase tracking-wider mb-4 ${light ? "text-[#a89e8e]" : "text-[#555]"}`}>
+        <motion.div variants={item} className={`border-t pt-8 ${divider}`}>
+          <p
+            className={`text-[10px] uppercase tracking-[0.15em] mb-4 ${faint}`}
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             Technologies
           </p>
-          <p className={`text-sm ${light ? "text-[#6b5e4e]" : "text-[#666]"}`}>
-            React · TypeScript · Python · Java · Node.js · FastAPI · Flask · SQL · PostgreSQL · MongoDB
-            · Docker · AWS · GCP · Linux · Git
-          </p>
-        </div>
-      </div>
+          <div className="flex flex-wrap gap-2">
+            {techs.map((t) => (
+              <span
+                key={t}
+                className={`text-[11px] px-2.5 py-1 rounded-md border ${chipBg}`}
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

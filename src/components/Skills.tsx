@@ -78,13 +78,11 @@ const Skills = () => {
               className="relative group"
               style={{ animationDelay: `${categoryIndex * 200}ms` }}
             >
-              {/* Category Container */}
               <div className="relative bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 rounded-3xl p-8 hover:border-slate-600/70 transition-all duration-500 overflow-hidden">
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}
                 ></div>
 
-                {/* Header */}
                 <div className="relative z-10 flex items-center mb-6">
                   <div
                     className={`p-3 rounded-2xl bg-gradient-to-r ${category.color} mr-4 shadow-lg`}
@@ -96,7 +94,6 @@ const Skills = () => {
                   </h3>
                 </div>
 
-                {/* Skills Tags */}
                 <div className="relative z-10 flex flex-wrap gap-3">
                   {category.skills.map((skill, skillIndex) => (
                     <span
