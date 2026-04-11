@@ -16,14 +16,18 @@ const WRAPPER_CLASS: Record<WindowState, string> = {
   closed:      "",
 };
 
+const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+
 const Index = () => {
   const [light, setLight] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("home");
   const [windowState, setWindowState] = useState<WindowState>("normal");
+  const [showKonami, setShowKonami] = useState(false);
 
   const controls = useAnimation();
   const exitIntentRef = useRef<"close" | "minimize">("close");
+  const konamiBuffer = useRef<string[]>([]);
 
   const toggleTheme = useCallback(() => setLight((l) => !l), []);
   const openSearch  = useCallback(() => setShowSearch(true), []);
@@ -75,6 +79,15 @@ const Index = () => {
         setShowSearch(s => !s);
         return;
       }
+
+      // Konami code detection (works regardless of focus)
+      konamiBuffer.current = [...konamiBuffer.current, e.key].slice(-KONAMI.length);
+      if (konamiBuffer.current.join(",") === KONAMI.join(",")) {
+        konamiBuffer.current = [];
+        setShowKonami(true);
+        setTimeout(() => setShowKonami(false), 3000);
+      }
+
       const tag = (e.target as HTMLElement).tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable) return;
       if (tabByKey[e.key]) {
@@ -160,6 +173,39 @@ const Index = () => {
         onNavigate={tab => { setActiveTab(tab); closeSearch(); }}
         light={light}
       />
+
+      <AnimatePresence>
+        {showKonami && (
+          <motion.div
+            key="konami"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none"
+          >
+            <div
+              className={`flex flex-col items-center gap-2 px-8 py-5 rounded-2xl border ${
+                light
+                  ? "bg-[#f5f0e8]/90 border-[#d9d0c3] shadow-[0_8px_40px_rgba(0,0,0,0.15)]"
+                  : "bg-[#111118]/90 border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.7)]"
+              }`}
+              style={{ backdropFilter: "blur(12px)" }}
+            >
+              <span
+                className={`text-[11px] font-mono tracking-widest uppercase ${light ? "text-[#1a9e30]" : "text-[#28c840]"}`}
+              >
+                [ ACCESS GRANTED ]
+              </span>
+              <span
+                className={`text-[10px] font-mono ${light ? "text-[#8a7e6e]" : "text-white/35"}`}
+              >
+                you found the secret ↑↑↓↓←→←→BA
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
