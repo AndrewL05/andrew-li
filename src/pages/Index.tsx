@@ -53,9 +53,15 @@ const Index = () => {
         <rect width="100%" height="100%" filter="url(#os-grain)" />
       </svg>
 
-      <Menubar light={light} onToggleTheme={toggleTheme} onOpenSearch={openSearch} />
+      <Menubar
+        light={light}
+        onToggleTheme={toggleTheme}
+        onOpenSearch={openSearch}
+        onNavigate={setActiveTab}
+        activeTab={activeTab}
+      />
 
-      <div className="absolute inset-0 pt-7 pb-16 flex items-center justify-center px-3 md:px-6">
+      <div className="absolute inset-0 pt-9 pb-16 flex items-center justify-center px-3 md:px-6">
         <Browser
           light={light}
           onToggleTheme={toggleTheme}
