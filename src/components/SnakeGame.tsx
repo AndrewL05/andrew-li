@@ -18,19 +18,22 @@ type Point = { x: number; y: number };
 const OPPOSITES: Record<Dir, Dir> = { UP: "DOWN", DOWN: "UP", LEFT: "RIGHT", RIGHT: "LEFT" };
 
 const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
-  const snakeRef   = useRef<Point[]>([{ x: 11, y: 8 }]);
-  const dirRef     = useRef<Dir>("RIGHT");
-  const nextDirRef = useRef<Dir>("RIGHT");
-  const foodRef    = useRef<Point>({ x: 5, y: 5 });
-  const scoreRef   = useRef(0);
-  const aliveRef   = useRef(true);
+  const snakeRef    = useRef<Point[]>([{ x: 11, y: 8 }]);
+  const dirRef      = useRef<Dir>("RIGHT");
+  const nextDirRef  = useRef<Dir>("RIGHT");
+  const foodRef     = useRef<Point>({ x: 5, y: 5 });
+  const scoreRef    = useRef(0);
+  const aliveRef    = useRef(true);
   const lastTickRef = useRef(0);
-  const rafRef     = useRef<number>(0);
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
+  const rafRef      = useRef<number>(0);
+  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dragRef     = useRef<{ startX: number; startY: number; origLeft: number; origTop: number } | null>(null);
 
   const [score,   setScore]   = useState(0);
   const [dead,    setDead]    = useState(false);
   const [started, setStarted] = useState(false);
+  const [gameKey, setGameKey] = useState(0);
 
   const placeFood = () => {
     const snake = snakeRef.current;
@@ -116,6 +119,7 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     setScore(0);
     setDead(false);
     setStarted(true);
+    setGameKey(k => k + 1);
   }, []);
 
   useEffect(() => { placeFood(); draw(); }, [draw]);
@@ -132,7 +136,7 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     };
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [started, tick, draw]);
+  }, [started, tick, draw, gameKey]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -152,24 +156,65 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     return () => window.removeEventListener("keydown", handler);
   }, [started, dead, reset, onClose]);
 
+  const handleDragStart = useCallback((e: React.MouseEvent) => {
+    const el = containerRef.current;
+    if (!el) return;
+    e.preventDefault();
+
+    // On first drag, convert from bottom/transform positioning to top/left
+    const rect = el.getBoundingClientRect();
+    el.style.bottom = "auto";
+    el.style.transform = "none";
+    el.style.left = `${rect.left}px`;
+    el.style.top = `${rect.top}px`;
+
+    dragRef.current = { startX: e.clientX, startY: e.clientY, origLeft: rect.left, origTop: rect.top };
+
+    const onMove = (ev: MouseEvent) => {
+      if (!dragRef.current || !el) return;
+      el.style.left = `${dragRef.current.origLeft + ev.clientX - dragRef.current.startX}px`;
+      el.style.top  = `${dragRef.current.origTop  + ev.clientY - dragRef.current.startY}px`;
+    };
+
+    const onUp = () => {
+      dragRef.current = null;
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  }, []);
+
   const W = COLS * CELL;
   const H = ROWS * CELL;
-  const border   = light ? "border-[#d9d0c3]"      : "border-white/[0.08]";
-  const shellBg  = light ? "bg-[#f0ece3]"           : "bg-[#0d0d16]";
-  const mutedCls = light ? "text-[#a89e8e]"         : "text-white/30";
-  const textCls  = light ? "text-[#1a1610]"         : "text-white/80";
-  const overlayBg = light ? "rgba(240,236,227,0.88)" : "rgba(13,13,22,0.88)";
+  const border    = light ? "border-[#d9d0c3]"       : "border-white/[0.08]";
+  const shellBg   = light ? "bg-[#f0ece3]"            : "bg-[#0d0d16]";
+  const mutedCls  = light ? "text-[#a89e8e]"          : "text-white/30";
+  const textCls   = light ? "text-[#1a1610]"          : "text-white/80";
+  const overlayBg = light ? "rgba(240,236,227,0.88)"  : "rgba(13,13,22,0.88)";
+  const titleBar  = light ? "hover:bg-black/[0.03]"   : "hover:bg-white/[0.03]";
 
   return createPortal(
     <div
+      ref={containerRef}
       style={{ position: "fixed", bottom: bottomY + 8, left: "50%", transform: "translateX(-50%)", zIndex: 200 }}
     >
       <div className={`rounded-xl border overflow-hidden shadow-2xl ${shellBg} ${border}`}>
-        <div className={`flex items-center justify-between px-3 py-1.5 border-b ${border}`}>
+        <div
+          className={`flex items-center justify-between px-3 py-1.5 border-b cursor-move select-none transition-colors ${border} ${titleBar}`}
+          onMouseDown={handleDragStart}
+        >
           <span className={`text-[10px] font-mono ${mutedCls}`}>snake.exe</span>
           <div className="flex items-center gap-4">
             <span className={`text-[10px] font-mono ${mutedCls}`}>score: <span className={textCls}>{score}</span></span>
-            <button onClick={onClose} className={`text-[10px] font-mono ${mutedCls} hover:text-current transition-colors`}>esc to exit</button>
+            <button
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={onClose}
+              className={`text-[10px] font-mono ${mutedCls} hover:text-current transition-colors`}
+            >
+              esc to exit
+            </button>
           </div>
         </div>
 

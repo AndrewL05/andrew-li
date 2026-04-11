@@ -57,18 +57,20 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (open) return;
+      if (showSnake) return;
       const tag = (e.target as HTMLElement).tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable) return;
       if (e.key === "/" || e.key === "Enter") {
         e.preventDefault();
         setOpen(true);
         setInput("");
+        setFeedback(null);
         setTimeout(() => inputRef.current?.focus(), 50);
       }
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [open]);
+  }, [open, showSnake]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -147,6 +149,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
 
   const handleBarClick = () => {
     setOpen(true);
+    setFeedback(null);
     setTimeout(() => inputRef.current?.focus(), 50);
   };
 
