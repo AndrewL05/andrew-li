@@ -124,13 +124,11 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
   return (
     <div
       ref={menubarRef}
-      className={`absolute top-0 left-0 right-0 z-50 h-9 flex items-center justify-between px-3 border-b backdrop-blur-xl transition-colors duration-300 ${c.bar}`}
+      className={`absolute top-0 left-0 right-0 z-50 h-12 md:h-9 flex items-center justify-between px-4 md:px-3 border-b backdrop-blur-xl transition-colors duration-300 ${c.bar}`}
       style={{ fontFamily: "var(--font-sans)" }}
     >
       <div className="flex items-center gap-1">
-        <span className="font-semibold text-xs tracking-wide px-2">Andrew Li</span>
-
-        {/*<span className={`text-[11px] px-2 py-0.5 ${c.muted}`}>Andrew Li</span>*/}
+        <span className="font-semibold text-sm md:text-xs tracking-wide px-1 md:px-2">Andrew Li</span>
 
         <div
           className="relative hidden md:block"
@@ -182,6 +180,19 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
             </div>
           )}
         </div>
+
+        <div className="flex items-center gap-0.5 ml-2 md:hidden">
+          {NAV_ITEMS.map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => onNavigate(id)}
+              className={`text-[12px] px-2 py-1 rounded-md transition-colors capitalize ${activeTab === id ? c.menuBtnActive : `${c.menuBtn} ${c.muted}`
+                }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex items-center gap-3">
@@ -191,16 +202,16 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
           title="Open command palette"
         >
           <Search size={10} />
-          CTRL/⌘K
+          <span className="hidden md:inline">CTRL/⌘K</span>
         </button>
         <button
           onClick={onToggleTheme}
           className={`transition-colors ${c.muted} hover:text-current`}
           title="Toggle theme"
         >
-          {light ? <Moon size={13} /> : <Sun size={13} />}
+          {light ? <Moon size={15} className="md:w-[13px] md:h-[13px]" /> : <Sun size={15} className="md:w-[13px] md:h-[13px]" />}
         </button>
-        <span className={`text-[11px] font-mono ${c.muted}`}>{time}</span>
+        <span className={`text-xs md:text-[11px] font-mono ${c.muted}`}>{time}</span>
       </div>
     </div>
   );

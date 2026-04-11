@@ -8,10 +8,10 @@ import CommandPalette from "../components/CommandPalette";
 import type { Tab } from "../components/Browser";
 
 const WRAPPER_CLASS: Record<WindowState, string> = {
-  normal: "absolute inset-0 pt-9 pb-16 flex items-center justify-center px-3 md:px-6",
-  maximized: "absolute inset-0 pt-9 flex",
-  "split-left": "absolute top-0 bottom-0 left-0 w-1/2 pt-9 pb-16 flex items-center justify-center px-3",
-  "split-right": "absolute top-0 bottom-0 right-0 w-1/2 pt-9 pb-16 flex items-center justify-center px-3",
+  normal: "absolute inset-0 pt-12 md:pt-9 pb-16 flex items-center justify-center px-3 md:px-6",
+  maximized: "absolute inset-0 pt-12 md:pt-9 flex",
+  "split-left": "absolute top-0 bottom-0 left-0 w-1/2 pt-12 md:pt-9 pb-16 flex items-center justify-center px-3",
+  "split-right": "absolute top-0 bottom-0 right-0 w-1/2 pt-12 md:pt-9 pb-16 flex items-center justify-center px-3",
   minimized: "",
   closed: "",
 };
