@@ -13,7 +13,7 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const } },
 };
 
 const techs = [
@@ -71,8 +71,7 @@ const HomePage = ({ onNavigate, light }: HomePageProps) => {
           className={`leading-relaxed mb-8 text-[15px] ${muted}`}
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          CS student at Brooklyn College building full-stack products, AI tools, and data pipelines.
-          Currently a Data Science Fellow at CUNY Tech Prep, with 4 internships across startups and scale-ups.
+          Computer Science student at Brooklyn College building software. Currently a Data Science Fellow at CUNY Tech Prep, with experience in full-stack development, data engineering, and AI applications.
         </motion.p>
 
         <motion.div variants={item} className="flex gap-3 mb-12">
