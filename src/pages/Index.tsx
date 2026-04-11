@@ -8,15 +8,15 @@ import CommandPalette from "../components/CommandPalette";
 import type { Tab } from "../components/Browser";
 
 const WRAPPER_CLASS: Record<WindowState, string> = {
-  normal:      "absolute inset-0 pt-9 pb-16 flex items-center justify-center px-3 md:px-6",
-  maximized:   "absolute inset-0 pt-9 flex",
-  "split-left":  "absolute top-0 bottom-0 left-0 w-1/2 pt-9 pb-16 flex items-center justify-center px-3",
+  normal: "absolute inset-0 pt-9 pb-16 flex items-center justify-center px-3 md:px-6",
+  maximized: "absolute inset-0 pt-9 flex",
+  "split-left": "absolute top-0 bottom-0 left-0 w-1/2 pt-9 pb-16 flex items-center justify-center px-3",
   "split-right": "absolute top-0 bottom-0 right-0 w-1/2 pt-9 pb-16 flex items-center justify-center px-3",
-  minimized:   "",
-  closed:      "",
+  minimized: "",
+  closed: "",
 };
 
-const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
 
 const Index = () => {
   const [light, setLight] = useState(false);
@@ -30,7 +30,7 @@ const Index = () => {
   const konamiBuffer = useRef<string[]>([]);
 
   const toggleTheme = useCallback(() => setLight((l) => !l), []);
-  const openSearch  = useCallback(() => setShowSearch(true), []);
+  const openSearch = useCallback(() => setShowSearch(true), []);
   const closeSearch = useCallback(() => setShowSearch(false), []);
 
   const isVisible = windowState !== "minimized" && windowState !== "closed";
@@ -80,16 +80,20 @@ const Index = () => {
         return;
       }
 
-      // Konami code detection (works regardless of focus)
-      konamiBuffer.current = [...konamiBuffer.current, e.key].slice(-KONAMI.length);
-      if (konamiBuffer.current.join(",") === KONAMI.join(",")) {
-        konamiBuffer.current = [];
-        setShowKonami(true);
-        setTimeout(() => setShowKonami(false), 3000);
+      const tag = (e.target as HTMLElement).tagName;
+      const isTyping = tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable;
+
+      // Konami code detection, skip while user is typing so arrow keys don't get intercepted
+      if (!isTyping) {
+        konamiBuffer.current = [...konamiBuffer.current, e.key].slice(-KONAMI.length);
+        if (konamiBuffer.current.join(",") === KONAMI.join(",")) {
+          konamiBuffer.current = [];
+          setShowKonami(true);
+          setTimeout(() => setShowKonami(false), 3000);
+        }
       }
 
-      const tag = (e.target as HTMLElement).tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable) return;
+      if (isTyping) return;
       if (tabByKey[e.key]) {
         e.preventDefault();
         setActiveTab(tabByKey[e.key]);
@@ -185,11 +189,10 @@ const Index = () => {
             className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none"
           >
             <div
-              className={`flex flex-col items-center gap-2 px-8 py-5 rounded-2xl border ${
-                light
+              className={`flex flex-col items-center gap-2 px-8 py-5 rounded-2xl border ${light
                   ? "bg-[#f5f0e8]/90 border-[#d9d0c3] shadow-[0_8px_40px_rgba(0,0,0,0.15)]"
                   : "bg-[#111118]/90 border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.7)]"
-              }`}
+                }`}
               style={{ backdropFilter: "blur(12px)" }}
             >
               <span

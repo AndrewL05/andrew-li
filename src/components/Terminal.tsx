@@ -31,6 +31,8 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
   const inputRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const historyRef = useRef<string[]>([]);
+  const historyIdxRef = useRef(-1);
   const [showSnake, setShowSnake] = useState(false);
   const [snakeBottomY, setSnakeBottomY] = useState(0);
 
@@ -134,6 +136,10 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
 
   const runCommand = (cmd: string) => {
     const trimmed = cmd.trim().toLowerCase();
+    if (trimmed) {
+      historyRef.current = [trimmed, ...historyRef.current].slice(0, 50);
+      historyIdxRef.current = -1;
+    }
     setOpen(false);
     setInput("");
 
@@ -244,8 +250,22 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if ((e.metaKey || e.ctrlKey) && e.key === "k") return;
-                if (e.key === "Enter") runCommand(input);
-                if (e.key === "Escape") { setOpen(false); setInput(""); }
+                if (e.key === "ArrowUp") {
+                  e.preventDefault();
+                  const next = Math.min(historyIdxRef.current + 1, historyRef.current.length - 1);
+                  historyIdxRef.current = next;
+                  setInput(historyRef.current[next] ?? "");
+                } else if (e.key === "ArrowDown") {
+                  e.preventDefault();
+                  const next = Math.max(historyIdxRef.current - 1, -1);
+                  historyIdxRef.current = next;
+                  setInput(next === -1 ? "" : historyRef.current[next]);
+                } else if (e.key === "Enter") {
+                  runCommand(input);
+                } else if (e.key === "Escape") {
+                  setOpen(false);
+                  setInput("");
+                }
                 e.stopPropagation();
               }}
               onClick={(e) => e.stopPropagation()}
