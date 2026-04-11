@@ -34,8 +34,6 @@ const tabs: { id: Tab; label: string }[] = [
 
 interface BrowserState {
   isStarred: boolean;
-  position: { x: number; y: number };
-  isDragging: boolean;
   isReloading: boolean;
   history: Tab[];
   historyIndex: number;
@@ -45,15 +43,11 @@ type BrowserAction =
   | { type: "GO_BACK"; currentTab: Tab; onNavigate: (t: Tab) => void }
   | { type: "GO_FORWARD"; currentTab: Tab; onNavigate: (t: Tab) => void }
   | { type: "TOGGLE_STAR" }
-  | { type: "SET_POSITION"; position: { x: number; y: number } }
-  | { type: "SET_DRAGGING"; isDragging: boolean }
   | { type: "SET_RELOADING"; isReloading: boolean }
   | { type: "PUSH_HISTORY"; tab: Tab };
 
 const initialState: BrowserState = {
   isStarred: false,
-  position: { x: 0, y: 0 },
-  isDragging: false,
   isReloading: false,
   history: ["home"],
   historyIndex: 0,
@@ -98,10 +92,6 @@ function browserReducer(state: BrowserState, action: BrowserAction): BrowserStat
     }
     case "TOGGLE_STAR":
       return { ...state, isStarred: !state.isStarred };
-    case "SET_POSITION":
-      return { ...state, position: action.position };
-    case "SET_DRAGGING":
-      return { ...state, isDragging: action.isDragging };
     case "SET_RELOADING":
       return { ...state, isReloading: action.isReloading };
     default:
@@ -119,9 +109,9 @@ interface BrowserProps {
 
 const Browser = ({ light, onToggleTheme, activeTab, onNavigate, onOpenSearch }: BrowserProps) => {
   const [state, dispatch] = useReducer(browserReducer, initialState);
-  const { isStarred, position, isDragging, isReloading } = state;
+  const { isStarred, isReloading } = state;
 
-  const dragRef = useRef<{ startX: number; startY: number; initialX: number; initialY: number } | null>(null);
+  const positionRef = useRef({ x: 0, y: 0 });
   const browserRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -142,43 +132,45 @@ const Browser = ({ light, onToggleTheme, activeTab, onNavigate, onOpenSearch }: 
     setTimeout(() => dispatch({ type: "SET_RELOADING", isReloading: false }), 600);
   };
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging || !dragRef.current || !browserRef.current) return;
-      const deltaX = e.clientX - dragRef.current.startX;
-      const deltaY = e.clientY - dragRef.current.startY;
-      let newX = dragRef.current.initialX + deltaX;
-      let newY = dragRef.current.initialY + deltaY;
-      const rect = browserRef.current.getBoundingClientRect();
-      const baseLeft = rect.left - position.x;
-      const baseTop = rect.top - position.y;
-      const browserWidth = rect.width;
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const padding = 100;
-      newX = Math.max(padding - browserWidth - baseLeft, Math.min(viewportWidth - padding - baseLeft, newX));
-      newY = Math.max(-baseTop, Math.min(viewportHeight - padding - baseTop, newY));
-      dispatch({ type: "SET_POSITION", position: { x: newX, y: newY } });
-    };
-    const handleMouseUp = () => {
-      dispatch({ type: "SET_DRAGGING", isDragging: false });
-      dragRef.current = null;
-    };
-    if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    }
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDragging, position]);
-
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest("button, a")) return;
-    dispatch({ type: "SET_DRAGGING", isDragging: true });
-    dragRef.current = { startX: e.clientX, startY: e.clientY, initialX: position.x, initialY: position.y };
-  }, [position]);
+    e.preventDefault();
+
+    const el = browserRef.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const initialX = positionRef.current.x;
+    const initialY = positionRef.current.y;
+    const baseLeft = rect.left - initialX;
+    const baseTop = rect.top - initialY;
+    const browserWidth = rect.width;
+
+    document.body.style.cursor = "grabbing";
+    document.body.style.userSelect = "none";
+
+    const onMouseMove = (ev: MouseEvent) => {
+      let newX = initialX + (ev.clientX - startX);
+      let newY = initialY + (ev.clientY - startY);
+      const padding = 100;
+      newX = Math.max(padding - browserWidth - baseLeft, Math.min(window.innerWidth - padding - baseLeft, newX));
+      newY = Math.max(-baseTop, Math.min(window.innerHeight - padding - baseTop, newY));
+      positionRef.current = { x: newX, y: newY };
+      el.style.transform = `translate(${newX}px, ${newY}px)`;
+    };
+
+    const onMouseUp = () => {
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  }, []);
 
   const c = light
     ? {
@@ -209,8 +201,7 @@ const Browser = ({ light, onToggleTheme, activeTab, onNavigate, onOpenSearch }: 
       ref={browserRef}
       className={`w-full max-w-5xl h-[72vh] md:h-[65vh] rounded-2xl overflow-hidden border flex flex-col transition-colors duration-300 ${c.shell}`}
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-        cursor: isDragging ? "grabbing" : undefined,
+        willChange: "transform",
         boxShadow: light
           ? "0 0 0 1px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.12), 0 24px 60px rgba(0,0,0,0.08)"
           : "0 0 0 1px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.6), 0 24px 60px rgba(0,0,0,0.4)",

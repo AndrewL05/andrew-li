@@ -81,18 +81,20 @@ const CommandPalette = ({ isOpen, onClose, onNavigate, light }: CommandPalettePr
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className={`fixed inset-0 z-[100] backdrop-blur-sm ${c.backdrop}`}
+            transition={{ duration: 0.12, ease: "linear" }}
+            className={`fixed inset-0 z-[100] ${c.backdrop}`}
+            style={{ willChange: "opacity" }}
             onClick={onClose}
           />
 
           <motion.div
             key="palette"
-            initial={{ opacity: 0, scale: 0.96, y: -8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -8 }}
-            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.14, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="fixed inset-0 z-[101] flex items-start justify-center pt-[18vh] px-4 pointer-events-none"
+            style={{ willChange: "opacity, transform" }}
           >
             <div
               className={`w-full max-w-lg pointer-events-auto rounded-2xl overflow-hidden border transition-colors duration-300 ${c.shell}`}
