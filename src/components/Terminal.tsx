@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { Tab } from "./Browser";
 import { tabUrls } from "./Browser";
+import SnakeGame from "./SnakeGame";
 
 interface TerminalProps {
   activeTab: Tab;
@@ -29,6 +30,11 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
   const [feedback, setFeedback] = useState<{ text: string; type: "nav" | "success" | "error" } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  const historyRef = useRef<string[]>([]);
+  const historyIdxRef = useRef(-1);
+  const [showSnake, setShowSnake] = useState(false);
+  const [snakeBottomY, setSnakeBottomY] = useState(0);
 
   const path = tabUrls[activeTab];
 
@@ -53,18 +59,20 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (open) return;
+      if (showSnake) return;
       const tag = (e.target as HTMLElement).tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable) return;
       if (e.key === "/" || e.key === "Enter") {
         e.preventDefault();
         setOpen(true);
         setInput("");
+        setFeedback(null);
         setTimeout(() => inputRef.current?.focus(), 50);
       }
     };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [open]);
+  }, [open, showSnake]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -110,17 +118,35 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
     "toggle theme": () => { setFeedback({ text: "→ Theme toggled", type: "success" }); onToggleTheme(); },
     "search": () => { setFeedback(null); onOpenSearch(); },
     "help": () => { setOpen(true); },
+    "sudo": () => { setFeedback({ text: "Nice try buddy.", type: "error" }); },
+    "sudo rm -rf /": () => { setFeedback({ text: "Nice try. Portfolio is immutable.", type: "error" }); },
+    "hello": () => { setFeedback({ text: "Hey there! 👋", type: "success" }); },
+    "hi": () => { setFeedback({ text: "Hey there! 👋", type: "success" }); },
+    "whoami": () => { setFeedback({ text: "curious visitor", type: "nav" }); },
+    "ls": () => { setFeedback({ text: "home/  experience/  projects/  contact/", type: "nav" }); },
+    "coffee": () => { setFeedback({ text: "☕ Error: COFFEE_NOT_FOUND. Have you tried npm install coffee?", type: "error" }); },
+    "clear": () => { setFeedback(null); },
+    "pwd": () => { setFeedback({ text: "/users/visitor/andrewli", type: "nav" }); },
+    "snake": () => {
+      const rect = barRef.current?.getBoundingClientRect();
+      setSnakeBottomY(rect ? window.innerHeight - rect.top : 60);
+      setShowSnake(true);
+    },
   };
 
   const runCommand = (cmd: string) => {
     const trimmed = cmd.trim().toLowerCase();
+    if (trimmed) {
+      historyRef.current = [trimmed, ...historyRef.current].slice(0, 50);
+      historyIdxRef.current = -1;
+    }
     setOpen(false);
     setInput("");
 
     const action = COMMAND_MAP[trimmed];
     if (action) {
       action();
-      if (trimmed !== "help") setTimeout(() => setFeedback(null), 500);
+      if (trimmed !== "help") setTimeout(() => setFeedback(null), 1000);
     } else {
       setFeedback({ text: `command not found: ${trimmed}`, type: "error" });
       setTimeout(() => setFeedback(null), 1000);
@@ -129,6 +155,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
 
   const handleBarClick = () => {
     setOpen(true);
+    setFeedback(null);
     setTimeout(() => inputRef.current?.focus(), 50);
   };
 
@@ -193,11 +220,20 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
               <span className={`text-[11px] flex-1 ${cmdDesc}`}>Open search</span>
               <span className={`text-[9px] font-mono border rounded px-1 ml-auto ${keyBadge}`}>CTRL/⌘K</span>
             </button>
+            <button onClick={() => { runCommand("snake"); setOpen(false); }} className={`w-full flex items-center gap-2 px-3 py-1.5 text-left transition-colors ${cmdHover}`}>
+              <span className={`text-[11px] font-mono w-28 shrink-0 ${cmdCode}`}>snake</span>
+              <span className={`text-[11px] flex-1 ${cmdDesc}`}>Play snake 🐍</span>
+            </button>
           </div>
         </div>
       )}
 
+      {showSnake && (
+        <SnakeGame light={light} bottomY={snakeBottomY} onClose={() => setShowSnake(false)} />
+      )}
+
       <div
+        ref={barRef}
         className={`h-9 flex items-center px-3 gap-2 border-t cursor-text transition-colors duration-300 ${bar} ${open ? "" : "hover:bg-white/[0.02]"}`}
         onClick={handleBarClick}
       >
@@ -214,8 +250,22 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if ((e.metaKey || e.ctrlKey) && e.key === "k") return;
-                if (e.key === "Enter") runCommand(input);
-                if (e.key === "Escape") { setOpen(false); setInput(""); }
+                if (e.key === "ArrowUp") {
+                  e.preventDefault();
+                  const next = Math.min(historyIdxRef.current + 1, historyRef.current.length - 1);
+                  historyIdxRef.current = next;
+                  setInput(historyRef.current[next] ?? "");
+                } else if (e.key === "ArrowDown") {
+                  e.preventDefault();
+                  const next = Math.max(historyIdxRef.current - 1, -1);
+                  historyIdxRef.current = next;
+                  setInput(next === -1 ? "" : historyRef.current[next]);
+                } else if (e.key === "Enter") {
+                  runCommand(input);
+                } else if (e.key === "Escape") {
+                  setOpen(false);
+                  setInput("");
+                }
                 e.stopPropagation();
               }}
               onClick={(e) => e.stopPropagation()}
@@ -236,7 +286,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
 
         {!open && !feedback && (
           <span className={`text-[10px] ${hintColor} shrink-0`} style={{ fontFamily: "var(--font-mono)" }}>
-            click for commands
+            Press ENTER or / to use terminal, click for commands
           </span>
         )}
       </div>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Sun, Moon, Check } from "lucide-react";
+import { Sun, Moon, Check, Search } from "lucide-react";
 import type { Tab } from "./Browser";
 
 interface MenubarProps {
@@ -124,21 +124,20 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
   return (
     <div
       ref={menubarRef}
-      className={`absolute top-0 left-0 right-0 z-50 h-9 flex items-center justify-between px-3 border-b backdrop-blur-xl transition-colors duration-300 ${c.bar}`}
+      className={`absolute top-0 left-0 right-0 z-50 h-12 md:h-9 flex items-center justify-between px-4 md:px-3 border-b backdrop-blur-xl transition-colors duration-300 ${c.bar}`}
       style={{ fontFamily: "var(--font-sans)" }}
     >
       <div className="flex items-center gap-1">
-        <span className="font-semibold text-xs tracking-wide px-2">AL</span>
-
-        {/*<span className={`text-[11px] px-2 py-0.5 ${c.muted}`}>Andrew Li</span>*/}
+        <span className="font-semibold text-sm md:text-xs tracking-wide px-2 py-0.5">AL</span>
 
         <div
-          className="relative hidden md:block"
+          className="relative"
           onMouseEnter={() => openDropdown("view")}
           onMouseLeave={scheduleClose}
         >
           <button
             className={`text-[12px] transition-colors ${openMenu === "view" ? c.menuBtnActive : c.menuBtn} ${c.muted} hover:text-current`}
+            onClick={() => openDropdown(openMenu === "view" ? null : "view")}
           >
             View
           </button>
@@ -187,19 +186,20 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       <div className="flex items-center gap-3">
         <button
           onClick={() => { onOpenSearch(); setOpenMenu(null); }}
-          className={`text-[10px] font-mono border rounded px-1.5 py-0.5 transition-colors ${c.badge}`}
+          className={`flex items-center gap-1.5 text-[10px] font-mono border rounded px-1.5 py-0.5 transition-colors ${c.badge}`}
           title="Open command palette"
         >
-          CTRL/⌘K
+          <Search size={15} className="md:w-[10px] md:h-[10px]" />
+          <span className="hidden md:inline">CTRL/⌘K</span>
         </button>
         <button
           onClick={onToggleTheme}
           className={`transition-colors ${c.muted} hover:text-current`}
           title="Toggle theme"
         >
-          {light ? <Moon size={13} /> : <Sun size={13} />}
+          {light ? <Moon size={15} className="md:w-[13px] md:h-[13px]" /> : <Sun size={15} className="md:w-[13px] md:h-[13px]" />}
         </button>
-        <span className={`text-[11px] font-mono ${c.muted}`}>{time}</span>
+        <span className={`text-xs md:text-[11px] font-mono ${c.muted}`}>{time}</span>
       </div>
     </div>
   );

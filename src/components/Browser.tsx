@@ -157,9 +157,13 @@ const Browser = ({
   }, [activeTab]);
 
   const prevTabRef = useRef(activeTab);
+  const skipPushRef = useRef(false);
   useEffect(() => {
     if (prevTabRef.current !== activeTab) {
-      dispatch({ type: "PUSH_HISTORY", tab: activeTab });
+      if (!skipPushRef.current) {
+        dispatch({ type: "PUSH_HISTORY", tab: activeTab });
+      }
+      skipPushRef.current = false;
       prevTabRef.current = activeTab;
     }
   }, [activeTab]);
@@ -455,10 +459,10 @@ const Browser = ({
 
         <div className={`h-10 flex items-center gap-2 px-3 border-b shrink-0 transition-colors duration-300 ${c.toolbar}`}>
           <div className="flex items-center gap-0.5">
-            <button onClick={() => dispatch({ type: "GO_BACK", currentTab: activeTab, onNavigate })} className={`p-1.5 rounded-lg transition-colors ${c.icon}`}>
+            <button onClick={() => { skipPushRef.current = true; dispatch({ type: "GO_BACK", currentTab: activeTab, onNavigate }); }} className={`p-1.5 rounded-lg transition-colors ${c.icon}`}>
               <ArrowLeft size={13} />
             </button>
-            <button onClick={() => dispatch({ type: "GO_FORWARD", currentTab: activeTab, onNavigate })} className={`p-1.5 rounded-lg transition-colors ${c.icon}`}>
+            <button onClick={() => { skipPushRef.current = true; dispatch({ type: "GO_FORWARD", currentTab: activeTab, onNavigate }); }} className={`p-1.5 rounded-lg transition-colors ${c.icon}`}>
               <ArrowRight size={13} />
             </button>
             <button onClick={reload} className={`p-1.5 rounded-lg transition-colors ${c.icon}`}>
