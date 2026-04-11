@@ -53,20 +53,11 @@ const Dock = ({ light }: DockProps) => {
           return (
             <div key={item.id} className="relative flex flex-col items-center">
               <div
-                className={`absolute -top-8 left-1/2 -translate-x-1/2 text-[10px] font-mono px-2 py-0.5 rounded whitespace-nowrap pointer-events-none transition-all duration-150 ${
-                  light ? "bg-black/80 text-white" : "bg-white/90 text-black"
-                } ${isHovered ? "opacity-100 -translate-y-0" : "opacity-0 translate-y-1"}`}
+                className={`absolute -top-8 left-1/2 -translate-x-1/2 text-[10px] font-mono px-2 py-0.5 rounded whitespace-nowrap pointer-events-none transition-all duration-150 ${light ? "bg-black/80 text-white" : "bg-white/90 text-black"
+                  } ${isHovered ? "opacity-100 -translate-y-0" : "opacity-0 translate-y-1"}`}
               >
                 {item.label}
               </div>
-
-              {idx === 2 && (
-                <div
-                  className={`absolute -left-3 top-1/2 -translate-y-1/2 w-px h-5 ${
-                    light ? "bg-black/15" : "bg-white/10"
-                  }`}
-                />
-              )}
 
               <a
                 href={item.href}

@@ -263,18 +263,21 @@ const Browser = ({ light, onToggleTheme, activeTab, onNavigate, onOpenSearch }: 
           </button>
         </div>
 
-        <div className={`flex-1 flex items-center gap-2 rounded-lg px-3 py-1.5 mx-2 border transition-colors duration-300 ${c.urlBar}`}>
+        <button
+          onClick={onOpenSearch}
+          className={`flex-1 flex items-center gap-2 rounded-lg px-3 py-1.5 mx-2 border transition-colors duration-300 cursor-text text-left ${c.urlBar}`}
+        >
           <Lock size={11} className="text-[#28c840] shrink-0" />
           <span className={`text-[11px] flex-1 ${c.urlText}`} style={{ fontFamily: "var(--font-mono)" }}>
             {tabUrls[activeTab]}
           </span>
-          <button
-            onClick={() => dispatch({ type: "TOGGLE_STAR" })}
-            className={`hover:text-[#febc2e] transition-colors ${isStarred ? "text-[#febc2e]" : c.urlText}`}
+          <span
+            onClick={(e) => { e.stopPropagation(); dispatch({ type: "TOGGLE_STAR" }); }}
+            className={`hover:text-[#febc2e] transition-colors shrink-0 ${isStarred ? "text-[#febc2e]" : c.urlText}`}
           >
             <Star size={11} fill={isStarred ? "#febc2e" : "none"} />
-          </button>
-        </div>
+          </span>
+        </button>
 
         <div className="flex items-center gap-0.5">
           <a href="https://github.com/AndrewL05" target="_blank" rel="noopener noreferrer" className={`p-1.5 rounded-lg transition-colors ${c.icon}`}>
