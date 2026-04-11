@@ -229,7 +229,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
       )}
 
       {showSnake && (
-        <SnakeGame light={light} bottomY={snakeBottomY} onClose={() => setShowSnake(false)} />
+        <SnakeGame light={light} bottomY={snakeBottomY} onClose={() => setShowSnake(false)} onOpenSearch={onOpenSearch} />
       )}
 
       <div
@@ -286,7 +286,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
 
         {!open && !feedback && (
           <span className={`text-[10px] ${hintColor} shrink-0`} style={{ fontFamily: "var(--font-mono)" }}>
-            Press ENTER or / to use terminal, click for commands
+            <span className="hidden md:inline">Press ENTER or / to use terminal, </span>click for commands
           </span>
         )}
       </div>
