@@ -78,33 +78,35 @@ const Index = () => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const bgColor = light ? "#f0ede8" : "#05050c";
-  const gradient = light
-    ? "radial-gradient(ellipse 80% 60% at 10% 80%, rgba(180,160,120,0.15) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 10%, rgba(140,120,180,0.1) 0%, transparent 60%)"
-    : "radial-gradient(ellipse 80% 60% at 10% 80%, rgba(20,60,140,0.18) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 10%, rgba(80,20,160,0.12) 0%, transparent 60%)";
+  const bgColor = light ? "#f0ece3" : "#0c0c0e";
+  const dotColor = light ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.09)";
+  const vignette = light
+    ? "radial-gradient(ellipse 90% 85% at 50% 50%, transparent 35%, rgba(0,0,0,0.07) 100%)"
+    : "radial-gradient(ellipse 90% 85% at 50% 50%, transparent 35%, rgba(0,0,0,0.55) 100%)";
 
   return (
     <div
       className="relative h-full overflow-hidden transition-colors duration-300"
       style={{ background: bgColor }}
     >
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: gradient, animation: "ambientDrift 60s ease-in-out infinite" }}
-        aria-hidden
-      />
-
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
-        style={{ opacity: 0.03 }}
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden
       >
-        <filter id="os-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#os-grain)" />
+        <defs>
+          <pattern id="dot-grid" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill={dotColor} />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dot-grid)" />
       </svg>
+
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: vignette }}
+        aria-hidden
+      />
 
       <Menubar
         light={light}
