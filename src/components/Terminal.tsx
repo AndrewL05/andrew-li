@@ -10,10 +10,10 @@ interface TerminalProps {
 }
 
 const tabUrls: Record<Tab, string> = {
-  home: "andrewli.dev",
-  experience: "andrewli.dev/experience",
-  projects: "andrewli.dev/projects",
-  contact: "andrewli.dev/contact",
+  home: "andrewli/",
+  experience: "andrewli/experience",
+  projects: "andrewli/projects",
+  contact: "andrewli/contact",
 };
 
 const COMMANDS = [
@@ -81,7 +81,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
       if (!open) return;
       const tabMap: Record<string, Tab> = { "1": "home", "2": "experience", "3": "projects", "4": "contact" };
       if (tabMap[e.key]) {
-        runCommand(`cd ${Object.keys(tabMap).map((k, i) => ["home","experience","projects","contact"][i]).find((_, i) => String(i+1) === e.key)!}`);
+        runCommand(`cd ${Object.keys(tabMap).map((k, i) => ["home", "experience", "projects", "contact"][i]).find((_, i) => String(i + 1) === e.key)!}`);
       }
     };
     document.addEventListener("keydown", handler);
@@ -115,8 +115,8 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
 
   const feedbackColor =
     feedback?.type === "nav" ? (light ? "text-[#2266cc]" : "text-[#5a9cf5]") :
-    feedback?.type === "success" ? arrowColor :
-    "text-red-400";
+      feedback?.type === "success" ? arrowColor :
+        "text-red-400";
 
   return (
     <div className="relative shrink-0">
@@ -172,7 +172,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
             <button onClick={() => { onOpenSearch(); setOpen(false); }} className={`w-full flex items-center gap-2 px-3 py-1.5 text-left transition-colors ${cmdHover}`}>
               <span className={`text-[11px] font-mono w-28 shrink-0 ${cmdCode}`}>search</span>
               <span className={`text-[11px] flex-1 ${cmdDesc}`}>Open search</span>
-              <span className={`text-[9px] font-mono border rounded px-1 ml-auto ${keyBadge}`}>⌘K</span>
+              <span className={`text-[9px] font-mono border rounded px-1 ml-auto ${keyBadge}`}>CTRL/⌘K</span>
             </button>
           </div>
         </div>
