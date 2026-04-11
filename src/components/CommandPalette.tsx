@@ -124,15 +124,15 @@ const CommandPalette = ({ isOpen, onClose, onNavigate, light }: CommandPalettePr
               {!query.trim() && (
                 <div className="py-8 flex flex-col items-center gap-4">
                   <div className="text-3xl font-medium tracking-tight select-none" style={{ fontFamily: "var(--font-display)" }}>
-                    <span style={{ color: "#4285f4" }}>A</span>
-                    <span style={{ color: "#ea4335" }}>n</span>
-                    <span style={{ color: "#fbbc05" }}>d</span>
-                    <span style={{ color: "#4285f4" }}>r</span>
-                    <span style={{ color: "#34a853" }}>e</span>
-                    <span style={{ color: "#ea4335" }}>w</span>
+                    <span style={{ color: "#5a9cf5" }}>A</span>
+                    <span style={{ color: "#e8705a" }}>n</span>
+                    <span style={{ color: "#e8a84e" }}>d</span>
+                    <span style={{ color: "#5a9cf5" }}>r</span>
+                    <span style={{ color: "#3aad8f" }}>e</span>
+                    <span style={{ color: "#e8705a" }}>w</span>
                     <span className="mx-1.5" />
-                    <span style={{ color: "#4285f4" }}>L</span>
-                    <span style={{ color: "#34a853" }}>i</span>
+                    <span style={{ color: "#5a9cf5" }}>L</span>
+                    <span style={{ color: "#3aad8f" }}>i</span>
                   </div>
                   <div className="flex gap-2">
                     {(["home", "experience", "projects", "contact"] as Tab[]).map((tab) => (
