@@ -128,7 +128,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       style={{ fontFamily: "var(--font-sans)" }}
     >
       <div className="flex items-center gap-1">
-        <span className="font-semibold text-sm md:text-xs tracking-wide px-1 md:px-2">AL</span>
+        <span className="font-semibold text-sm md:text-xs tracking-wide px-2 py-0.5">AL</span>
 
         <div
           className="relative"
