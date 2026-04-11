@@ -56,6 +56,15 @@ const CommandPalette = ({ isOpen, onClose, onNavigate, light }: CommandPalettePr
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [isOpen, onClose]);
+
   const results = useMemo(() => {
     const q = query.toLowerCase().trim();
     if (!q) return [];

@@ -55,7 +55,23 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
   const keyBadge = light ? "bg-[#efe9df] border-[#d9d0c3] text-[#b0a898]" : "bg-[#1a1a1a] border-[#252525] text-[#333]";
   const inputColor = light ? "text-[#3c3226] placeholder-[#b0a898]" : "text-white placeholder-white/20";
 
-  // Close popup on outside click
+  // allow "/" or "Enter" key to open and focus terminal when not already typing somewhere
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (open) return;
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable) return;
+      if (e.key === "/" || e.key === "Enter") {
+        e.preventDefault();
+        setOpen(true);
+        setInput("");
+        setTimeout(() => inputRef.current?.focus(), 50);
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
@@ -66,7 +82,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  // Close on Escape
+  // Closes on "ESC" key
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
@@ -88,24 +104,33 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
     return () => document.removeEventListener("keydown", handler);
   }, [open]);
 
+  const COMMAND_MAP: Record<string, () => void> = {
+    "cd home": () => { setFeedback({ text: "→ Navigating to /home", type: "nav" }); onNavigate("home"); },
+    "cd experience": () => { setFeedback({ text: "→ Navigating to /experience", type: "nav" }); onNavigate("experience"); },
+    "cd projects": () => { setFeedback({ text: "→ Navigating to /projects", type: "nav" }); onNavigate("projects"); },
+    "cd contact": () => { setFeedback({ text: "→ Navigating to /contact", type: "nav" }); onNavigate("contact"); },
+    "open github": () => { setFeedback({ text: "✓ Opening github.com/AndrewL05", type: "success" }); window.open("https://github.com/AndrewL05", "_blank"); },
+    "open linkedin": () => { setFeedback({ text: "✓ Opening linkedin.com/in/andrew-li05", type: "success" }); window.open("https://linkedin.com/in/andrew-li05", "_blank"); },
+    "open resume": () => { setFeedback({ text: "✓ Opening resume", type: "success" }); window.open("/Andrew Li - Resume.pdf", "_blank"); },
+    "theme toggle": () => { setFeedback({ text: "✓ Theme toggled", type: "success" }); onToggleTheme(); },
+    "toggle theme": () => { setFeedback({ text: "✓ Theme toggled", type: "success" }); onToggleTheme(); },
+    "search": () => { setFeedback(null); onOpenSearch(); },
+    "help": () => { setOpen(true); },
+  };
+
   const runCommand = (cmd: string) => {
     const trimmed = cmd.trim().toLowerCase();
     setOpen(false);
     setInput("");
 
-    if (trimmed === "cd home") { setFeedback({ text: "→ Navigating to /home", type: "nav" }); onNavigate("home"); }
-    else if (trimmed === "cd experience") { setFeedback({ text: "→ Navigating to /experience", type: "nav" }); onNavigate("experience"); }
-    else if (trimmed === "cd projects") { setFeedback({ text: "→ Navigating to /projects", type: "nav" }); onNavigate("projects"); }
-    else if (trimmed === "cd contact") { setFeedback({ text: "→ Navigating to /contact", type: "nav" }); onNavigate("contact"); }
-    else if (trimmed === "open github") { setFeedback({ text: "✓ Opening github.com/AndrewL05", type: "success" }); window.open("https://github.com/AndrewL05", "_blank"); }
-    else if (trimmed === "open linkedin") { setFeedback({ text: "✓ Opening linkedin.com/in/andrew-li05", type: "success" }); window.open("https://linkedin.com/in/andrew-li05", "_blank"); }
-    else if (trimmed === "open resume") { setFeedback({ text: "✓ Opening resume", type: "success" }); window.open("/Andrew Li - Resume.pdf", "_blank"); }
-    else if (trimmed === "theme toggle" || trimmed === "toggle theme") { setFeedback({ text: "✓ Theme toggled", type: "success" }); onToggleTheme(); }
-    else if (trimmed === "search" || trimmed === "⌘k") { setFeedback(null); onOpenSearch(); }
-    else if (trimmed === "help") { setOpen(true); return; }
-    else { setFeedback({ text: `command not found: ${trimmed}`, type: "error" }); }
-
-    setTimeout(() => setFeedback(null), 2500);
+    const action = COMMAND_MAP[trimmed];
+    if (action) {
+      action();
+      if (trimmed !== "help") setTimeout(() => setFeedback(null), 2500);
+    } else {
+      setFeedback({ text: `command not found: ${trimmed}`, type: "error" });
+      setTimeout(() => setFeedback(null), 1000);
+    }
   };
 
   const handleBarClick = () => {
