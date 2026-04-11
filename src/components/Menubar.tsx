@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Sun, Moon, Check } from "lucide-react";
 import type { Tab } from "./Browser";
 
@@ -13,10 +13,10 @@ interface MenubarProps {
 type OpenMenu = "view" | "navigate" | null;
 
 const NAV_ITEMS: { id: Tab; label: string; shortcut: string }[] = [
-  { id: "home",       label: "Home",       shortcut: "1" },
+  { id: "home", label: "Home", shortcut: "1" },
   { id: "experience", label: "Experience", shortcut: "2" },
-  { id: "projects",   label: "Projects",   shortcut: "3" },
-  { id: "contact",    label: "Contact",    shortcut: "4" },
+  { id: "projects", label: "Projects", shortcut: "3" },
+  { id: "contact", label: "Contact", shortcut: "4" },
 ];
 
 const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: MenubarProps) => {
@@ -25,6 +25,16 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
   );
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
   const menubarRef = useRef<HTMLDivElement>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDropdown = useCallback((menu: OpenMenu) => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    setOpenMenu(menu);
+  }, []);
+
+  const scheduleClose = useCallback(() => {
+    closeTimerRef.current = setTimeout(() => setOpenMenu(null), 120);
+  }, []);
 
   useEffect(() => {
     const tick = () =>
@@ -50,33 +60,30 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
     };
   }, []);
 
-  const toggle = (menu: OpenMenu) =>
-    setOpenMenu((prev) => (prev === menu ? null : menu));
-
   const c = light
     ? {
-      bar:       "bg-white/70 border-black/10 text-[#1a1610]",
-      muted:     "text-black/45",
-      menuBtn:   "hover:bg-black/[0.06] rounded px-2 py-0.5",
+      bar: "bg-white/70 border-black/10 text-[#1a1610]",
+      muted: "text-black/45",
+      menuBtn: "hover:bg-black/[0.06] rounded px-2 py-0.5",
       menuBtnActive: "bg-black/[0.08] rounded px-2 py-0.5",
-      badge:     "border-black/15 text-black/50 hover:bg-black/[0.06]",
-      dropdown:  "bg-white border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.15)]",
-      item:      "hover:bg-black/[0.05] text-[#1a1610]",
+      badge: "border-black/15 text-black/50 hover:bg-black/[0.06]",
+      dropdown: "bg-white border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.15)]",
+      item: "hover:bg-black/[0.05] text-[#1a1610]",
       itemMuted: "text-black/35",
       separator: "border-black/[0.08]",
-      check:     "text-[#1a1610]",
+      check: "text-[#1a1610]",
     }
     : {
-      bar:       "bg-black/50 border-white/[0.06] text-white",
-      muted:     "text-white/40",
-      menuBtn:   "hover:bg-white/[0.07] rounded px-2 py-0.5",
+      bar: "bg-black/50 border-white/[0.06] text-white",
+      muted: "text-white/40",
+      menuBtn: "hover:bg-white/[0.07] rounded px-2 py-0.5",
       menuBtnActive: "bg-white/[0.10] rounded px-2 py-0.5",
-      badge:     "border-white/10 text-white/35 hover:bg-white/[0.07]",
-      dropdown:  "bg-[#111118] border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]",
-      item:      "hover:bg-white/[0.06] text-white/80",
+      badge: "border-white/10 text-white/35 hover:bg-white/[0.07]",
+      dropdown: "bg-[#111118] border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)]",
+      item: "hover:bg-white/[0.06] text-white/80",
       itemMuted: "text-white/25",
       separator: "border-white/[0.07]",
-      check:     "text-white/70",
+      check: "text-white/70",
     };
 
   const DropdownItem = ({
@@ -116,17 +123,20 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       <div className="flex items-center gap-1">
         <span className="font-semibold text-xs tracking-wide px-2">AL</span>
 
-        <span className={`text-[11px] px-2 py-0.5 ${c.muted}`}>andrewli.dev</span>
+        {/*<span className={`text-[11px] px-2 py-0.5 ${c.muted}`}>Andrew Li</span>*/}
 
-        <div className="relative hidden md:block">
+        <div
+          className="relative hidden md:block"
+          onMouseEnter={() => openDropdown("view")}
+          onMouseLeave={scheduleClose}
+        >
           <button
-            onClick={() => toggle("view")}
             className={`text-[12px] transition-colors ${openMenu === "view" ? c.menuBtnActive : c.menuBtn} ${c.muted} hover:text-current`}
           >
             View
           </button>
           {openMenu === "view" && (
-            <div className={`absolute top-full left-0 mt-1 w-52 rounded-xl border overflow-hidden transition-colors duration-200 ${c.dropdown}`}>
+            <div className={`absolute top-full left-0 mt-1 w-52 rounded-xl border overflow-hidden ${c.dropdown}`}>
               <DropdownItem
                 label="Toggle Theme"
                 shortcut={light ? "→ Dark" : "→ Light"}
@@ -141,15 +151,18 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
           )}
         </div>
 
-        <div className="relative hidden md:block">
+        <div
+          className="relative hidden md:block"
+          onMouseEnter={() => openDropdown("navigate")}
+          onMouseLeave={scheduleClose}
+        >
           <button
-            onClick={() => toggle("navigate")}
             className={`text-[12px] transition-colors ${openMenu === "navigate" ? c.menuBtnActive : c.menuBtn} ${c.muted} hover:text-current`}
           >
             Navigate
           </button>
           {openMenu === "navigate" && (
-            <div className={`absolute top-full left-0 mt-1 w-44 rounded-xl border overflow-hidden transition-colors duration-200 ${c.dropdown}`}>
+            <div className={`absolute top-full left-0 mt-1 w-44 rounded-xl border overflow-hidden ${c.dropdown}`}>
               {NAV_ITEMS.map(({ id, label, shortcut }) => (
                 <DropdownItem
                   key={id}
@@ -170,7 +183,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
           className={`text-[10px] font-mono border rounded px-1.5 py-0.5 transition-colors ${c.badge}`}
           title="Open command palette"
         >
-          ⌘K
+          CTRL/⌘K
         </button>
         <button
           onClick={onToggleTheme}
