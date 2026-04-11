@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import type { Tab } from "./Browser";
+import { tabUrls } from "./Browser";
 
 interface TerminalProps {
   activeTab: Tab;
@@ -8,13 +9,6 @@ interface TerminalProps {
   onToggleTheme: () => void;
   light: boolean;
 }
-
-const tabUrls: Record<Tab, string> = {
-  home: "andrewli/",
-  experience: "andrewli/experience",
-  projects: "andrewli/projects",
-  contact: "andrewli/contact",
-};
 
 const COMMANDS = [
   { code: "cd home", desc: "Go to homepage", key: "1" },
@@ -97,7 +91,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
       if (!open) return;
       const tabMap: Record<string, Tab> = { "1": "home", "2": "experience", "3": "projects", "4": "contact" };
       if (tabMap[e.key]) {
-        runCommand(`cd ${Object.keys(tabMap).map((k, i) => ["home", "experience", "projects", "contact"][i]).find((_, i) => String(i + 1) === e.key)!}`);
+        runCommand(`cd ${tabMap[e.key]}`);
       }
     };
     document.addEventListener("keydown", handler);

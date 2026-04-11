@@ -129,6 +129,7 @@ const Browser = ({
   const [greenRect, setGreenRect] = useState<DOMRect | null>(null);
   const greenBtnRef = useRef<HTMLButtonElement>(null);
   const greenCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reloadTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const openGreen = () => {
     if (greenCloseTimer.current) clearTimeout(greenCloseTimer.current);
@@ -178,8 +179,9 @@ const Browser = ({
   }, [windowState]);
 
   const reload = () => {
+    if (reloadTimer.current) clearTimeout(reloadTimer.current);
     dispatch({ type: "SET_RELOADING", isReloading: true });
-    setTimeout(() => dispatch({ type: "SET_RELOADING", isReloading: false }), 600);
+    reloadTimer.current = setTimeout(() => dispatch({ type: "SET_RELOADING", isReloading: false }), 600);
   };
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {

@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Tab } from "./Browser";
 import { searchIndex, type SearchEntry } from "@/data/searchIndex";
 
+const NAV_TABS: Tab[] = ["home", "experience", "projects", "contact"];
+
 interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
@@ -146,7 +148,7 @@ const CommandPalette = ({ isOpen, onClose, onNavigate, light }: CommandPalettePr
                     <span style={{ color: "#3aad8f" }}>i</span>
                   </div>
                   <div className="flex gap-2">
-                    {(["home", "experience", "projects", "contact"] as Tab[]).map((tab) => (
+                    {NAV_TABS.map((tab) => (
                       <button
                         key={tab}
                         onClick={() => { onNavigate(tab); onClose(); }}
