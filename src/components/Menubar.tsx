@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Sun, Moon, Check } from "lucide-react";
+import { Sun, Moon, Check, Search } from "lucide-react";
 import type { Tab } from "./Browser";
 
 interface MenubarProps {
@@ -128,7 +128,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       style={{ fontFamily: "var(--font-sans)" }}
     >
       <div className="flex items-center gap-1">
-        <span className="font-semibold text-xs tracking-wide px-2">AL</span>
+        <span className="font-semibold text-xs tracking-wide px-2">Andrew Li</span>
 
         {/*<span className={`text-[11px] px-2 py-0.5 ${c.muted}`}>Andrew Li</span>*/}
 
@@ -187,9 +187,10 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       <div className="flex items-center gap-3">
         <button
           onClick={() => { onOpenSearch(); setOpenMenu(null); }}
-          className={`text-[10px] font-mono border rounded px-1.5 py-0.5 transition-colors ${c.badge}`}
+          className={`flex items-center gap-1.5 text-[10px] font-mono border rounded px-1.5 py-0.5 transition-colors ${c.badge}`}
           title="Open command palette"
         >
+          <Search size={10} />
           CTRL/⌘K
         </button>
         <button
