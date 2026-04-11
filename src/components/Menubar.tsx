@@ -50,7 +50,15 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       }
     };
     const keyHandler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpenMenu(null);
+      if (e.key === "Escape") { setOpenMenu(null); return; }
+      if (openMenu === "navigate") {
+        const tabByKey: Record<string, Tab> = { "1": "home", "2": "experience", "3": "projects", "4": "contact" };
+        if (tabByKey[e.key]) {
+          e.preventDefault();
+          onNavigate(tabByKey[e.key]);
+          setOpenMenu(null);
+        }
+      }
     };
     document.addEventListener("mousedown", handler);
     document.addEventListener("keydown", keyHandler);
@@ -58,7 +66,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       document.removeEventListener("mousedown", handler);
       document.removeEventListener("keydown", keyHandler);
     };
-  }, []);
+  }, [openMenu, onNavigate]);
 
   const c = light
     ? {
@@ -144,7 +152,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
               />
               <DropdownItem
                 label="Search Portfolio"
-                shortcut="⌘K"
+                shortcut="CTRL/⌘K"
                 onClick={onOpenSearch}
               />
             </div>

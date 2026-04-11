@@ -109,11 +109,11 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
     "cd experience": () => { setFeedback({ text: "→ Navigating to /experience", type: "nav" }); onNavigate("experience"); },
     "cd projects": () => { setFeedback({ text: "→ Navigating to /projects", type: "nav" }); onNavigate("projects"); },
     "cd contact": () => { setFeedback({ text: "→ Navigating to /contact", type: "nav" }); onNavigate("contact"); },
-    "open github": () => { setFeedback({ text: "✓ Opening github.com/AndrewL05", type: "success" }); window.open("https://github.com/AndrewL05", "_blank"); },
-    "open linkedin": () => { setFeedback({ text: "✓ Opening linkedin.com/in/andrew-li05", type: "success" }); window.open("https://linkedin.com/in/andrew-li05", "_blank"); },
-    "open resume": () => { setFeedback({ text: "✓ Opening resume", type: "success" }); window.open("/Andrew Li - Resume.pdf", "_blank"); },
-    "theme toggle": () => { setFeedback({ text: "✓ Theme toggled", type: "success" }); onToggleTheme(); },
-    "toggle theme": () => { setFeedback({ text: "✓ Theme toggled", type: "success" }); onToggleTheme(); },
+    "open github": () => { setFeedback({ text: "→ Opening github.com/AndrewL05", type: "success" }); window.open("https://github.com/AndrewL05", "_blank"); },
+    "open linkedin": () => { setFeedback({ text: "→ Opening linkedin.com/in/andrew-li05", type: "success" }); window.open("https://linkedin.com/in/andrew-li05", "_blank"); },
+    "open resume": () => { setFeedback({ text: "→ Opening resume", type: "success" }); window.open("/Andrew Li - Resume.pdf", "_blank"); },
+    "theme toggle": () => { setFeedback({ text: "→ Theme toggled", type: "success" }); onToggleTheme(); },
+    "toggle theme": () => { setFeedback({ text: "→ Theme toggled", type: "success" }); onToggleTheme(); },
     "search": () => { setFeedback(null); onOpenSearch(); },
     "help": () => { setOpen(true); },
   };
@@ -126,7 +126,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
     const action = COMMAND_MAP[trimmed];
     if (action) {
       action();
-      if (trimmed !== "help") setTimeout(() => setFeedback(null), 2500);
+      if (trimmed !== "help") setTimeout(() => setFeedback(null), 500);
     } else {
       setFeedback({ text: `command not found: ${trimmed}`, type: "error" });
       setTimeout(() => setFeedback(null), 1000);
