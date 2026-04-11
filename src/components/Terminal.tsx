@@ -213,6 +213,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === "k") return;
                 if (e.key === "Enter") runCommand(input);
                 if (e.key === "Escape") { setOpen(false); setInput(""); }
                 e.stopPropagation();

@@ -68,10 +68,18 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
+    const tabByKey: Record<string, Tab> = { "1": "home", "2": "experience", "3": "projects", "4": "contact" };
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setShowSearch(s => !s);
+        return;
+      }
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable) return;
+      if (tabByKey[e.key]) {
+        e.preventDefault();
+        setActiveTab(tabByKey[e.key]);
       }
     };
     document.addEventListener("keydown", handleKeyDown);
