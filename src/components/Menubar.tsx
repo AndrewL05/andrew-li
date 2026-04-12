@@ -69,7 +69,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
 
   const c = light
     ? {
-      bar: "bg-white/70 border-black/10 text-[#1a1610]",
+      bar: "bg-white/[0.12] backdrop-blur-3xl backdrop-saturate-150 border-white/60 text-[#1a1610] shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(255,255,255,0.25),0_8px_32px_rgba(0,0,0,0.06)]",
       muted: "text-black/45",
       menuBtn: "hover:bg-black/[0.06] rounded px-2 py-0.5",
       menuBtnActive: "bg-black/[0.08] rounded px-2 py-0.5",
@@ -81,7 +81,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
       check: "text-[#1a1610]",
     }
     : {
-      bar: "bg-black/50 border-white/[0.06] text-white",
+      bar: "bg-black/50 backdrop-blur-xl border-white/[0.06] text-white",
       muted: "text-white/40",
       menuBtn: "hover:bg-white/[0.07] rounded px-2 py-0.5",
       menuBtnActive: "bg-white/[0.10] rounded px-2 py-0.5",
@@ -124,7 +124,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
   return (
     <div
       ref={menubarRef}
-      className={`absolute top-0 left-0 right-0 z-50 h-12 md:h-9 flex items-center justify-between px-4 md:px-3 border-b backdrop-blur-xl transition-colors duration-300 ${c.bar}`}
+      className={`absolute top-0 left-0 right-0 z-50 h-12 md:h-9 flex items-center justify-between px-4 md:px-3 border-b transition-colors duration-300 ${c.bar}`}
       style={{ fontFamily: "var(--font-sans)" }}
     >
       <div className="flex items-center gap-1">

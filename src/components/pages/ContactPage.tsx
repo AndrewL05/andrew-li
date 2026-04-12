@@ -26,6 +26,7 @@ const ContactPage = ({ light }: ContactPageProps) => {
   const labelText = light ? "text-[#1a1610]" : "text-white/80";
   const sublabel = light ? "text-[#a89e8e]" : "text-white/30";
   const arrowColor = light ? "text-[#c8bfb0]" : "text-white/20";
+  const groupHover = light ? "group-hover:text-[#1a1610]" : "group-hover:text-white";
   const footerText = light ? "text-[#a89e8e]" : "text-white/25";
   const divider = light ? "border-[#e2dbd0]" : "border-white/[0.07]";
 
@@ -49,13 +50,13 @@ const ContactPage = ({ light }: ContactPageProps) => {
             className={linkClass}
           >
             <div className={`p-2 rounded-lg border shrink-0 ${iconBg}`}>
-              <Mail size={16} className={`transition-colors ${iconColor} group-hover:text-current`} />
+              <Mail size={16} className={`transition-colors ${iconColor} ${groupHover}`} />
             </div>
             <div className="flex-1 min-w-0">
               <p className={`text-[13px] font-medium ${labelText}`} style={{ fontFamily: "var(--font-sans)" }}>Email</p>
               <p className={`text-[11px] truncate ${sublabel}`} style={{ fontFamily: "var(--font-mono)" }}>liandrew1234@gmail.com</p>
             </div>
-            <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} group-hover:text-current transition-colors`} />
+            <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} ${groupHover} transition-colors`} />
           </motion.a>
 
           <motion.div variants={item}>
@@ -66,13 +67,13 @@ const ContactPage = ({ light }: ContactPageProps) => {
               className={linkClass}
             >
               <div className={`p-2 rounded-lg border shrink-0 ${iconBg}`}>
-                <Github size={16} className={`transition-colors ${iconColor} group-hover:text-current`} />
+                <Github size={16} className={`transition-colors ${iconColor} ${groupHover}`} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className={`text-[13px] font-medium ${labelText}`} style={{ fontFamily: "var(--font-sans)" }}>GitHub</p>
                 <p className={`text-[11px] truncate ${sublabel}`} style={{ fontFamily: "var(--font-mono)" }}>AndrewL05</p>
               </div>
-              <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} group-hover:text-current transition-colors`} />
+              <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} ${groupHover} transition-colors`} />
             </LinkPreview>
           </motion.div>
 
@@ -84,13 +85,13 @@ const ContactPage = ({ light }: ContactPageProps) => {
               className={linkClass}
             >
               <div className={`p-2 rounded-lg border shrink-0 ${iconBg}`}>
-                <Linkedin size={16} className={`transition-colors ${iconColor} group-hover:text-current`} />
+                <Linkedin size={16} className={`transition-colors ${iconColor} ${groupHover}`} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className={`text-[13px] font-medium ${labelText}`} style={{ fontFamily: "var(--font-sans)" }}>LinkedIn</p>
                 <p className={`text-[11px] truncate ${sublabel}`} style={{ fontFamily: "var(--font-mono)" }}>andrew-li05</p>
               </div>
-              <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} group-hover:text-current transition-colors`} />
+              <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} ${groupHover} transition-colors`} />
             </LinkPreview>
           </motion.div>
 
@@ -102,13 +103,13 @@ const ContactPage = ({ light }: ContactPageProps) => {
             className={linkClass}
           >
             <div className={`p-2 rounded-lg border shrink-0 ${iconBg}`}>
-              <FileText size={16} className={`transition-colors ${iconColor} group-hover:text-current`} />
+              <FileText size={16} className={`transition-colors ${iconColor} ${groupHover}`} />
             </div>
             <div className="flex-1 min-w-0">
               <p className={`text-[13px] font-medium ${labelText}`} style={{ fontFamily: "var(--font-sans)" }}>Resume</p>
               <p className={`text-[11px] ${sublabel}`} style={{ fontFamily: "var(--font-mono)" }}>PDF download</p>
             </div>
-            <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} group-hover:text-current transition-colors`} />
+            <ArrowUpRight size={13} className={`shrink-0 ${arrowColor} ${groupHover} transition-colors`} />
           </motion.a>
         </div>
 

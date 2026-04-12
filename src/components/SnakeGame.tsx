@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { X, Pause, Play } from "lucide-react";
 
 interface SnakeGameProps {
   light: boolean;
   onClose: () => void;
+  onOpenSearch: () => void;
   bottomY: number;
 }
 
@@ -18,22 +19,23 @@ type Point = { x: number; y: number };
 
 const OPPOSITES: Record<Dir, Dir> = { UP: "DOWN", DOWN: "UP", LEFT: "RIGHT", RIGHT: "LEFT" };
 
-const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
-  const snakeRef    = useRef<Point[]>([{ x: 11, y: 8 }]);
-  const dirRef      = useRef<Dir>("RIGHT");
-  const nextDirRef  = useRef<Dir>("RIGHT");
-  const foodRef     = useRef<Point>({ x: 5, y: 5 });
-  const scoreRef    = useRef(0);
-  const aliveRef    = useRef(true);
+const SnakeGame = ({ light, onClose, onOpenSearch, bottomY }: SnakeGameProps) => {
+  const snakeRef = useRef<Point[]>([{ x: 11, y: 8 }]);
+  const dirRef = useRef<Dir>("RIGHT");
+  const nextDirRef = useRef<Dir>("RIGHT");
+  const foodRef = useRef<Point>({ x: 5, y: 5 });
+  const scoreRef = useRef(0);
+  const aliveRef = useRef(true);
   const lastTickRef = useRef(0);
-  const rafRef      = useRef<number>(0);
-  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number>(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const dragRef     = useRef<{ startX: number; startY: number; origLeft: number; origTop: number } | null>(null);
+  const dragRef = useRef<{ startX: number; startY: number; origLeft: number; origTop: number } | null>(null);
 
-  const [score,   setScore]   = useState(0);
-  const [dead,    setDead]    = useState(false);
+  const [score, setScore] = useState(0);
+  const [dead, setDead] = useState(false);
   const [started, setStarted] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [gameKey, setGameKey] = useState(0);
 
   const placeFood = () => {
@@ -50,11 +52,11 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d")!;
 
-    const bg        = light ? "#f0ece3" : "#07070f";
+    const bg = light ? "#f0ece3" : "#07070f";
     const gridColor = light ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.025)";
-    const snakeCol  = light ? "#1a9e30" : "#28c840";
-    const headCol   = light ? "#0d7a20" : "#4dda60";
-    const foodCol   = "#ff5f57";
+    const snakeCol = light ? "#1a9e30" : "#28c840";
+    const headCol = light ? "#0d7a20" : "#4dda60";
+    const foodCol = "#ff5f57";
 
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -75,7 +77,6 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     snakeRef.current.forEach((seg, i) => {
       ctx.fillStyle = i === 0 ? headCol : snakeCol;
       ctx.beginPath();
-      // @ts-expect-error — roundRect is available in modern browsers
       ctx.roundRect(seg.x * CELL + 1, seg.y * CELL + 1, CELL - 2, CELL - 2, i === 0 ? 3 : 2);
       ctx.fill();
     });
@@ -89,7 +90,7 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     const dir = dirRef.current;
     const next = {
       x: x + (dir === "RIGHT" ? 1 : dir === "LEFT" ? -1 : 0),
-      y: y + (dir === "DOWN"  ? 1 : dir === "UP"   ? -1 : 0),
+      y: y + (dir === "DOWN" ? 1 : dir === "UP" ? -1 : 0),
     };
 
     if (next.x < 0 || next.x >= COLS || next.y < 0 || next.y >= ROWS || snake.some(s => s.x === next.x && s.y === next.y)) {
@@ -111,14 +112,15 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
   }, []);
 
   const reset = useCallback(() => {
-    snakeRef.current   = [{ x: 11, y: 8 }];
-    dirRef.current     = "RIGHT";
+    snakeRef.current = [{ x: 11, y: 8 }];
+    dirRef.current = "RIGHT";
     nextDirRef.current = "RIGHT";
-    scoreRef.current   = 0;
-    aliveRef.current   = true;
+    scoreRef.current = 0;
+    aliveRef.current = true;
     placeFood();
     setScore(0);
     setDead(false);
+    setPaused(false);
     setStarted(true);
     setGameKey(k => k + 1);
   }, []);
@@ -128,7 +130,9 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
   useEffect(() => {
     if (!started) return;
     const loop = (t: number) => {
-      if (t - lastTickRef.current >= TICK) {
+      if (paused) {
+        lastTickRef.current = t; // prevent burst of ticks on resume
+      } else if (t - lastTickRef.current >= TICK) {
         lastTickRef.current = t;
         tick();
       }
@@ -137,12 +141,19 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     };
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [started, tick, draw, gameKey]);
+  }, [started, tick, draw, gameKey, paused]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") { onClose(); return; }
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        if (started && !dead) setPaused(true);
+        onOpenSearch();
+        return;
+      }
       if ((e.key === " " || e.key === "Enter") && (!started || dead)) { e.preventDefault(); reset(); return; }
+      if (e.key === " " && started && !dead) { e.preventDefault(); setPaused(p => !p); return; }
       const dirMap: Record<string, Dir> = {
         ArrowUp: "UP", ArrowDown: "DOWN", ArrowLeft: "LEFT", ArrowRight: "RIGHT",
         w: "UP", s: "DOWN", a: "LEFT", d: "RIGHT",
@@ -155,7 +166,7 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [started, dead, reset, onClose]);
+  }, [started, dead, reset, onClose, onOpenSearch]);
 
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
@@ -171,13 +182,13 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     const dy = t.clientY - touchStartRef.current.y;
     touchStartRef.current = null;
 
-    // Tap (no significant swipe) → start or restart
     if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
       if (!started || dead) { reset(); return; }
+      if (paused) { setPaused(false); return; }
       return;
     }
 
-    // Swipe → steer
+    if (paused) return;
     let next: Dir;
     if (Math.abs(dx) > Math.abs(dy)) {
       next = dx > 0 ? "RIGHT" : "LEFT";
@@ -185,14 +196,13 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
       next = dy > 0 ? "DOWN" : "UP";
     }
     if (next !== OPPOSITES[dirRef.current]) nextDirRef.current = next;
-  }, [started, dead, reset]);
+  }, [started, dead, paused, reset]);
 
   const handleDragStart = useCallback((e: React.MouseEvent) => {
     const el = containerRef.current;
     if (!el) return;
     e.preventDefault();
 
-    // On first drag, convert from bottom/transform positioning to top/left
     const rect = el.getBoundingClientRect();
     el.style.bottom = "auto";
     el.style.transform = "none";
@@ -204,7 +214,7 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
     const onMove = (ev: MouseEvent) => {
       if (!dragRef.current || !el) return;
       el.style.left = `${dragRef.current.origLeft + ev.clientX - dragRef.current.startX}px`;
-      el.style.top  = `${dragRef.current.origTop  + ev.clientY - dragRef.current.startY}px`;
+      el.style.top = `${dragRef.current.origTop + ev.clientY - dragRef.current.startY}px`;
     };
 
     const onUp = () => {
@@ -219,12 +229,14 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
 
   const W = COLS * CELL;
   const H = ROWS * CELL;
-  const border    = light ? "border-[#d9d0c3]"       : "border-white/[0.08]";
-  const shellBg   = light ? "bg-[#f0ece3]"            : "bg-[#0d0d16]";
-  const mutedCls  = light ? "text-[#a89e8e]"          : "text-white/30";
-  const textCls   = light ? "text-[#1a1610]"          : "text-white/80";
-  const overlayBg = light ? "rgba(240,236,227,0.88)"  : "rgba(13,13,22,0.88)";
-  const titleBar  = light ? "hover:bg-black/[0.03]"   : "hover:bg-white/[0.03]";
+  const border = light ? "border-[#d9d0c3]" : "border-white/[0.08]";
+  const shellBg = light ? "bg-[#f0ece3]" : "bg-[#0d0d16]";
+  const mutedCls = light ? "text-[#a89e8e]" : "text-white/30";
+  const textCls = light ? "text-[#1a1610]" : "text-white/80";
+  const overlayBg = light ? "rgba(240,236,227,0.88)" : "rgba(13,13,22,0.88)";
+  const titleBar = light ? "hover:bg-black/[0.03]" : "hover:bg-white/[0.03]";
+
+  const isRunning = started && !dead;
 
   return createPortal(
     <div
@@ -236,13 +248,23 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
           className={`flex items-center justify-between px-3 py-1.5 border-b cursor-move select-none transition-colors ${border} ${titleBar}`}
           onMouseDown={handleDragStart}
         >
-          <span className={`text-[10px] font-mono ${mutedCls}`}>snake.exe</span>
+          <div className="flex items-center gap-2">
+            <span className={`text-[10px] font-mono ${mutedCls}`}>snake.exe</span>
+            <button
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={() => setPaused(p => !p)}
+              disabled={!isRunning}
+              className={`inline-flex items-center leading-none transition-colors ${isRunning ? `${mutedCls} hover:text-current` : "opacity-0 pointer-events-none"}`}
+            >
+              {paused ? <Play size={11} /> : <Pause size={11} />}
+            </button>
+          </div>
           <div className="flex items-center gap-4">
             <span className={`text-[10px] font-mono ${mutedCls}`}>score: <span className={textCls}>{score}</span></span>
             <button
               onMouseDown={(e) => e.stopPropagation()}
               onClick={onClose}
-              className={`flex items-center ${mutedCls} hover:text-current transition-colors`}
+              className={`inline-flex items-center leading-none ${mutedCls} hover:text-current transition-colors`}
             >
               <span className="hidden md:inline text-[10px] font-mono">esc to exit</span>
               <X size={14} className="md:hidden" />
@@ -263,6 +285,7 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
               <span className={`text-[12px] font-mono font-semibold ${textCls}`}>SNAKE</span>
               <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>↑ ↓ ← → or WASD</span>
               <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>space / enter to start</span>
+              <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>space to pause</span>
               <span className={`text-[10px] font-mono ${mutedCls} md:hidden`}>swipe to steer</span>
               <span className={`text-[10px] font-mono ${mutedCls} md:hidden`}>tap to start</span>
             </div>
@@ -274,6 +297,18 @@ const SnakeGame = ({ light, onClose, bottomY }: SnakeGameProps) => {
               <span className={`text-[10px] font-mono ${mutedCls}`}>final score: {score}</span>
               <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>space / enter to restart</span>
               <span className={`text-[10px] font-mono ${mutedCls} md:hidden`}>tap to restart</span>
+            </div>
+          )}
+
+          {paused && isRunning && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center gap-2 cursor-pointer"
+              style={{ background: overlayBg }}
+              onClick={() => setPaused(false)}
+            >
+              <span className={`text-[12px] font-mono font-semibold ${textCls}`}>PAUSED</span>
+              <span className={`text-[10px] font-mono ${mutedCls} hidden md:block`}>press space or click to resume</span>
+              <span className={`text-[10px] font-mono ${mutedCls} md:hidden`}>tap to resume</span>
             </div>
           )}
         </div>
