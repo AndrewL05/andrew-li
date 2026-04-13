@@ -121,7 +121,7 @@ const ContactPage = ({ light }: ContactPageProps) => {
             className={`text-[13px] ${footerText}`}
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Brooklyn College · B.S. Computer Science · Class of 2027
+            Brooklyn College · B.S. Computer Science · Data Science Minor · Class of 2027
           </p>
         </motion.div>
       </motion.div>
