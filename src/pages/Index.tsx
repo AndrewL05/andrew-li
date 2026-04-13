@@ -104,6 +104,10 @@ const Index = () => {
   }, []);
 
   const handleOpenResume = useCallback(() => {
+    if (window.innerWidth < 768) {
+      window.open("/Andrew Li - Resume.pdf", "_blank", "noopener,noreferrer");
+      return;
+    }
     setIsResumeOpen(true);
     setResumeWindowState("normal");
   }, []);
