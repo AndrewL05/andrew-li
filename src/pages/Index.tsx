@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useAnimation, AnimatePresence, motion } from "framer-motion";
 import Browser from "../components/Browser";
 import type { WindowState } from "../components/Browser";
+import PDFWindow from "../components/PDFWindow";
 import Menubar from "../components/Menubar";
 import Dock from "../components/Dock";
 import CommandPalette from "../components/CommandPalette";
@@ -24,9 +25,13 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState<Tab>("home");
   const [windowState, setWindowState] = useState<WindowState>("normal");
   const [showKonami, setShowKonami] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [resumeWindowState, setResumeWindowState] = useState<WindowState>("normal");
 
   const controls = useAnimation();
+  const resumeControls = useAnimation();
   const exitIntentRef = useRef<"close" | "minimize">("close");
+  const resumeExitIntentRef = useRef<"close" | "minimize">("close");
   const konamiBuffer = useRef<string[]>([]);
 
   const toggleTheme = useCallback(() => setLight((l) => !l), []);
@@ -69,6 +74,38 @@ const Index = () => {
 
   const handleRestore = useCallback(() => {
     setWindowState("normal");
+  }, []);
+
+  const isResumeVisible = isResumeOpen && resumeWindowState !== "minimized" && resumeWindowState !== "closed";
+
+  useEffect(() => {
+    if (isResumeVisible) {
+      const fromMinimized = resumeExitIntentRef.current === "minimize";
+      resumeControls.set(fromMinimized ? { opacity: 0, scale: 0.08, y: 260 } : { opacity: 0, scale: 0.92 });
+      resumeControls.start({ opacity: 1, scale: 1, y: 0, transition: { duration: fromMinimized ? 0.32 : 0.22, ease: [0.16, 1, 0.3, 1] } });
+    }
+  }, [isResumeVisible]);
+
+  const handleResumeClose = useCallback(async () => {
+    resumeExitIntentRef.current = "close";
+    await resumeControls.start({ opacity: 0, scale: 0.88, y: -12, transition: { duration: 0.18, ease: "easeIn" } });
+    setIsResumeOpen(false);
+    setResumeWindowState("normal");
+  }, [resumeControls]);
+
+  const handleResumeMinimize = useCallback(async () => {
+    resumeExitIntentRef.current = "minimize";
+    await resumeControls.start({ opacity: 0, scale: 0.06, y: 260, transition: { duration: 0.28, ease: [0.4, 0, 0.6, 1] } });
+    setResumeWindowState("minimized");
+  }, [resumeControls]);
+
+  const handleResumeToggleMaximize = useCallback(() => {
+    setResumeWindowState(s => (s === "maximized" ? "normal" : "maximized"));
+  }, []);
+
+  const handleOpenResume = useCallback(() => {
+    setIsResumeOpen(true);
+    setResumeWindowState("normal");
   }, []);
 
   useEffect(() => {
@@ -163,11 +200,28 @@ const Index = () => {
         </motion.div>
       )}
 
+      {isResumeVisible && (
+        <motion.div
+          className={WRAPPER_CLASS[resumeWindowState] || WRAPPER_CLASS["normal"]}
+          animate={resumeControls}
+          style={{ willChange: "opacity, transform", zIndex: 10, pointerEvents: "none" }}
+        >
+          <PDFWindow
+            light={light}
+            windowState={resumeWindowState}
+            onClose={handleResumeClose}
+            onMinimize={handleResumeMinimize}
+            onToggleMaximize={handleResumeToggleMaximize}
+          />
+        </motion.div>
+      )}
+
       {windowState !== "maximized" && (
         <Dock
           light={light}
           windowHidden={!isVisible}
           onRestore={handleRestore}
+          onOpenResume={handleOpenResume}
         />
       )}
 
