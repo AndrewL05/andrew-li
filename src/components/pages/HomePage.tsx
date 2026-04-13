@@ -17,9 +17,10 @@ const item = {
 };
 
 const techs = [
-  "React", "TypeScript", "Python", "Java",
-  "Node.js", "FastAPI", "Flask", "SQL",
-  "PostgreSQL", "MongoDB", "Docker", "AWS", "GCP",
+  "React", "TypeScript", "Python", "Java", "HTML/CSS", "SQL", "Bash",
+  "Node.js", "Express.js", "FastAPI", "Flask", "Tailwind CSS", "Next.js",
+  "PostgreSQL", "MongoDB", "Git", "Docker", "Linux", "AWS", "GCP",
+  "Pandas", "NumPy", "Scikit-Learn", "TensorFlow", "Keras", "XGBoost", "Matplotlib"
 ];
 
 const HomePage = ({ onNavigate, light }: HomePageProps) => {

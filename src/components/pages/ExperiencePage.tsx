@@ -6,9 +6,9 @@ const experiences = [
   {
     role: "Software Engineer Intern",
     company: "Mira Intel",
-    period: "Feb – Present",
+    period: "Feb 2026 – Present",
     points: [
-      "Built a customer-facing inspection analytics dashboard using React, Recharts, and Tailwind to visualize drone CV model results including defect / damage type findings, structural risk insights, and statistics.",
+      "Built a customer-facing inspection dashboard (React, TypeScript, Recharts) visualizing drone CV model outputs including defect classifications, structural risk scores, and damage trends across 5+ infrastructure organizations including NYC Coastal Authority.",
       "Developed a FastAPI and ReportLab report generator exporting structured multi-page PDF inspection reports in under 1 second, replacing manual reporting workflows.",
     ],
     url: "https://miraintel.com",
@@ -16,34 +16,33 @@ const experiences = [
   {
     role: "Data Engineer Intern",
     company: "COI Energy",
-    period: "Oct – Dec 2025",
+    period: "Oct 2025 – Dec 2025",
     points: [
-      "Engineered a Python ETL pipeline processing 4.3M+ energy consumption records, implementing anomaly detection and data interpolation to achieve 98% data quality for predictive modeling.",
-      "Designed a Docker-based BigQuery emulator environment for ETL testing, reducing development cycle time by 40%.",
+      "Engineered a Python ETL pipeline processing over 4.3 million energy records with anomaly detection and missing-data interpolation, achieving 98% data quality for downstream ML predictive and optimization models",
+      "Created a Docker-based BigQuery emulator environment for isolated development and testing, reducing environment setup time by 40% and eliminating conflicts between dev and production configurations.",
     ],
     url: "https://coienergy.com",
     staticPreview: "/img/coi.png",
   },
   {
     role: "Software Engineer Intern",
-    company: "Unadat",
-    period: "Jul – Aug 2025",
+    company: "Soaper LLC",
+    period: "Jul 2025 – Oct 2025",
     points: [
-      "Led a team of 8 interns to revamp platform modules for 1,000+ users in an 8-week sprint.",
-      "Built an AI document summarizer processing 800+ documents, reducing manual review time by 60%.",
-      "Implemented GCP Cloud Storage solution, improving image asset retrieval speed by 35%.",
+      "Rebuilt the patient and physician portal scheduling system using TypeScript, React, and Tailwind with phone/email appointment verification and automated reminders, improving page load performance by 45%.",
+      "Built FastAPI endpoints and restructured PostgreSQL schemas across all portals, reducing query latency by 30%",
     ],
-    url: "https://unadat.com",
+    url: "https://note.soaper.ai",
   },
   {
     role: "Software Engineer Intern",
-    company: "Soaper LLC",
-    period: "Jul – Oct 2025",
+    company: "Unadat",
+    period: "Jul 2025 – Aug 2025",
     points: [
-      "Rebuilt appointment scheduling system using TypeScript, React, and Tailwind CSS, improving page load performance by 45%.",
-      "Built FastAPI endpoints with phone/email verification and optimized PostgreSQL schemas, reducing query latency by 30%.",
+      "Led a team of 8 interns to revamp platform modules for 1,000+ users in an 8-week sprint.",
+      "Developed an AI document summarizer integrating a LLM API with backend processing, caching, storage, and frontend delivery, cutting manual review time by 60% across 800+ documents."
     ],
-    url: "https://note.soaper.ai",
+    url: "https://unadat.com",
   },
   {
     role: "Software Developer",
