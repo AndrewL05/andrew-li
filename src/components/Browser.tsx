@@ -130,6 +130,7 @@ const Browser = ({
   const greenBtnRef = useRef<HTMLButtonElement>(null);
   const greenCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reloadTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const openGreen = () => {
     if (greenCloseTimer.current) clearTimeout(greenCloseTimer.current);
@@ -378,54 +379,54 @@ const Browser = ({
             <div className="relative">
               <button
                 ref={greenBtnRef}
-                onClick={isMaximized ? onToggleMaximize : undefined}
-                onMouseEnter={openGreen}
-                onMouseLeave={scheduleCloseGreen}
+                onClick={isMobile || isMaximized ? onToggleMaximize : undefined}
+                onMouseEnter={isMobile ? undefined : openGreen}
+                onMouseLeave={isMobile ? undefined : scheduleCloseGreen}
                 className="w-3 h-3 rounded-full bg-[#28c840] flex items-center justify-center transition-opacity hover:opacity-90"
-                title={isMaximized ? "Exit Full Screen" : "Full Screen / Tile"}
+                title={isMaximized ? "Exit Full Screen" : "Full Screen"}
               >
                 <span className="opacity-0 group-hover/tl:opacity-100 text-[7px] text-[#0a5e00] font-bold leading-none transition-opacity select-none">+</span>
               </button>
             </div>
           </div>
 
-          {greenHover && !isMaximized && greenRect && createPortal(
+          {greenHover && !isMaximized && greenRect && !isMobile && createPortal(
             <div
               style={{ position: "fixed", top: greenRect.bottom + 10, left: greenRect.left - 28, zIndex: 300 }}
-              className="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-[#1c1c1e]/95 border border-white/10 shadow-2xl"
+              className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border shadow-2xl ${light ? "bg-white/90 border-black/10 shadow-black/10" : "bg-[#1c1c1e]/95 border-white/10"}`}
               onMouseEnter={openGreen}
               onMouseLeave={scheduleCloseGreen}
             >
               <div className="flex gap-1">
                 <button
                   onClick={() => { onSplitLeft(); setGreenHover(false); }}
-                  className="flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors group/tile"
+                  className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors ${light ? "hover:bg-black/[0.07]" : "hover:bg-white/10"}`}
                   title="Tile Left"
                 >
-                  <div className="w-8 h-5 rounded-sm border border-white/25 overflow-hidden flex">
-                    <div className="w-1/2 bg-white/30 border-r border-white/15" />
+                  <div className={`w-8 h-5 rounded-sm border overflow-hidden flex ${light ? "border-black/20" : "border-white/25"}`}>
+                    <div className={`w-1/2 border-r ${light ? "bg-black/15 border-black/10" : "bg-white/30 border-white/15"}`} />
                     <div className="w-1/2" />
                   </div>
                 </button>
                 <button
                   onClick={() => { onToggleMaximize(); setGreenHover(false); }}
-                  className="flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors ${light ? "hover:bg-black/[0.07]" : "hover:bg-white/10"}`}
                   title="Full Screen"
                 >
-                  <div className="w-8 h-5 rounded-sm border border-white/25 bg-white/30" />
+                  <div className={`w-8 h-5 rounded-sm border ${light ? "border-black/20 bg-black/15" : "border-white/25 bg-white/30"}`} />
                 </button>
                 <button
                   onClick={() => { onSplitRight(); setGreenHover(false); }}
-                  className="flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors ${light ? "hover:bg-black/[0.07]" : "hover:bg-white/10"}`}
                   title="Tile Right"
                 >
-                  <div className="w-8 h-5 rounded-sm border border-white/25 overflow-hidden flex">
+                  <div className={`w-8 h-5 rounded-sm border overflow-hidden flex ${light ? "border-black/20" : "border-white/25"}`}>
                     <div className="w-1/2" />
-                    <div className="w-1/2 bg-white/30 border-l border-white/15" />
+                    <div className={`w-1/2 border-l ${light ? "bg-black/15 border-black/10" : "bg-white/30 border-white/15"}`} />
                   </div>
                 </button>
               </div>
-              <div className="flex gap-px text-[9px] text-white/30 w-full justify-around" style={{ fontFamily: "var(--font-mono)" }}>
+              <div className={`flex gap-px text-[9px] w-full justify-around ${light ? "text-black/35" : "text-white/30"}`} style={{ fontFamily: "var(--font-mono)" }}>
                 <span className="w-11 text-center">Left</span>
                 <span className="w-11 text-center">Full</span>
                 <span className="w-11 text-center">Right</span>
