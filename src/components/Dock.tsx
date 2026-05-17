@@ -70,7 +70,7 @@ const PortfolioLogo = () => (
 */
 
 
-const W = 44, H = 44, D = 18;
+const W = 44, H = 44, D = 20;
 
 interface SlabProps {
   item: DockItem;

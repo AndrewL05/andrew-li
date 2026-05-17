@@ -9,6 +9,7 @@ import {
   Lock,
   Star,
   Plus,
+  MoreHorizontal,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import HomePage from "./pages/HomePage";
@@ -116,11 +117,13 @@ interface BrowserProps {
   onToggleMaximize: () => void;
   onSplitLeft: () => void;
   onSplitRight: () => void;
+  onOpenWallpaperPicker: () => void;
 }
 
 const Browser = ({
   light, onToggleTheme, activeTab, onNavigate, onOpenSearch,
   windowState, onClose, onMinimize, onToggleMaximize, onSplitLeft, onSplitRight,
+  onOpenWallpaperPicker,
 }: BrowserProps) => {
   const [state, dispatch] = useReducer(browserReducer, initialState);
   const { isStarred, isReloading } = state;
@@ -455,7 +458,15 @@ const Browser = ({
             </button>
           </div>
 
-          <div className="w-8" />
+          <button
+            onClick={onOpenWallpaperPicker}
+            onMouseDown={(e) => e.stopPropagation()}
+            className={`p-1.5 rounded-lg transition-colors ${c.icon}`}
+            title="Change wallpaper"
+            aria-label="Change wallpaper"
+          >
+            <MoreHorizontal size={12} />
+          </button>
         </div>
 
         <div className={`h-10 flex items-center gap-2 px-3 border-b shrink-0 transition-colors duration-300 ${c.toolbar}`}>
