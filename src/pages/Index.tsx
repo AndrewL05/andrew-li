@@ -55,18 +55,14 @@ const Index = () => {
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
-    // Menu dimensions: ~200px wide, ~50px (no wallpaper) or ~78px (with wallpaper)
     const menuW = 208;
     const menuH = 82;
-    // Flip horizontally when too close to right edge
     const x = e.clientX + menuW > window.innerWidth ? e.clientX - menuW : e.clientX;
-    // Flip vertically when too close to bottom edge
     const y = e.clientY + menuH > window.innerHeight ? e.clientY - menuH : e.clientY;
     setContextMenu({ x: Math.max(4, x), y: Math.max(4, y) });
     setShowWallpaperPicker(false);
   }, []);
 
-  // Close context menu on outside click
   useEffect(() => {
     if (!contextMenu) return;
     const handler = () => setContextMenu(null);
@@ -160,7 +156,6 @@ const Index = () => {
       const tag = (e.target as HTMLElement).tagName;
       const isTyping = tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable;
 
-      // Konami code detection, skip while user is typing so arrow keys don't get intercepted
       if (!isTyping) {
         konamiBuffer.current = [...konamiBuffer.current, e.key].slice(-KONAMI.length);
         if (konamiBuffer.current.join(",") === KONAMI.join(",")) {
@@ -192,22 +187,16 @@ const Index = () => {
       style={{ background: bgColor }}
       onContextMenu={handleContextMenu}
     >
-      {/* Wallpaper background — crossfades when changed, covers all screen sizes/DPIs */}
       <AnimatePresence mode="sync">
         {wallpaper && (
           <motion.img
             key={wallpaper}
             src={`/wallpapers/${wallpaper}`}
-            // Fill viewport exactly; object-fit:cover handles any aspect ratio
             className="absolute inset-0 w-full h-full pointer-events-none select-none"
             style={{
               objectFit: "cover",
               objectPosition: "center center",
-              // Prevent image drag on desktop
-              userSelect: "none",
-              WebkitUserDrag: "none" as React.CSSProperties["userSelect"],
             }}
-            // Eagerly load since it's the primary visual element
             {...({ fetchpriority: "high" } as React.ImgHTMLAttributes<HTMLImageElement>)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -310,7 +299,6 @@ const Index = () => {
         light={light}
       />
 
-      {/* Wallpaper picker panel */}
       <WallpaperPicker
         isOpen={showWallpaperPicker}
         wallpaper={wallpaper}
@@ -319,7 +307,6 @@ const Index = () => {
         light={light}
       />
 
-      {/* Right-click context menu */}
       <AnimatePresence>
         {contextMenu && (
           <motion.div
