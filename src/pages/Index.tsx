@@ -189,21 +189,19 @@ const Index = () => {
     >
       <AnimatePresence mode="sync">
         {wallpaper && (
-          <motion.img
+          <motion.div
             key={wallpaper}
-            src={`/wallpapers/${wallpaper}`}
-            className="absolute inset-0 w-full h-full pointer-events-none select-none"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              objectFit: "cover",
-              objectPosition: "center center",
+              backgroundImage: `url(/wallpapers/${wallpaper})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center center",
             }}
-            {...({ fetchpriority: "high" } as React.ImgHTMLAttributes<HTMLImageElement>)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
             aria-hidden
-            alt=""
           />
         )}
       </AnimatePresence>
