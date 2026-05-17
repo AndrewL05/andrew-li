@@ -6,7 +6,7 @@ const experiences = [
   {
     role: "Software Engineer Intern",
     company: "Mira Intel",
-    period: "Feb 2026 – Present",
+    period: "Feb 2026 – May 2026",
     points: [
       "Built a customer-facing inspection dashboard (React, TypeScript, Recharts) visualizing drone CV model outputs including defect classifications, structural risk scores, and damage trends across 5+ infrastructure organizations including NYC Coastal Authority.",
       "Developed a FastAPI and ReportLab report generator exporting structured multi-page PDF inspection reports in under 1 second, replacing manual reporting workflows.",
