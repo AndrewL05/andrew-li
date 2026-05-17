@@ -4,9 +4,16 @@ import { LinkPreview } from "@/components/ui/link-preview";
 
 const projects = [
   {
+    name: "Intervue",
+    description: "Voice-first mock interview platform with a real-time AI interviewer that interrupts, pushes back on vague answers, and scores communication quality not just whether tests pass. Supports technical, behavioral, and resume-based sessions with a live Monaco code editor, whiteboard, and evidence-tied feedbacks.",
+    tech: ["TypeScript", "React", "Tailwind", "Python", "FastAPI", "MongoDB", "ElevenLabs", "Clerk", "Docker", "NGINX", "AWS S3", "Redis"],
+    url: "www.intervue.org",
+    github: "github.com/AndrewL05/Intervue_",
+  },
+  {
     name: "Parallax",
     description: "AI-driven decision platform that simulates long-term outcomes (up to 10 years) based on user inputs, combining ML predictions and LLM-generated narratives to deliver interactive, data-backed future scenarios.",
-    tech: ["TypeScript", "React", "Tailwind CSS", "D3.js", "Python", "FastAPI", "MongoDB", "Docker", "Stripe", "XGBoost", "Scikit-Learn", "NGINX"],
+    tech: ["TypeScript", "React", "Tailwind", "D3.js", "Python", "FastAPI", "MongoDB", "Docker", "Stripe", "XGBoost", "Scikit-Learn", "NGINX"],
     url: "myparallax.vercel.app",
     github: "github.com/AndrewL05/Parallax",
   },
