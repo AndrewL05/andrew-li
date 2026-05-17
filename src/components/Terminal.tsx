@@ -21,7 +21,7 @@ const COMMANDS = [
 const OPEN_COMMANDS = [
   { code: "open github", desc: "github.com/AndrewL05", href: "https://github.com/AndrewL05" },
   { code: "open linkedin", desc: "linkedin.com/in/andrew-li05", href: "https://linkedin.com/in/andrew-li05" },
-  { code: "open resume", desc: "Download PDF", href: "/Andrew Li - Resume.pdf" },
+  { code: "open resume", desc: "Download PDF", href: "/Andrew_Li_Resume.pdf" },
 ] as const;
 
 const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }: TerminalProps) => {
@@ -113,7 +113,7 @@ const Terminal = ({ activeTab, onNavigate, onOpenSearch, onToggleTheme, light }:
     "cd contact": () => { setFeedback({ text: "→ Navigating to /contact", type: "nav" }); onNavigate("contact"); },
     "open github": () => { setFeedback({ text: "→ Opening github.com/AndrewL05", type: "success" }); window.open("https://github.com/AndrewL05", "_blank"); },
     "open linkedin": () => { setFeedback({ text: "→ Opening linkedin.com/in/andrew-li05", type: "success" }); window.open("https://linkedin.com/in/andrew-li05", "_blank"); },
-    "open resume": () => { setFeedback({ text: "→ Opening resume", type: "success" }); window.open("/Andrew Li - Resume.pdf", "_blank"); },
+    "open resume": () => { setFeedback({ text: "→ Opening resume", type: "success" }); window.open("/Andrew_Li_Resume.pdf", "_blank"); },
     "theme toggle": () => { setFeedback({ text: "→ Theme toggled", type: "success" }); onToggleTheme(); },
     "toggle theme": () => { setFeedback({ text: "→ Theme toggled", type: "success" }); onToggleTheme(); },
     "search": () => { setFeedback(null); onOpenSearch(); },

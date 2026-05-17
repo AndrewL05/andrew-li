@@ -84,7 +84,7 @@ const HomePage = ({ onNavigate, light }: HomePageProps) => {
             View Projects
           </button>
           <a
-            href="/Andrew Li - Resume.pdf"
+            href="/Andrew_Li_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className={`px-5 py-2 border text-[13px] font-medium rounded-lg transition-colors ${btnOutline}`}

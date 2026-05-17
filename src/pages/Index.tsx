@@ -137,7 +137,7 @@ const Index = () => {
 
   const handleOpenResume = useCallback(() => {
     if (window.innerWidth < 768) {
-      window.open("/Andrew Li - Resume.pdf", "_blank", "noopener,noreferrer");
+      window.open("/Andrew_Li_Resume.pdf", "_blank", "noopener,noreferrer");
       return;
     }
     setIsResumeOpen(true);

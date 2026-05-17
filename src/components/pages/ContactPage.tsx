@@ -97,7 +97,7 @@ const ContactPage = ({ light }: ContactPageProps) => {
 
           <motion.a
             variants={item}
-            href="/Andrew Li - Resume.pdf"
+            href="/Andrew_Li_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className={linkClass}
