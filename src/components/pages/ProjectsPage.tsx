@@ -18,15 +18,21 @@ const projects = [
     github: "github.com/AndrewL05/Parallax",
   },
   {
+    name: "NYC Renting Assistant",
+    description: "Chrome extension for Zillow, StreetEasy, and Apartments.com that surfaces an A–F building grade, HPD/DOB violations, ECB fines, pest history, NYPD crime data, and nearby amenities in a sidebar, plus bookmark and compare saved listings.",
+    tech: ["React", "TypeScript", "Tailwind", "Supabase", "PostgreSQL", "Chrome MV3", "NYC Open Data", "Google Places API"],
+    github: "github.com/AndrewL05/NYC-Renting-Assistant-Chrome-Extension"
+  },
+  {
     name: "SayLess",
-    description: "AI meeting assistant that joins calls, speaks naturally, and generates transcripts",
+    description: "AI meeting assistant that joins live calls, able to speak in a customizable voice, and automatically generates transcripts, summaries, and notes for every session.",
     tech: ["TypeScript", "React", "Express.js", "MongoDB", "ElevenLabs", "Deepgram", "Gemini API", "WebSocket"],
     url: "sayless.nyc",
     github: "github.com/AndrewL05/SayLess",
   },
   {
     name: "StudySphere",
-    description: "Collaborative study platform with real-time chat and AI assistant",
+    description: "Collaborative study platform with posts, flashcard sets with AI-generated quizzes, study groups, real-time chats, content bookmarking.",
     tech: ["React", "PostgreSQL", "Express.js", "Node.js", "OpenRouter API"],
     url: "mystudysphere.netlify.app",
     github: "github.com/AndrewL05/StudySphere",
