@@ -233,7 +233,7 @@ const PDFWindow = ({ light, windowState, onClose, onMinimize, onToggleMaximize }
           </span>
 
           <a
-            href="/Andrew Li - Resume.pdf"
+            href="/Andrew_Li_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className={`p-1.5 rounded-lg transition-colors ${light ? "text-[#a89e8e] hover:text-[#3c3226] hover:bg-[#e8e2d8]" : "text-white/30 hover:text-white/80 hover:bg-white/[0.06]"}`}
@@ -248,7 +248,7 @@ const PDFWindow = ({ light, windowState, onClose, onMinimize, onToggleMaximize }
             <div className="absolute inset-0 z-10" />
           )}
           <iframe
-            src="/Andrew Li - Resume.pdf"
+            src="/Andrew_Li_Resume.pdf"
             className="w-full h-full border-none"
             title="Resume"
           />

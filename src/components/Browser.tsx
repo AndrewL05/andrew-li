@@ -116,11 +116,13 @@ interface BrowserProps {
   onToggleMaximize: () => void;
   onSplitLeft: () => void;
   onSplitRight: () => void;
+  onOpenWallpaperPicker: () => void;
 }
 
 const Browser = ({
   light, onToggleTheme, activeTab, onNavigate, onOpenSearch,
   windowState, onClose, onMinimize, onToggleMaximize, onSplitLeft, onSplitRight,
+  onOpenWallpaperPicker,
 }: BrowserProps) => {
   const [state, dispatch] = useReducer(browserReducer, initialState);
   const { isStarred, isReloading } = state;
@@ -328,7 +330,7 @@ const Browser = ({
     ? "w-full h-full rounded-none"
     : hasResized
       ? "w-full h-full rounded-2xl"
-      : "w-full h-[72vh] md:h-[65vh] rounded-2xl";
+      : "w-full h-[72vh] md:h-[78vh] lg:h-[82vh] rounded-2xl";
 
   return (
     <div
@@ -455,7 +457,6 @@ const Browser = ({
             </button>
           </div>
 
-          <div className="w-8" />
         </div>
 
         <div className={`h-10 flex items-center gap-2 px-3 border-b shrink-0 transition-colors duration-300 ${c.toolbar}`}>

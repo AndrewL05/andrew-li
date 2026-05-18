@@ -6,6 +6,7 @@ import PDFWindow from "../components/PDFWindow";
 import Menubar from "../components/Menubar";
 import Dock from "../components/Dock";
 import CommandPalette from "../components/CommandPalette";
+import WallpaperPicker, { loadWallpaper, saveWallpaper } from "../components/WallpaperPicker";
 import type { Tab } from "../components/Browser";
 
 const WRAPPER_CLASS: Record<WindowState, string> = {
@@ -27,6 +28,9 @@ const Index = () => {
   const [showKonami, setShowKonami] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [resumeWindowState, setResumeWindowState] = useState<WindowState>("normal");
+  const [wallpaper, setWallpaper] = useState<string | null>(() => loadWallpaper());
+  const [showWallpaperPicker, setShowWallpaperPicker] = useState(false);
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
 
   const controls = useAnimation();
   const resumeControls = useAnimation();
@@ -37,6 +41,34 @@ const Index = () => {
   const toggleTheme = useCallback(() => setLight((l) => !l), []);
   const openSearch = useCallback(() => setShowSearch(true), []);
   const closeSearch = useCallback(() => setShowSearch(false), []);
+
+  const handleWallpaperSelect = useCallback((file: string | null) => {
+    setWallpaper(file);
+    saveWallpaper(file);
+    setShowWallpaperPicker(false);
+  }, []);
+
+  const openWallpaperPicker = useCallback(() => {
+    setContextMenu(null);
+    setShowWallpaperPicker((v) => !v);
+  }, []);
+
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    const menuW = 208;
+    const menuH = 82;
+    const x = e.clientX + menuW > window.innerWidth ? e.clientX - menuW : e.clientX;
+    const y = e.clientY + menuH > window.innerHeight ? e.clientY - menuH : e.clientY;
+    setContextMenu({ x: Math.max(4, x), y: Math.max(4, y) });
+    setShowWallpaperPicker(false);
+  }, []);
+
+  useEffect(() => {
+    if (!contextMenu) return;
+    const handler = () => setContextMenu(null);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [contextMenu]);
 
   const isVisible = windowState !== "minimized" && windowState !== "closed";
 
@@ -105,7 +137,7 @@ const Index = () => {
 
   const handleOpenResume = useCallback(() => {
     if (window.innerWidth < 768) {
-      window.open("/Andrew Li - Resume.pdf", "_blank", "noopener,noreferrer");
+      window.open("/Andrew_Li_Resume.pdf", "_blank", "noopener,noreferrer");
       return;
     }
     setIsResumeOpen(true);
@@ -124,7 +156,6 @@ const Index = () => {
       const tag = (e.target as HTMLElement).tagName;
       const isTyping = tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable;
 
-      // Konami code detection, skip while user is typing so arrow keys don't get intercepted
       if (!isTyping) {
         konamiBuffer.current = [...konamiBuffer.current, e.key].slice(-KONAMI.length);
         if (konamiBuffer.current.join(",") === KONAMI.join(",")) {
@@ -154,9 +185,30 @@ const Index = () => {
     <div
       className="relative h-full overflow-hidden transition-colors duration-300"
       style={{ background: bgColor }}
+      onContextMenu={handleContextMenu}
     >
+      <AnimatePresence mode="sync">
+        {wallpaper && (
+          <motion.div
+            key={wallpaper}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: `url(/wallpapers/${wallpaper})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center center",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            aria-hidden
+          />
+        )}
+      </AnimatePresence>
+
       <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500"
+        style={{ opacity: wallpaper ? 0.25 : 1 }}
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden
       >
@@ -174,19 +226,24 @@ const Index = () => {
         aria-hidden
       />
 
-      <Menubar
-        light={light}
-        onToggleTheme={toggleTheme}
-        onOpenSearch={openSearch}
-        onNavigate={setActiveTab}
-        activeTab={activeTab}
-      />
+      <div onContextMenu={(e) => e.stopPropagation()}>
+        <Menubar
+          light={light}
+          onToggleTheme={toggleTheme}
+          onOpenSearch={openSearch}
+          onNavigate={setActiveTab}
+          activeTab={activeTab}
+          onOpenWallpaperPicker={openWallpaperPicker}
+          wallpaper={wallpaper}
+        />
+      </div>
 
       {isVisible && (
         <motion.div
           className={WRAPPER_CLASS[windowState]}
           animate={controls}
           style={{ willChange: "opacity, transform" }}
+          onContextMenu={(e) => e.stopPropagation()}
         >
           <Browser
             light={light}
@@ -200,6 +257,7 @@ const Index = () => {
             onToggleMaximize={handleToggleMaximize}
             onSplitLeft={handleSplitLeft}
             onSplitRight={handleSplitRight}
+            onOpenWallpaperPicker={openWallpaperPicker}
           />
         </motion.div>
       )}
@@ -209,6 +267,7 @@ const Index = () => {
           className={WRAPPER_CLASS[resumeWindowState] || WRAPPER_CLASS["normal"]}
           animate={resumeControls}
           style={{ willChange: "opacity, transform", zIndex: 10, pointerEvents: "none" }}
+          onContextMenu={(e) => e.stopPropagation()}
         >
           <PDFWindow
             light={light}
@@ -221,12 +280,14 @@ const Index = () => {
       )}
 
       {windowState !== "maximized" && (
-        <Dock
-          light={light}
-          windowHidden={!isVisible}
-          onRestore={handleRestore}
-          onOpenResume={handleOpenResume}
-        />
+        <div onContextMenu={(e) => e.stopPropagation()}>
+          <Dock
+            light={light}
+            windowHidden={!isVisible}
+            onRestore={handleRestore}
+            onOpenResume={handleOpenResume}
+          />
+        </div>
       )}
 
       <CommandPalette
@@ -235,6 +296,57 @@ const Index = () => {
         onNavigate={tab => { setActiveTab(tab); closeSearch(); }}
         light={light}
       />
+
+      <WallpaperPicker
+        isOpen={showWallpaperPicker}
+        wallpaper={wallpaper}
+        onSelect={handleWallpaperSelect}
+        onClose={() => setShowWallpaperPicker(false)}
+        light={light}
+      />
+
+      <AnimatePresence>
+        {contextMenu && (
+          <motion.div
+            key="ctx"
+            className={`fixed z-[150] rounded-xl border overflow-hidden backdrop-blur-xl ${light
+              ? "bg-white/95 border-black/[0.07] shadow-[0_4px_6px_rgba(0,0,0,0.04),0_12px_32px_rgba(0,0,0,0.12)]"
+              : "bg-[#0f0f17]/96 border-white/[0.07] shadow-[0_4px_6px_rgba(0,0,0,0.3),0_12px_32px_rgba(0,0,0,0.65)]"
+              }`}
+            style={{ left: contextMenu.x, top: contextMenu.y, transformOrigin: "top left", minWidth: 196 }}
+            initial={{ opacity: 0, scale: 0.93 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.93 }}
+            transition={{ duration: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => { setContextMenu(null); setShowWallpaperPicker(true); }}
+              className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-left transition-colors ${light ? "text-black/75 hover:bg-black/[0.05]" : "text-white/70 hover:bg-white/[0.06]"
+                }`}
+              style={{ fontFamily: "var(--font-sans)", fontSize: "12px" }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
+              </svg>
+              Change Wallpaper…
+            </button>
+            {wallpaper && (
+              <button
+                onClick={() => { setContextMenu(null); handleWallpaperSelect(null); }}
+                className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-left transition-colors ${light ? "text-black/40 hover:bg-black/[0.05]" : "text-white/30 hover:bg-white/[0.06]"
+                  }`}
+                style={{ fontFamily: "var(--font-sans)", fontSize: "12px" }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                Remove Wallpaper
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {showKonami && (
@@ -248,8 +360,8 @@ const Index = () => {
           >
             <div
               className={`flex flex-col items-center gap-2 px-8 py-5 rounded-2xl border ${light
-                  ? "bg-[#f5f0e8]/90 border-[#d9d0c3] shadow-[0_8px_40px_rgba(0,0,0,0.15)]"
-                  : "bg-[#111118]/90 border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.7)]"
+                ? "bg-[#f5f0e8]/90 border-[#d9d0c3] shadow-[0_8px_40px_rgba(0,0,0,0.15)]"
+                : "bg-[#111118]/90 border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.7)]"
                 }`}
               style={{ backdropFilter: "blur(12px)" }}
             >

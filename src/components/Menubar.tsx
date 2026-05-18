@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Sun, Moon, Check, Search } from "lucide-react";
+import { Sun, Moon, Check, Search, MoreHorizontal } from "lucide-react";
 import type { Tab } from "./Browser";
 
 interface MenubarProps {
@@ -8,6 +8,8 @@ interface MenubarProps {
   onOpenSearch: () => void;
   onNavigate: (tab: Tab) => void;
   activeTab: Tab;
+  onOpenWallpaperPicker: () => void;
+  wallpaper?: string | null;
 }
 
 type OpenMenu = "view" | "navigate" | null;
@@ -19,7 +21,7 @@ const NAV_ITEMS: { id: Tab; label: string; shortcut: string }[] = [
   { id: "contact", label: "Contact", shortcut: "4" },
 ];
 
-const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: MenubarProps) => {
+const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab, onOpenWallpaperPicker, wallpaper }: MenubarProps) => {
   const [time, setTime] = useState(() =>
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
@@ -69,7 +71,7 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
 
   const c = light
     ? {
-      bar: "bg-white/[0.12] backdrop-blur-3xl backdrop-saturate-150 border-white/60 text-[#1a1610] shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(255,255,255,0.25),0_8px_32px_rgba(0,0,0,0.06)]",
+      bar: `bg-white/50 backdrop-blur-3xl backdrop-saturate-150 border-black/10 text-[#1a1610]`,
       muted: "text-black/45",
       menuBtn: "hover:bg-black/[0.06] rounded px-2 py-0.5",
       menuBtnActive: "bg-black/[0.08] rounded px-2 py-0.5",
@@ -153,6 +155,11 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
                 shortcut="CTRL/⌘K"
                 onClick={onOpenSearch}
               />
+              <div className={`border-t mx-2 my-0.5 ${c.separator}`} />
+              <DropdownItem
+                label="Change Wallpaper"
+                onClick={onOpenWallpaperPicker}
+              />
             </div>
           )}
         </div>
@@ -191,6 +198,14 @@ const Menubar = ({ light, onToggleTheme, onOpenSearch, onNavigate, activeTab }: 
         >
           <Search size={15} className="md:w-[10px] md:h-[10px]" />
           <span className="hidden md:inline">CTRL/⌘K</span>
+        </button>
+        <button
+          onClick={() => { onOpenWallpaperPicker(); setOpenMenu(null); }}
+          className={`transition-colors ${c.muted} hover:text-current`}
+          title="Change wallpaper"
+          aria-label="Change wallpaper"
+        >
+          <MoreHorizontal size={15} className="md:w-[13px] md:h-[13px]" />
         </button>
         <button
           onClick={onToggleTheme}
