@@ -4,6 +4,14 @@ import { LinkPreview } from "@/components/ui/link-preview";
 
 const experiences = [
   {
+    role: "Data Analyst Intern",
+    company: "Con Edison",
+    period: "June 2026 - Present",
+    points: [],
+    url: "https://coned.com/en",
+    staticPreview: "/img/coned.png",
+  },
+  {
     role: "Software Engineer Intern",
     company: "Mira Intel",
     period: "Feb 2026 – May 2026",
