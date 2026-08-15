@@ -4,7 +4,7 @@ import { LinkPreview } from "@/components/ui/link-preview";
 
 const experiences = [
   {
-    role: "Data Analyst Intern",
+    role: "Data Operations & Analyst Intern",
     company: "Con Edison",
     period: "June 2026 - Present",
     points: [],
