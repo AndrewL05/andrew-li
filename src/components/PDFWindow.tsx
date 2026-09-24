@@ -236,10 +236,11 @@ const PDFWindow = ({ light, windowState, onClose, onMinimize, onToggleMaximize }
             href="/Andrew_Li_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className={`p-1.5 rounded-lg transition-colors ${light ? "text-[#a89e8e] hover:text-[#3c3226] hover:bg-[#e8e2d8]" : "text-white/30 hover:text-white/80 hover:bg-white/[0.06]"}`}
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-mono transition-colors ${light ? "text-[#3c3226] bg-[#e8e2d8] hover:bg-[#dcd4c5]" : "text-white/80 bg-white/[0.08] hover:bg-white/[0.16]"}`}
             title="Open in new tab"
           >
-            <ExternalLink size={13} />
+            <ExternalLink size={14} />
+            <span className="hidden sm:inline">Open</span>
           </a>
         </div>
 
