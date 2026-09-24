@@ -306,7 +306,7 @@ const Browser = ({
       icon: "text-[#a89e8e] hover:text-[#3c3226] hover:bg-[#e8e2d8]",
       urlBar: "bg-[#ede8de] border-[#d9d0c3]",
       urlText: "text-[#a89e8e]",
-      content: "bg-[#f5f0e8]",
+      content: "bg-[#E3E0D3]",
     }
     : {
       shell: "bg-[#0d0d16] border-white/[0.08]",
