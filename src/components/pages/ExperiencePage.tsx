@@ -16,8 +16,8 @@ const experiences = [
     company: "Mira Intel",
     period: "Feb 2026 – May 2026",
     points: [
-      "Built a customer-facing inspection dashboard (React, TypeScript, Recharts) visualizing drone CV model outputs including defect classifications, structural risk scores, and damage trends across 5+ infrastructure organizations including NYC Coastal Authority.",
-      "Developed a FastAPI and ReportLab report generator exporting structured multi-page PDF inspection reports in under 1 second, replacing manual reporting workflows.",
+      "Built a customer-facing inspection dashboard visualizing drone CV model outputs including defect classifications, structural risk scores, and damage trends across 5+ infrastructure organizations using React, TypeScript, Tailwind.",
+      "Developed a FastAPI and ReportLab report generator that exports structured, multi-page PDF inspection reports in under 1.5 seconds, replacing manual reporting workflows.",
     ],
     url: "https://miraintel.com",
   },
@@ -26,7 +26,7 @@ const experiences = [
     company: "COI Energy",
     period: "Oct 2025 – Dec 2025",
     points: [
-      "Engineered a Python ETL pipeline processing over 4.3 million energy records with anomaly detection and missing-data interpolation, achieving 98% data quality for downstream ML predictive and optimization models",
+      "Engineered a Python ETL pipeline processing 4M+ energy meter records, using z-score/IQR for anomaly detection and adaptive interpolation for missing data, improving a custom data completeness score from 70% to 96%",
       "Created a Docker-based BigQuery emulator environment for isolated development and testing, reducing environment setup time by 40% and eliminating conflicts between dev and production configurations.",
     ],
     url: "https://coienergy.com",
@@ -47,8 +47,8 @@ const experiences = [
     company: "Unadat",
     period: "Jul 2025 – Aug 2025",
     points: [
-      "Led a team of 8 interns to revamp platform modules for 1,000+ users in an 8-week sprint.",
-      "Developed an AI document summarizer integrating a LLM API with backend processing, caching, storage, and frontend delivery, cutting manual review time by 60% across 800+ documents."
+      "Revamped key platform pages using PHP and jQuery for 1,000+ users, cutting average page load time from 3.5s to 1.5s (57%) via lazy loading, asset optimization, and cloud storage migration.",
+      "Built an AI document summarizer (OpenRouter, Llama 3.1 405B) with custom JSON-based caching for instant repeat loads, condensing full-length documents into single-paragraph summaries for faster review."
     ],
     url: "https://unadat.com",
   },
